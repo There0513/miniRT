@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 15:16:39 by threiss           #+#    #+#             */
-/*   Updated: 2021/05/21 17:58:07 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/02 18:19:41 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ double	getNorm2(t_vector *sphere)
 
 void	normalize(t_vector *sphere)
 {
-	double	norm = sqrt(getNorm2(sphere));	// = magnitude(Laenge) of Vector
+	double	norm;
+	
+	norm = sqrt(getNorm2(sphere));	// = magnitude(Laenge) of Vector
 	sphere->x /= norm;
 	sphere->y /= norm;
 	sphere->z /= norm;

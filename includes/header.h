@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 16:09:12 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/02 16:31:49 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/02 18:44:21 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,8 @@ typedef struct s_scenes
 
 typedef	struct	s_closest
 {
-	double	t_min;
+	t_vector	p_local;
+	t_vector	n_local;
 }	t_closest;
 
 typedef	struct	s_all
@@ -181,5 +182,6 @@ t_list *add_elem(t_list *scenes, t_sphere sphere);
 void init_dir(t_vector *direction, int x, int y, double fov, t_camera camera);
 void camera_rotation(t_camera *camera);
 t_vector create_vec(double x, double y, double z);
+void	get_closest_t(t_all *all, t_vector *P, t_vector *N, double *t_min);
 
 #endif

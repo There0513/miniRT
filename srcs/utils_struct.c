@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 14:10:23 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/02 16:32:37 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/02 18:41:46 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	init_all(t_all *all)	// to avoid error message not initialized
 	all->checkrt.pl = 0;
 	all->checkrt.sp = 0;
 	all->checkrt.cy = 0;
-	all->closest.t_min = 1E99;	// infini
 }
 // not used anymore after parsing:
 void	init_spheres(t_sphere *sphere, t_sphere *sphere2, t_sphere *sphere3, t_sphere *sphere4, t_sphere *sphere5)
@@ -115,7 +114,6 @@ void	init_dir(t_vector *direction, int x, int y, double fov, t_camera camera)
 	direction->x = tmp->x * camera.right.x + tmp->y * camera.up.x + tmp->z * camera.forward.x;
 	direction->y = tmp->x * camera.right.y + tmp->y * camera.up.y + tmp->z * camera.forward.y;
 	direction->z = tmp->x * camera.right.z + tmp->y * camera.up.z + tmp->z * camera.forward.z;
-//printf("direction x y z %f %f %f\n", direction->x, direction->y, direction->z);
 	normalize(direction);
 }
 

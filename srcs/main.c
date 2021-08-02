@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 14:09:49 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/02 16:33:37 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/02 18:48:28 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	main(int ac, char **av)
 {
 	t_all		all;
 	t_vector	P, N, tmp;
+	double		t_min = 1E99;
 
 	if (ac != 2)
 	{
@@ -34,9 +35,11 @@ int	main(int ac, char **av)
 		for (int x = 0; x < WIDTH_DEF; x++)
 		{
 			init_dir(&all.direction, x, y, all.camera.fov, all.camera);
-			get_closest_t(&all);
-			if (all.closest.t_min < 1E99)	// intersection
+			printf("\ntmin = %f\n", t_min);
+			get_closest_t(&all, &P, &N, &t_min);
+			if (t_min < 1E99)	// intersection
 			{
+				printf("yes\n");
 				tmp = add_min_operation('-', all.light.point_l, P);
 				normalize(&tmp);
 				double dotdot = dot(tmp, N);

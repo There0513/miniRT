@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 16:11:12 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/02 16:13:10 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/02 18:37:58 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	intersection_sp(t_vector camera, t_vector direction, t_sphere sphere, t_vect
 	// resout a * t ^ 2 + b * t + c = 0
 	t_vector	OC; // ray.origin - sphere.center
 	OC = add_min_operation('-', camera, sphere.center);
+	// ERROR HERE  a b c nan ?!?!?!?!?!?!?!?!?!?!?
 	double	a = dot(direction, direction);
 	double	b = 2 * dot(direction, OC);
 	double	c = pow(sqrt(dot(OC, OC)), 2) - sphere.radius * sphere.radius; // pow(diameter/2)
