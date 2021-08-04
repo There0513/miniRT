@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 16:09:12 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/02 18:44:21 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/04 18:02:24 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ typedef	struct	s_all
 	t_plane		plane;
 	t_cylinder	cylinder;
 	t_vector	direction;
+	double		t_min;
 	t_closest	closest;
 	char		nearest[50];
 	

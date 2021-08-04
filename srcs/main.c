@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 14:09:49 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/04 16:39:38 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/04 18:02:51 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	main(int ac, char **av)
 {
 	t_all		all;
 	t_vector	P, N, tmp;
-	double		t_min = 1E99;
 
 	if (ac != 2)
 	{
@@ -34,20 +33,25 @@ int	main(int ac, char **av)
 	{
 		for (int x = 0; x < WIDTH_DEF; x++)
 		{
+			all.t_min = 1E99;
 			init_dir(&all.direction, x, y, all.camera.fov, all.camera);
-			get_closest_t(&all, &P, &N, &t_min);
-			if (t_min < 1E99)	// intersection
+			get_closest_t(&all, &P, &N, &all.t_min);
+			if (all.t_min < 1E99)	// intersection
 			{
 				tmp = add_min_operation('-', all.light.point_l, P);
-				normalize(&tmp);
-				double dotdot = dot(tmp, N);
-				all.light.bright_l += all.light.bright_l * dotdot / (sqrt(getNorm2(&N)) * sqrt(getNorm2(&tmp)));
+//				normalize(&tmp);
+//				double dotdot = dot(tmp, N);
+//				all.light.bright_l += all.light.bright_l * dotdot / (sqrt(getNorm2(&N)) * sqrt(getNorm2(&tmp)));
 				//intensite_pixel = l_bright * dot(normalize(light - P), N) / getNorm2(light - P);
-				//if (dotdot < 0)	// -> in the 'shadow'/darkside		is visible?! function
-		//		my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1, rgb_to_int((int)this_sphere.rgb.x * all.light.bright_l, (int)this_sphere.rgb.y * all.light.bright_l, (int)this_sphere.rgb.z * all.light.bright_l));
+//				if (dotdot < 0)	// -> in the 'shadow'/darkside		is visible?! function
+				my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1, rgb_to_int(255, 117, 255));
+				//my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1, rgb_to_int((int)this_sphere.rgb.x * all.light.bright_l, (int)this_sphere.rgb.y * all.light.bright_l, (int)this_sphere.rgb.z * all.light.bright_l));
 			}
-//			if (all.closest.t_min == 1E99)	// no intersection ever
-//				my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1, rgb_to_int((int)light.ambient_rgb.x * light.ambient_l, (int)light.ambient_rgb.y * light.ambient_l ,(int)light.ambient_rgb.z * light.ambient_l));
+			if (all.t_min == 1E99)	// no intersection ever
+			{printf("here");
+				my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1,
+				rgb_to_int((int)all.light.ambient_rgb.x * all.light.ambient_l, (int)all.light.ambient_rgb.y * all.light.ambient_l ,(int)all.light.ambient_rgb.z * all.light.ambient_l));
+			}
 		}
 	}
 	printf("end\n");
