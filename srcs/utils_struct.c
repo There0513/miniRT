@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 14:10:23 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/02 18:41:46 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/04 16:32:59 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,55 +21,7 @@ void	init_all(t_all *all)	// to avoid error message not initialized
 	all->checkrt.sp = 0;
 	all->checkrt.cy = 0;
 }
-// not used anymore after parsing:
-void	init_spheres(t_sphere *sphere, t_sphere *sphere2, t_sphere *sphere3, t_sphere *sphere4, t_sphere *sphere5)
-{
-	sphere->center.x = 8;
-	sphere->center.y = 8;
-	sphere->center.z = -50;
-	sphere->radius = 10;
 
-	sphere->rgb.x = 0;	// green
-	sphere->rgb.y = 204;
-	sphere->rgb.z = 0;
-
-	sphere2->center.x = 2100;
-	sphere2->center.y = 0;
-	sphere2->center.z = 0;
-	sphere2->radius = 2050;
-
-	sphere2->rgb.x = 0;	// turkies
-	sphere2->rgb.y = 255;
-	sphere2->rgb.z = 255;
-
-	sphere3->center.x = -2100;
-	sphere3->center.y = 0;
-	sphere3->center.z = 0;
-	sphere3->radius = 2050;
-
-	sphere3->rgb.x = 255;	// red
-	sphere3->rgb.y = 0;
-	sphere3->rgb.z = 0;
-
-	sphere4->center.x = 0;
-	sphere4->center.y = 2100;
-	sphere4->center.z = 0;
-	sphere4->radius = 2050;
-
-	sphere4->rgb.x = 255;	// yellow
-	sphere4->rgb.y = 255;
-	sphere4->rgb.z = 0;
-
-	sphere5->center.x = 0;
-	sphere5->center.y = -2100;
-	sphere5->center.z = 0;
-	sphere5->radius = 2050;
-
-	sphere5->rgb.x = 0;	// blue
-	sphere5->rgb.y = 0;
-	sphere5->rgb.z = 255;
-}
-// not used anymore after parsing:
 void	init_others_tmp(t_vector *P, t_vector *N)
 {
 	P->x = 0;
@@ -92,28 +44,17 @@ t_list	*ft_create_elem(t_sphere *sphere)
 		return (scenes);
 }
 
-t_list	*add_elem(t_list *scenes, t_sphere sphere)
-{
-	t_list	*tmp;
-
-	if (!(tmp = malloc(sizeof(t_list))))
-		return (0);
-	tmp->sp = sphere;
-	tmp->next = scenes;
-	return (tmp);
-}
-
 void	init_dir(t_vector *direction, int x, int y, double fov, t_camera camera)
 {
-	t_vector	*tmp;
+	t_vector	tmp;
 
-	direction->x = x - WIDTH_DEF / 2;
-	direction->y = HEIGHT_DEF / 2 - y;
-	direction->z = WIDTH_DEF / (2 * tan(fov / 2));
-	tmp = direction;
-	direction->x = tmp->x * camera.right.x + tmp->y * camera.up.x + tmp->z * camera.forward.x;
-	direction->y = tmp->x * camera.right.y + tmp->y * camera.up.y + tmp->z * camera.forward.y;
-	direction->z = tmp->x * camera.right.z + tmp->y * camera.up.z + tmp->z * camera.forward.z;
+	tmp.x = x - WIDTH_DEF / 2;
+	tmp.y = (HEIGHT_DEF / 2) - y;
+	tmp.z = WIDTH_DEF / (2 * tan(fov / 2));
+	direction->x = tmp.x * camera.right.x + tmp.y * camera.up.x + tmp.z * camera.forward.x;
+	direction->y = tmp.x * camera.right.y + tmp.y * camera.up.y + tmp.z * camera.forward.y;
+	direction->x = tmp.x * camera.right.x + tmp.y * camera.up.x + tmp.z * camera.forward.x;
+	direction->z = tmp.x * camera.right.z + tmp.y * camera.up.z + tmp.z * camera.forward.z;
 	normalize(direction);
 }
 

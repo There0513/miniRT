@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 14:09:49 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/02 18:48:28 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/04 16:39:38 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,15 @@ int	main(int ac, char **av)
 		return (0);
 	// if width/height given -> change WIDTH_DEF / HEIGHT_DEF
 	mlx_data_init(&all.mlx, WIDTH_DEF, HEIGHT_DEF);
-//	camera_rotation(&camera);
+	camera_rotation(&all.camera);
 	for (int y = 0; y < HEIGHT_DEF; y++)
 	{
 		for (int x = 0; x < WIDTH_DEF; x++)
 		{
 			init_dir(&all.direction, x, y, all.camera.fov, all.camera);
-			printf("\ntmin = %f\n", t_min);
 			get_closest_t(&all, &P, &N, &t_min);
 			if (t_min < 1E99)	// intersection
 			{
-				printf("yes\n");
 				tmp = add_min_operation('-', all.light.point_l, P);
 				normalize(&tmp);
 				double dotdot = dot(tmp, N);

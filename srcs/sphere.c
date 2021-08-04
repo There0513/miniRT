@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 16:11:12 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/02 18:37:58 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/04 16:52:11 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,20 @@ int	intersection_sp(t_vector camera, t_vector direction, t_sphere sphere, t_vect
 	// resout a * t ^ 2 + b * t + c = 0
 	t_vector	OC; // ray.origin - sphere.center
 	OC = add_min_operation('-', camera, sphere.center);
-	// ERROR HERE  a b c nan ?!?!?!?!?!?!?!?!?!?!?
+//	printf("dir = %f %f %f\n", direction.x, direction.y, direction.z);
+//	printf("oc = %f %f %f\n", OC.x, OC.y, OC.z);
 	double	a = dot(direction, direction);
 	double	b = 2 * dot(direction, OC);
 	double	c = pow(sqrt(dot(OC, OC)), 2) - sphere.radius * sphere.radius; // pow(diameter/2)
 	// = dot(OC, OC) - ray * ray...
 	double	delta = b * b - (4 * a * c);
+	if (delta >= 0)
+		printf("a %f b %f c%f\ndelta %f\n", a, b, c, delta);
 	if (delta < 0)
 		return (-1);
 	double	t1 = (-b - sqrt(delta)) / (2.0 * a);
 	double	t2 = (-b + sqrt(delta)) / (2.0 * a);
+//	printf("\t\tt1 = %f\tt2 = %f\n", t1, t2);
 	if (t2 < 0)
 		return (-1); // pas d'intersection
 	/* t < 0			behind the camera
