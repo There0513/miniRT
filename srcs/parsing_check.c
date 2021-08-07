@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 12:18:54 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/02 15:17:22 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/06 19:09:52 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,16 +251,16 @@ int	check_add_pl(char *line, t_all *all)
 
 	all->checkrt.pl++;
 	split = ft_split(line, ' ');
-	if (!check_add_vec3(&all->plane.vec, split[1]))
+	if (!check_add_vec3(&all->plane->vec, split[1]))
 		return (-1);
-	if (!check_add_vec3(&all->plane.orient, split[2]))
+	if (!check_add_vec3(&all->plane->orient, split[2]))
 		return (-1);
-	if (check_vec_range(&all->plane.orient, -1.0, 1.0) == -1)
+	if (check_vec_range(&all->plane->orient, -1.0, 1.0) == -1)
 	{
 		printf("error range orient vec\n");
 		return (-1);
 	}
-	if (check_add_color(split[3], &all->plane.rgb) == -1)
+	if (check_add_color(split[3], &all->plane->rgb) == -1)
 		return (-1);
 	return (1);
 }
@@ -290,23 +290,23 @@ int	check_add_cy(char *line, t_all *all)
 
 	all->checkrt.cy++;
 	split = ft_split(line, ' ');
-	if (!check_add_vec3(&all->cylinder.vec, split[1]))
+	if (!check_add_vec3(&all->cylinder->vec, split[1]))
 		return (-1);
-	if (!check_add_vec3(&all->cylinder.orient, split[2]))
+	if (!check_add_vec3(&all->cylinder->orient, split[2]))
 		return (-1);
-	if (check_vec_range(&all->cylinder.orient, -1.0, 1.0) == -1)
+	if (check_vec_range(&all->cylinder->orient, -1.0, 1.0) == -1)
 		return (-1);
 	if (!ft_is_float(split[3]))
 		return (-1);
-	all->cylinder.radius = ft_atof(split[3]) / 2;
-	if (all->cylinder.radius < 0)
+	all->cylinder->radius = ft_atof(split[3]) / 2;
+	if (all->cylinder->radius < 0)
 		return (-1);
 	if (!ft_is_float(split[4]))
 		return (-1);
-	all->cylinder.height = ft_atof(split[4]);
-	if (all->cylinder.height < 0)
+	all->cylinder->height = ft_atof(split[4]);
+	if (all->cylinder->height < 0)
 		return (-1);
-	if (!check_add_color(split[5], &all->cylinder.rgb))
+	if (!check_add_color(split[5], &all->cylinder->rgb))
 		return (-1);
 	return (1);
 }

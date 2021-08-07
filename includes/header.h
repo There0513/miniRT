@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 16:09:12 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/04 18:02:24 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/06 18:55:09 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,8 @@ typedef	struct	s_all
 	t_camera	camera;
 	t_light		light;
 	t_sphere	*sphere;
-	t_plane		plane;
-	t_cylinder	cylinder;
+	t_plane		*plane;
+	t_cylinder	*cylinder;
 	t_vector	direction;
 	double		t_min;
 	t_closest	closest;
@@ -166,6 +166,7 @@ float	ft_atof(char *str);
 // PARSING END ____________________________
 void mlx_data_init(t_mlx *data, int width, int height);
 int intersection_sp(t_vector rayon, t_vector direction, t_sphere sphere, t_vector *P, t_vector *N, double *t);
+int intersection_pl(t_vector rayon, t_vector direction, t_plane plane, t_vector *P, t_vector *N, double *t);
 int rgb_to_int(int r, int g, int b);
 void my_mlx_pixel_put(t_mlx *data, int x, int y, int color);
 double dot(t_vector a, t_vector b);
