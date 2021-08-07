@@ -78,21 +78,25 @@ int	check_add_color(char *line, t_vector *rgb)
 	return (1);
 }
 
-int	check_add_vec3(t_vector *cam, char *line)	// point of view
+int	check_add_vec3(t_vector *vec, char *line)	// point of view
 {
 	char	**split;
 	int		i;
 
 	i = 0;
+	printf("check_add_vec3 line = %s\n", line);
 	if (check_comma(line) != 2)
 		return (-1);
 	split = ft_split(line, ',');	// -50	0	20
+	printf("split 0 = %s 1 = %s 2 = %s\n", split[0], split[1], split[2]);
 	while (i < 3)
 		if (!ft_is_float(split[i++]))
 			return (-1);
-	cam->x = ft_atof(split[0]);
-	cam->y = ft_atof(split[1]);
-	cam->z = ft_atof(split[2]);
+	printf("\thello\n");
+	vec->x = ft_atof(split[0]);
+	printf("\t\tvec->x = %f\n", vec->x);
+	vec->y = ft_atof(split[1]);
+	vec->z = ft_atof(split[2]);
 	return (1);
 }
 
@@ -147,6 +151,7 @@ float	ft_atof(char *str)
 	float	neg;
 	float	div;
 
+	printf("\tatof str = %s\n", str);
 	nb = 0.0;
 	i = 0;
 	neg = 1;
@@ -169,6 +174,7 @@ float	ft_atof(char *str)
 			div *= 0.1;
 		}
 	}
+	printf("\tatof END str = %s\t nb * neg = %f\n", str, nb * neg);
 	return (nb * neg);
 }
 
@@ -248,19 +254,23 @@ int	check_add_light(char *line, t_all *all)
 int	check_add_pl(char *line, t_all *all)
 {
 	char	**split;
+	int		i = all->checkrt.pl;
 
+	printf("check_add_pl checkrt.pl = %d\n", i);
 	all->checkrt.pl++;
 	split = ft_split(line, ' ');
-	if (!check_add_vec3(&all->plane->vec, split[1]))
+	printf("pl line = %s\nsplit 0 = %s\t1 = %s\t2 = %s\n", line, split[0], split[1], split[2]);
+	if (!check_add_vec3(&all->plane[i].vec, split[1]))
 		return (-1);
-	if (!check_add_vec3(&all->plane->orient, split[2]))
+	// printf("\t plane i vec = %f %f %f\n", all->plane[i].vec.x, all->plane[i].vec.y, all->plane[i].vec.z);
+	if (!check_add_vec3(&all->plane[i].orient, split[2]))
 		return (-1);
-	if (check_vec_range(&all->plane->orient, -1.0, 1.0) == -1)
+	if (check_vec_range(&all->plane[i].orient, -1.0, 1.0) == -1)
 	{
 		printf("error range orient vec\n");
 		return (-1);
 	}
-	if (check_add_color(split[3], &all->plane->rgb) == -1)
+	if (check_add_color(split[3], &all->plane[i].rgb) == -1)
 		return (-1);
 	return (1);
 }
@@ -272,6 +282,7 @@ int	check_add_sp(char *line, t_all *all)
 
 	all->checkrt.sp++;
 	split = ft_split(line, ' ');
+	printf("sp line = %s\nsplit 0 = %s\t1 = %s\t2 = %s\n", line, split[0], split[1], split[2]);
 	if (!check_add_vec3(&all->sphere[i].center, split[1]))
 		return (-1);
 	if (!ft_is_float(split[2]))

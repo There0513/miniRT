@@ -48,7 +48,7 @@ int	main(int ac, char **av)
 				//my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1, rgb_to_int((int)this_sphere.rgb.x * all.light.bright_l, (int)this_sphere.rgb.y * all.light.bright_l, (int)this_sphere.rgb.z * all.light.bright_l));
 			}
 			if (all.t_min == 1E99)	// no intersection ever
-			{printf("here");
+			{
 				my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1,
 				rgb_to_int((int)all.light.ambient_rgb.x * all.light.ambient_l, (int)all.light.ambient_rgb.y * all.light.ambient_l ,(int)all.light.ambient_rgb.z * all.light.ambient_l));
 			}
