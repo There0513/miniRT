@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 12:20:04 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/02 15:14:29 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/06 19:08:15 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,11 @@ void print_struct(t_all all)
 		   all.light.point_l.x, all.light.point_l.y, all.light.point_l.z, all.light.bright_l);
 
 	printf(" pl\tvec = %f %f %f  orient = %f %f %f  rgb = %f %f %f\n",
-		   all.plane.vec.x, all.plane.vec.y, all.plane.vec.z, all.plane.orient.x, all.plane.orient.y, all.plane.orient.z, all.plane.rgb.x, all.plane.rgb.y, all.plane.rgb.z);
+		   all.plane->vec.x, all.plane->vec.y, all.plane->vec.z, all.plane->orient.x, all.plane->orient.y, all.plane->orient.z, all.plane->rgb.x, all.plane->rgb.y, all.plane->rgb.z);
 	printf(" sp1\tcenter = %f %f %f  radius = %f  rgb = %f %f %f\n", all.sphere[0].center.x, all.sphere[0].center.y, all.sphere[0].center.z, all.sphere[0].radius, all.sphere[0].rgb.x, all.sphere[0].rgb.y, all.sphere[0].rgb.z);
 	printf(" sp2\tcenter = %f %f %f  radius = %f  rgb = %f %f %f\n", all.sphere[1].center.x, all.sphere[1].center.y, all.sphere[1].center.z, all.sphere[1].radius, all.sphere[1].rgb.x, all.sphere[1].rgb.y, all.sphere[1].rgb.z);
 
-	printf(" cy\tvec = %f %f %f  orient = %f %f %f  radius = %f  height = %f  rgb = %f %f %f\n", all.cylinder.vec.x, all.cylinder.vec.y, all.cylinder.vec.z, all.cylinder.orient.x, all.cylinder.orient.y, all.cylinder.orient.z, all.cylinder.radius, all.cylinder.height, all.cylinder.rgb.x, all.cylinder.rgb.y, all.cylinder.rgb.z);
+	printf(" cy\tvec = %f %f %f  orient = %f %f %f  radius = %f  height = %f  rgb = %f %f %f\n", all.cylinder->vec.x, all.cylinder->vec.y, all.cylinder->vec.z, all.cylinder->orient.x, all.cylinder->orient.y, all.cylinder->orient.z, all.cylinder->radius, all.cylinder->height, all.cylinder->rgb.x, all.cylinder->rgb.y, all.cylinder->rgb.z);
 }
 
 int parse_rt(char *file, t_all *all)

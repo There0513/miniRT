@@ -6,7 +6,7 @@
 #    By: threiss <threiss@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/12 16:58:09 by threiss           #+#    #+#              #
-#    Updated: 2021/08/02 17:14:19 by threiss          ###   ########.fr        #
+#    Updated: 2021/08/06 19:15:16 by threiss          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ OBJS	=	${SRCS:.c=.o}
 
 $(NAME):	${OBJS}
 		@make --silent -C ./mlx_linux/
-		@${CC} ${CFLAGS} ${OBJS} mlx_linux/libmlx.a -L/mlx_linux -L/usr/lib -Imlx_linux -I$(INCL) -lXext -lX11 -lm -o ${NAME}
+		@${CC} ${CFLAGS} -fsanitize=address ${OBJS} mlx_linux/libmlx.a -L/mlx_linux -L/usr/lib -Imlx_linux -I$(INCL) -lXext -lX11 -lm -o ${NAME}
 
 all:		${NAME}
 
