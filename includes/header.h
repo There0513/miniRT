@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 16:09:12 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/06 18:55:09 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/12 10:57:08 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,9 @@ typedef struct s_cylinder
 	double radius; // parsing diameter / 2
 	double height;
 	t_vector rgb;
+	t_vector	forward;
+	t_vector	right;
+	t_vector	up;
 } t_cylinder;
 
 typedef struct s_scenes
@@ -167,6 +170,7 @@ float	ft_atof(char *str);
 void mlx_data_init(t_mlx *data, int width, int height);
 int intersection_sp(t_vector rayon, t_vector direction, t_sphere sphere, t_vector *P, t_vector *N, double *t);
 int intersection_pl(t_vector rayon, t_vector direction, t_plane plane, t_vector *P, t_vector *N, double *t);
+int intersection_cy(t_vector camera, t_vector direction, t_cylinder cylinder, t_vector *P, t_vector *N, double *t);
 int rgb_to_int(int r, int g, int b);
 void my_mlx_pixel_put(t_mlx *data, int x, int y, int color);
 double dot(t_vector a, t_vector b);
@@ -185,5 +189,6 @@ void init_dir(t_vector *direction, int x, int y, double fov, t_camera camera);
 void camera_rotation(t_camera *camera);
 t_vector create_vec(double x, double y, double z);
 void	get_closest_t(t_all *all, t_vector *P, t_vector *N, double *t_min);
+void	cylinder_rotation(t_cylinder *cylinder);
 
 #endif

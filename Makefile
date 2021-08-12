@@ -6,7 +6,7 @@
 #    By: threiss <threiss@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/12 16:58:09 by threiss           #+#    #+#              #
-#    Updated: 2021/08/06 19:15:16 by threiss          ###   ########.fr        #
+#    Updated: 2021/08/11 14:04:37 by threiss          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRCS_NAMES	=	main.c \
 			parsing_check.c \
 			lib.c \
 			find_closest.c \
-			sphere.c \
+			intersections.c \
 		#	camera.c \
 
 INCL	=	./includes/

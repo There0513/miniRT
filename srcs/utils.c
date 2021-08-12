@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 15:16:39 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/02 18:19:41 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/11 12:20:50 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,19 @@ double	dot(t_vector a, t_vector b)
 	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
 
-double	getNorm2(t_vector *sphere)
+double	getNorm2(t_vector *vec)
 {
-	return (sphere->x * sphere->x + sphere->y * sphere->y + sphere->z * sphere->z);
+	return (vec->x * vec->x + vec->y * vec->y + vec->z * vec->z);
 }
 
-void	normalize(t_vector *sphere)
+void	normalize(t_vector *vec)
 {
 	double	norm;
 	
-	norm = sqrt(getNorm2(sphere));	// = magnitude(Laenge) of Vector
-	sphere->x /= norm;
-	sphere->y /= norm;
-	sphere->z /= norm;
+	norm = sqrt(getNorm2(vec));	// = magnitude(Laenge) of Vector
+	vec->x /= norm;
+	vec->y /= norm;
+	vec->z /= norm;
 }
 //RAY = r(origine(=vector/point), direction(=vector))
 

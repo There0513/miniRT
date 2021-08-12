@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 12:20:04 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/06 19:08:15 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/12 11:33:53 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,10 @@ int parse_rt(char *file, t_all *all)
 	i = ft_strlen(file);
 	if (ft_strncmp(&file[i - 3], ".rt", 3) != 0)
 		return (-1);
-	all->checkrt.sp = 0;
+	// malloc properly
 	all->sphere = malloc(3 * sizeof(t_sphere));
+	all->plane = malloc(3 * sizeof(t_plane));
+	all->cylinder = malloc(3 * sizeof(t_cylinder));
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		return (-1);
@@ -115,7 +117,7 @@ int parse_rt(char *file, t_all *all)
 			if (check_add_line(line, all) == -1) // || A C or L missing
 			{
 				printf("error in check_add_line\n");
-				print_struct(*all);
+				//print_struct(*all);
 				//reinit structs / free if necessary
 				return (-1);
 			}

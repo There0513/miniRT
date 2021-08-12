@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 14:09:49 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/04 18:02:51 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/12 10:11:14 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	main(int ac, char **av)
 	init_others_tmp(&P, &N);
 	if (parse_rt(av[1], &all) == -1)
 		return (0);
+	printf("\thallo?!?!?!?\n");
 	// if width/height given -> change WIDTH_DEF / HEIGHT_DEF
 	mlx_data_init(&all.mlx, WIDTH_DEF, HEIGHT_DEF);
 	camera_rotation(&all.camera);
@@ -44,7 +45,14 @@ int	main(int ac, char **av)
 //				all.light.bright_l += all.light.bright_l * dotdot / (sqrt(getNorm2(&N)) * sqrt(getNorm2(&tmp)));
 				//intensite_pixel = l_bright * dot(normalize(light - P), N) / getNorm2(light - P);
 //				if (dotdot < 0)	// -> in the 'shadow'/darkside		is visible?! function
-				my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1, rgb_to_int(255, 117, 255));
+// get color of nearest:
+// printf("plane rgb x = %f\n", all.plane->rgb.x);
+				if (all.nearest[0] == 's')
+					my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1, rgb_to_int(0, 75, 150));
+				else if (all.nearest[2] == '1')
+					my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1, rgb_to_int(255, 0, 0));
+				else
+					my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1, rgb_to_int(255, 117, 255));
 				//my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1, rgb_to_int((int)this_sphere.rgb.x * all.light.bright_l, (int)this_sphere.rgb.y * all.light.bright_l, (int)this_sphere.rgb.z * all.light.bright_l));
 			}
 			if (all.t_min == 1E99)	// no intersection ever

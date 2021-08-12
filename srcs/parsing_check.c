@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 12:18:54 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/06 19:09:52 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/11 13:30:15 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,13 @@ int	check_add_vec3(t_vector *vec, char *line)	// point of view
 	int		i;
 
 	i = 0;
-	printf("check_add_vec3 line = %s\n", line);
 	if (check_comma(line) != 2)
 		return (-1);
 	split = ft_split(line, ',');	// -50	0	20
-	printf("split 0 = %s 1 = %s 2 = %s\n", split[0], split[1], split[2]);
 	while (i < 3)
 		if (!ft_is_float(split[i++]))
 			return (-1);
-	printf("\thello\n");
 	vec->x = ft_atof(split[0]);
-	printf("\t\tvec->x = %f\n", vec->x);
 	vec->y = ft_atof(split[1]);
 	vec->z = ft_atof(split[2]);
 	return (1);
@@ -151,7 +147,6 @@ float	ft_atof(char *str)
 	float	neg;
 	float	div;
 
-	printf("\tatof str = %s\n", str);
 	nb = 0.0;
 	i = 0;
 	neg = 1;
@@ -174,7 +169,6 @@ float	ft_atof(char *str)
 			div *= 0.1;
 		}
 	}
-	printf("\tatof END str = %s\t nb * neg = %f\n", str, nb * neg);
 	return (nb * neg);
 }
 
