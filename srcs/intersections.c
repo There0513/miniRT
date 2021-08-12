@@ -75,12 +75,30 @@ int intersection_cy(t_vector camera, t_vector direction, t_cylinder cylinder, t_
 		return (-1);
 	double t1 = (-b - sqrt(delta)) / (2.0 * a);
 	double t2 = (-b + sqrt(delta)) / (2.0 * a);
-	if (t2 < 0)
+/*	if (t2 < 0)
 		return (-1); // pas d'intersection
 	if (t1 > 0)
 		*t = t1;
 	else
+		*t = t2;*/
+	if (t1 >= 0)
+	{
+		t_vector	point = add_min_operation('+', camera, mult_operation('*', t1, direction));
+		double z = dot(add_min_operation('-', point, cylinder.vec), cylinder.forward);
+		if (fabs(z) > cylinder.height / 2.0)
+			return (-1);
+		*t = t1;
+		return (1);
+	}
+	if (t2 >= 0)
+	{
+		t_vector	point = add_min_operation('+', camera, mult_operation('*', t2, direction));
+		double z = dot(add_min_operation('-', point, cylinder.vec), cylinder.forward);
+		if (fabs(z) > cylinder.height / 2.0)
+			return (-1);
 		*t = t2;
+		return (1);
+	}
 	// add cylinder2 ?!?
 	//-> manage light:
 	*P = add_min_operation('+', camera, mult_operation('*', *t, direction)); // camera + t * direction		P = intersection point = ray origin + t * ray direction
