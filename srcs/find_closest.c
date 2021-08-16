@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 15:29:43 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/12 17:34:26 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/15 14:26:48 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void get_closest_t(t_all *all, t_vector *P, t_vector *N, double *t_min)
 				all->nearest[0] = 'c';
 				all->nearest[1] = 'y';
 				all->nearest[2] = i + 48; // nearest sphere/point [i]
-				printf("closest = %s\n", all->nearest);
 				*t_min = t;
 				*P = all->closest.p_local;
 				*N = all->closest.n_local;

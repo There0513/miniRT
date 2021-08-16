@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 14:10:23 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/12 10:23:51 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/15 12:21:08 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,8 @@ void	init_all(t_all *all)	// to avoid error message not initialized
 
 void	init_others_tmp(t_vector *P, t_vector *N)
 {
-	P->x = 0;
-	P->y = 0;
-	P->z = 0;
-
-	N->x = 0;
-	N->y = 0;
-	N->z = 0;
+	*P = create_vec(0, 0, 0);
+	*N = create_vec(0, 0, 0);
 }
 
 t_list	*ft_create_elem(t_sphere *sphere)

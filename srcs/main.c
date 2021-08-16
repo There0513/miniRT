@@ -6,16 +6,48 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 14:09:49 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/12 17:53:13 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/15 14:51:32 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int	main(int ac, char **av)
+int ft_exit(t_all *all)
 {
-	t_all		all;
-	t_vector	P, N, tmp;
+	printf("exit\n");
+	// free data/structs
+	mlx_destroy_image(all->mlx.mlx, all->mlx.img);
+	mlx_destroy_window(all->mlx.mlx, all->mlx.window);
+	mlx_destroy_display(all->mlx.mlx);
+	free(all->mlx.mlx);
+	exit(0);
+	return (1);
+}
+
+int key_press(unsigned int key, t_all *all)
+{
+	if (key == 65307)
+		ft_exit(all);
+	return (0);
+}
+
+int get_color(char *nearest, t_all all)
+{
+	int i;
+	i = nearest[2] - 48;
+	if (nearest[0] == 's' && nearest[1] == 'p')
+		return (rgb_to_int(all.sphere[i].rgb.x, all.sphere[i].rgb.y, all.sphere[i].rgb.z));
+	if (nearest[0] == 'p' && nearest[1] == 'l')
+		return (rgb_to_int(all.plane[i].rgb.x, all.plane[i].rgb.y, all.plane[i].rgb.z));
+	if (nearest[0] == 'c' && nearest[1] == 'y')
+		return (rgb_to_int(all.cylinder[i].rgb.x, all.cylinder[i].rgb.y, all.cylinder[i].rgb.z));
+	return (0);
+}
+
+int main(int ac, char **av)
+{
+	t_all all;
+	t_vector P, N, tmp;
 
 	if (ac != 2)
 	{
@@ -26,7 +58,6 @@ int	main(int ac, char **av)
 	init_others_tmp(&P, &N);
 	if (parse_rt(av[1], &all) == -1)
 		return (0);
-	printf("\thallo?!?!?!?\n");
 	// if width/height given -> change WIDTH_DEF / HEIGHT_DEF
 	mlx_data_init(&all.mlx, WIDTH_DEF, HEIGHT_DEF);
 	camera_rotation(&all.camera);
@@ -37,33 +68,29 @@ int	main(int ac, char **av)
 			all.t_min = 1E99;
 			init_dir(&all.direction, x, y, all.camera.fov, all.camera);
 			get_closest_t(&all, &P, &N, &all.t_min);
-			if (all.t_min < 1E99)	// intersection
+			if (all.t_min < 1E99) // intersection
 			{
 				tmp = add_min_operation('-', all.light.point_l, P);
-//				normalize(&tmp);
-//				double dotdot = dot(tmp, N);
-//				all.light.bright_l += all.light.bright_l * dotdot / (sqrt(getNorm2(&N)) * sqrt(getNorm2(&tmp)));
+				//				normalize(&tmp);
+				//				double dotdot = dot(tmp, N);
+				//				all.light.bright_l += all.light.bright_l * dotdot / (sqrt(getNorm2(&N)) * sqrt(getNorm2(&tmp)));
 				//intensite_pixel = l_bright * dot(normalize(light - P), N) / getNorm2(light - P);
-//				if (dotdot < 0)	// -> in the 'shadow'/darkside		is visible?! function
-// get color of nearest:
-// printf("plane rgb x = %f\n", all.plane->rgb.x);
-				if (all.nearest[2] == '1' && all.nearest[0] != 's')
-					my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1, rgb_to_int(255, 0, 0));
-				else if (all.nearest[0] == 's')
-					my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1, rgb_to_int(0, 75, 150)); // blue
-				else
-					my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1, rgb_to_int(255, 117, 255)); // rose
-				//my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1, rgb_to_int((int)this_sphere.rgb.x * all.light.bright_l, (int)this_sphere.rgb.y * all.light.bright_l, (int)this_sphere.rgb.z * all.light.bright_l));
+				//				if (dotdot < 0)	// -> in the 'shadow'/darkside		is visible?! function
+				my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1, get_color(all.nearest, all));
 			}
-			if (all.t_min == 1E99)	// no intersection ever
+			if (all.t_min == 1E99) // no intersection ever
 			{
 				my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1,
-				rgb_to_int((int)all.light.ambient_rgb.x * all.light.ambient_l, (int)all.light.ambient_rgb.y * all.light.ambient_l ,(int)all.light.ambient_rgb.z * all.light.ambient_l));
+					rgb_to_int((int)all.light.ambient_rgb.x * all.light.ambient_l, (int)all.light.ambient_rgb.y * all.light.ambient_l,
+					(int)all.light.ambient_rgb.z * all.light.ambient_l));
 			}
 		}
 	}
 	printf("end\n");
 	mlx_put_image_to_window(all.mlx.mlx, all.mlx.window, all.mlx.img, 0, 0);
+	mlx_hook(all.mlx.window, 33, 0, ft_exit, &all);
+	mlx_hook(all.mlx.window, 2, 1L, key_press, &all);
+	// mlx_hook(all.mlx.window, 3, 1L << 1, key_release, &all);
 	mlx_loop(all.mlx.mlx);
 	return (0);
 }
