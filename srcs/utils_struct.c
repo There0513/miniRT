@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 14:10:23 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/15 12:21:08 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/23 14:09:26 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,21 @@ void	init_all(t_all *all)	// to avoid error message not initialized
 	all->checkrt.pl = 0;
 	all->checkrt.sp = 0;
 	all->checkrt.cy = 0;
+	all->checkrt.add_pl = 0;
+	all->checkrt.add_sp = 0;
+	all->checkrt.add_cy = 0;
 }
 
-void	init_others_tmp(t_vector *P, t_vector *N)
-{
-	*P = create_vec(0, 0, 0);
-	*N = create_vec(0, 0, 0);
-}
+// t_list	*ft_create_elem(t_sphere *sphere)
+// {
+// 	t_list	*scenes;
 
-t_list	*ft_create_elem(t_sphere *sphere)
-{
-	t_list	*scenes;
-
-	if (!(scenes = malloc(sizeof(t_list))))
-		return (0);
-		scenes->sp = *sphere;
-		scenes->next = 0;
-		return (scenes);
-}
+// 	if (!(scenes = malloc(sizeof(t_list))))
+// 		return (0);
+// 		scenes->sp = *sphere;
+// 		scenes->next = 0;
+// 		return (scenes);
+// }
 
 void	init_dir(t_vector *direction, int x, int y, double fov, t_camera camera)
 {

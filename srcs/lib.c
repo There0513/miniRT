@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 14:06:18 by threiss           #+#    #+#             */
-/*   Updated: 2021/06/29 14:13:55 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/22 17:26:45 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,9 @@ char	**ft_split(char const *str, char c)
 
 	i = 0;
 	i_res = -1;
+	// printf("str in split = %s\n", str);
 	res = malloc((ft_get_words(str, c) + 1) * sizeof(char*));
+	// printf("ft_split\twords = %d\n", ft_get_words(str, c));
 	if (!str || !res)
 		return (0);
 	while (str[i] && ft_get_words(str, c) > 0)

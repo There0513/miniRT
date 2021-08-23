@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 12:20:04 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/12 11:33:53 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/23 17:16:20 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int check_add_line(char *line, t_all *all) // add struct
 {
 	int i;
+	int ret = 1;
 
 	i = -1;
 	if (line[++i] == '#')
@@ -25,39 +26,69 @@ int check_add_line(char *line, t_all *all) // add struct
 		i++;
 	if (line[i] == 'A')
 	{
-		if (check_add_ambient(&line[++i], all) == -1)
+		if (all->pars == 0)
 		{
-			printf("error in check_add_ambient\n");
-			return (-1); // return error message
+				 ret = check_ambient(&line[++i], all);
+				 if (ret != 0)
+				 	printf("\t\terror = A\n");
+				 return (ret);
 		}
+		return (add_ambient(&line[++i], all));
 	}
 	else if (line[i] == 'C')
 	{
-		if (check_add_camera(&line[++i], all) == -1)
+		if (all->pars == 0)
 		{
-			printf("error in check_add_camera\n");
-			return (-1); // return error message
+				 ret = check_camera(&line[++i], all);
+				 if (ret != 0)
+				 	printf("\t\terror = C\n");
+				 return (ret);
 		}
+		return (add_camera(&line[++i], all));
 	}
 	else if (line[i] == 'L')
 	{
-		if (check_add_light(&line[++i], all) == -1)
-			return (-1); // return error message
+		if (all->pars == 0)
+		{
+				 ret = check_light(&line[++i], all);
+				 if (ret != 0)
+				 	printf("\t\terror = L\n");
+				 return (ret);
+		}
+		return (add_light(&line[++i], all));
 	}
 	else if (line[i] == 'p' && line[i + 1] == 'l')
 	{
-		if (check_add_pl(&line[++i], all) == -1)
-			return (-1); // return error message
+		if (all->pars == 0)
+		{
+				 ret = check_pl(&line[++i], all);
+				 if (ret != 0)
+				 	printf("\t\terror = pl\n");
+				 return (ret);
+		}
+		return (add_pl(&line[++i], all));
 	}
 	else if (line[i] == 's' && line[i + 1] == 'p')
 	{
-		if (check_add_sp(&line[++i], all) == -1)
-			return (-1); // return error message
+		if (all->pars == 0)
+		{
+				 ret = check_sp(&line[++i], all);
+				 if (ret != 0)
+				 	printf("\t\terror = sp\n");
+				 return (ret);
+		}
+		return (add_sp(&line[++i], all));
 	}
 	else if (line[i] == 'c' && line[i + 1] == 'y')
 	{
-		if (check_add_cy(&line[++i], all) == -1)
-			return (-1); // return error message
+		if (all->pars == 0)
+		{
+				 ret = check_cy(&line[++i], all);
+				 if (ret != 0)
+				 	printf("\t\terror = cy\n");
+				 return (ret);
+		}
+		return (add_cy(&line[++i], all));
 	}
 	else
 	{
@@ -65,6 +96,69 @@ int check_add_line(char *line, t_all *all) // add struct
 		return (-1);
 	}
 	return (1);
+}
+
+int parsing_check(char *file, t_all *all)
+{
+	int fd;
+	char *line;
+	int i;
+
+	all->pars = 0;
+	i = ft_strlen(file);
+	if (ft_strncmp(&file[i - 3], ".rt", 3) != 0)
+		return (-1);
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+		return (-1);
+	if (read(fd, NULL, 0) < 0)
+	{
+		printf("Error read file\n");
+		return (0);
+	}
+	while (get_next_line(fd, &line) == 1)
+	{
+		if (line[0] != 0)
+		{
+			if (check_add_line(line, all) == -1) // || A C or L missing
+			{
+				printf("error in check_add_line parsingcheck\n");
+				free(line);
+				//reinit structs / free if necessary
+				return (-1);
+			}
+		}
+		free(line);
+	}
+	if (line)
+		free(line);
+	return (1); // if everything is ok -> ret 1
+}
+
+int parsing_add(char *file, t_all *all) // update after parsing_check
+{
+	int fd;
+	char *line;
+
+	all->pars = 1;
+	fd = open(file, O_RDONLY);
+	while (get_next_line(fd, &line) == 1)
+	{
+		if (line[0] != 0)
+		{
+			if (check_add_line(line, all) == -1) // || A C or L missing
+			{
+				printf("error in check_add_line parsingadd\n");
+				free(line);
+				//reinit structs / free if necessary
+				return (-1);
+			}
+		}
+		free(line);
+	}
+	if (line)
+		free(line);
+	return (1); // if everything is ok -> ret 1
 }
 
 void print_struct(t_all all)
@@ -91,38 +185,26 @@ void print_struct(t_all all)
 
 int parse_rt(char *file, t_all *all)
 {
-	int fd;
-	char *line;
-	int i;
-
-	i = ft_strlen(file);
-	if (ft_strncmp(&file[i - 3], ".rt", 3) != 0)
+	if (parsing_check(file, all) != 1)
 		return (-1);
-	// malloc properly
-	all->sphere = malloc(3 * sizeof(t_sphere));
-	all->plane = malloc(3 * sizeof(t_plane));
-	all->cylinder = malloc(3 * sizeof(t_cylinder));
-	fd = open(file, O_RDONLY);
-	if (fd < 0)
+	printf("hello\n");
+	// malloc properly here !!!!!
+	printf("CHECKRT cy = %d\n", all->checkrt.cy);
+	// all->sphere = malloc(3 * sizeof(t_sphere));
+	// all->plane = malloc(3 * sizeof(t_plane));
+	all->cylinder = malloc((all->checkrt.cy + 1) * sizeof(t_cylinder));
+	if (parsing_add(file, all) != 1)
 		return (-1);
-	if (read(fd, NULL, 0) < 0)
-	{
-		printf("Error read file\n");
-		return (0);
-	}
-	while (get_next_line(fd, &line) == 1)
-	{
-		if (line[0] != 0)
-		{
-			if (check_add_line(line, all) == -1) // || A C or L missing
-			{
-				printf("error in check_add_line\n");
-				//print_struct(*all);
-				//reinit structs / free if necessary
-				return (-1);
-			}
-		}
-		free(line);
-	}
 	return (1); // if everything is ok -> ret 1
 }
+// SUMMARY: AddressSanitizer: 603 byte(s) leaked in 52 allocation(s).
+// SUMMARY: AddressSanitizer: 550 byte(s) leaked in 31 allocation(s).
+// SUMMARY: AddressSanitizer: 520 byte(s) leaked in 30 allocation(s).
+// SUMMARY: AddressSanitizer: 424 byte(s) leaked in 27 allocation(s).
+// SUMMARY: AddressSanitizer: 200 byte(s) leaked in 20 allocation(s).
+// SUMMARY: AddressSanitizer: 184 byte(s) leaked in 19 allocation(s).
+// SUMMARY: AddressSanitizer: 168 byte(s) leaked in 18 allocation(s).
+// SUMMARY: AddressSanitizer: 88 byte(s) leaked in 15 allocation(s).
+
+// cy
+// SUMMARY: AddressSanitizer: 124 byte(s) leaked in 24 allocation(s).

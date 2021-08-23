@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 16:09:12 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/12 10:57:08 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/23 14:08:44 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,11 @@ typedef	struct	s_checkrt
 	int		C;
 	int		L;
 	int		pl;
+	int		add_pl;
 	int		sp;
+	int		add_sp;
 	int		cy;
+	int		add_cy;
 }	t_checkrt;
 
 typedef struct s_camera
@@ -101,11 +104,11 @@ typedef struct s_cylinder
 	t_vector	up;
 } t_cylinder;
 
-typedef struct s_scenes
-{
-	t_sphere sp; // sphere
-	struct s_scenes *next;
-} t_list;
+// typedef struct s_scenes
+// {
+// 	t_sphere sp; // sphere
+// 	struct s_scenes *next;
+// } t_list;
 
 typedef	struct	s_closest
 {
@@ -116,6 +119,7 @@ typedef	struct	s_closest
 typedef	struct	s_all
 {
 	t_mlx		mlx;
+	int			pars;	// pars == 0 -> parsing_check	pars == 1 -> parsing_add
 	t_checkrt	checkrt;
 	t_camera	camera;
 	t_light		light;
@@ -146,18 +150,25 @@ char *ft_strjoin(const char *s1, const char *s2);
 char *ft_strdup(const char *str);
 int ft_strlen(const char *str);
 // 		GNL END _________________________
-int check_add_ambient(char *line, t_all *all);
-int	check_add_camera(char *line, t_all *all);
-int	check_add_light(char *line, t_all *all);
-int	check_add_pl(char *line, t_all *all);
-int	check_add_sp(char *line, t_all *all);
-int	check_add_cy(char *line, t_all *all);
+int check_ambient(char *line, t_all *all);
+int add_ambient(char *line, t_all *all);
+int	check_camera(char *line, t_all *all);
+int	add_camera(char *line, t_all *all);
+int	check_light(char *line, t_all *all);
+int	add_light(char *line, t_all *all);
+int	check_pl(char *line, t_all *all);
+int	add_pl(char *line, t_all *all);
+int	check_sp(char *line, t_all *all);
+int	add_sp(char *line, t_all *all);
+int	check_cy(char *line, t_all *all);
+int	add_cy(char *line, t_all *all);
 int	ft_is_digit(int c);
 char	**ft_split(char const *str, char c);
 int	check_range(float nb, float min, float max);
 int	check_vec_range(t_vector *vec, float min, float max);
 int	check_comma(char *str);
-int	check_add_color(char *line, t_vector *rgb);
+int	check_color(char *line);
+int	check_vec3(char *line);
 int	check_add_vec3(t_vector *cam, char *line);
 int	check_add_fov(double *fov, char *line);
 int ft_str_is_digit(char *str);
@@ -180,11 +191,10 @@ t_vector get_normalized(t_vector sphere);
 t_vector add_min_operation(char sign, t_vector a, t_vector b);
 t_vector mult_operation(char sign, double nbr, t_vector a);
 void init_spheres(t_sphere *sphere, t_sphere *sphere2, t_sphere *sphere3, t_sphere *sphere4, t_sphere *sphere5);
-void init_others_tmp(t_vector *P, t_vector *N);
 // t_list scenes
-t_list *get_scenes_lst(t_list *scenes, t_all all);
-t_list *ft_create_elem(t_sphere *sphere);
-t_list *add_elem(t_list *scenes, t_sphere sphere);
+// t_list *get_scenes_lst(t_list *scenes, t_all all);
+// t_list *ft_create_elem(t_sphere *sphere);
+// t_list *add_elem(t_list *scenes, t_sphere sphere);
 void init_dir(t_vector *direction, int x, int y, double fov, t_camera camera);
 void camera_rotation(t_camera *camera);
 t_vector create_vec(double x, double y, double z);

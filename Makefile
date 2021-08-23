@@ -6,7 +6,7 @@
 #    By: threiss <threiss@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/12 16:58:09 by threiss           #+#    #+#              #
-#    Updated: 2021/08/11 14:04:37 by threiss          ###   ########.fr        #
+#    Updated: 2021/08/18 09:58:23 by threiss          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,8 @@ SRCS_NAMES	=	main.c \
 			get_next_line.c \
 			parse.c \
 			parsing_check.c \
+			parsing_add.c \
+			utils_parsing.c \
 			lib.c \
 			find_closest.c \
 			intersections.c \

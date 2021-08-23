@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 14:09:49 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/15 14:51:32 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/23 14:18:12 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@ int ft_exit(t_all *all)
 {
 	printf("exit\n");
 	// free data/structs
+	// free(all->sphere);	// ?!
+	// free(all->plane);
+	free(all->cylinder);
+	
 	mlx_destroy_image(all->mlx.mlx, all->mlx.img);
 	mlx_destroy_window(all->mlx.mlx, all->mlx.window);
 	mlx_destroy_display(all->mlx.mlx);
@@ -41,7 +45,7 @@ int get_color(char *nearest, t_all all)
 		return (rgb_to_int(all.plane[i].rgb.x, all.plane[i].rgb.y, all.plane[i].rgb.z));
 	if (nearest[0] == 'c' && nearest[1] == 'y')
 		return (rgb_to_int(all.cylinder[i].rgb.x, all.cylinder[i].rgb.y, all.cylinder[i].rgb.z));
-	return (0);
+	return (16777215);
 }
 
 int main(int ac, char **av)
@@ -54,8 +58,9 @@ int main(int ac, char **av)
 		printf("Please use the program with a valid .rt file -> ./minirt scene.rt\n");
 		return (0);
 	}
-	init_all(&all);
-	init_others_tmp(&P, &N);
+	init_all(&all); // all->checkrt.xy
+	P = create_vec(0, 0, 0);
+	N = create_vec(0, 0, 0);
 	if (parse_rt(av[1], &all) == -1)
 		return (0);
 	// if width/height given -> change WIDTH_DEF / HEIGHT_DEF
@@ -81,8 +86,8 @@ int main(int ac, char **av)
 			if (all.t_min == 1E99) // no intersection ever
 			{
 				my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1,
-					rgb_to_int((int)all.light.ambient_rgb.x * all.light.ambient_l, (int)all.light.ambient_rgb.y * all.light.ambient_l,
-					(int)all.light.ambient_rgb.z * all.light.ambient_l));
+								 rgb_to_int((int)all.light.ambient_rgb.x * all.light.ambient_l, (int)all.light.ambient_rgb.y * all.light.ambient_l,
+											(int)all.light.ambient_rgb.z * all.light.ambient_l));
 			}
 		}
 	}
