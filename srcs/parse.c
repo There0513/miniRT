@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 12:20:04 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/23 17:16:20 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/23 17:31:23 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,10 +189,9 @@ int parse_rt(char *file, t_all *all)
 		return (-1);
 	printf("hello\n");
 	// malloc properly here !!!!!
-	printf("CHECKRT cy = %d\n", all->checkrt.cy);
-	// all->sphere = malloc(3 * sizeof(t_sphere));
-	// all->plane = malloc(3 * sizeof(t_plane));
-	all->cylinder = malloc((all->checkrt.cy + 1) * sizeof(t_cylinder));
+	all->sphere = malloc(all->checkrt.sp * sizeof(t_sphere));
+	all->plane = malloc(all->checkrt.pl * sizeof(t_plane));
+	all->cylinder = malloc(all->checkrt.cy * sizeof(t_cylinder));
 	if (parsing_add(file, all) != 1)
 		return (-1);
 	return (1); // if everything is ok -> ret 1

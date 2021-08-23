@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 14:09:49 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/23 14:18:12 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/23 17:31:39 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int ft_exit(t_all *all)
 {
 	printf("exit\n");
 	// free data/structs
-	// free(all->sphere);	// ?!
-	// free(all->plane);
+	free(all->sphere);
+	free(all->plane);
 	free(all->cylinder);
 	
 	mlx_destroy_image(all->mlx.mlx, all->mlx.img);

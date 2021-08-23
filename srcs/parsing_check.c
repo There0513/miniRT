@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 12:18:54 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/23 14:17:47 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/23 17:41:40 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,6 +226,9 @@ int add_camera(char *line, t_all *all)
 	add_vec3(&all->camera.cam, split[0]); // cam == pov
 	add_vec3(&all->camera.orient, split[1]);
 	all->camera.fov = ft_atoi(split[2]) * 3.14159265 / 180;
+	int i = 0;
+	while (split[i])
+		free(split[i++]);
 	free(split);
 	return (ret);
 }
@@ -265,6 +268,9 @@ int add_light(char *line, t_all *all)
 	add_vec3(&all->light.point_l, split[0]);
 	all->light.bright_l = ft_atof(split[1]);
 	// light_rgb = bonus
+	int i = 0;
+	while (split[i])
+		free(split[i++]);
 	free(split);
 	return (ret);
 }
@@ -284,9 +290,15 @@ int check_pl(char *line, t_all *all)
 	t_vector tmp = create_vec(ft_atof(split2[0]), ft_atof(split2[1]), ft_atof(split2[2]));
 	if (check_vec_range(&tmp, -1, 1) == -1)
 		ret = -1;
-	if (!check_color(split[3]))
+	if (check_color(split[3]) == -1)
 		ret = -1;
+	int i = 0;
+	while (split[i])
+		free(split[i++]);
 	free(split);
+	i = 0;
+	while (split2[i])
+		free(split2[i++]);
 	free(split2);
 	return (ret);
 }
@@ -296,19 +308,26 @@ int add_pl(char *line, t_all *all)
 	char **split;
 	char **rgb;
 	int ret;
-	int i = all->checkrt.pl; // adapte i or i--
+	int i = all->checkrt.add_pl; // adapte i or i--
 
 	ret = 0;
 	split = ft_split(line, ' ');
 	add_vec3(&all->plane[i].vec, split[1]);
 	add_vec3(&all->plane[i].orient, split[2]);
-	rgb = ft_split(split[3], ' ');
+	rgb = ft_split(split[3], ',');
 	all->plane[i].rgb.x = ft_atof(rgb[0]);
 	all->plane[i].rgb.x = ft_atof(rgb[1]);
 	all->plane[i].rgb.x = ft_atof(rgb[2]);
 	// free while rgb i / split i ++ ?!
+	i = 0;
+	while (split[i])
+		free(split[i++]);
 	free(split);
+	i = 0;
+	while (rgb[i])
+		free(rgb[i++]);
 	free(rgb);
+	all->checkrt.add_pl++;
 	return (ret);
 }
 // coord	diameter	rgb
@@ -325,8 +344,11 @@ int check_sp(char *line, t_all *all)
 		ret = -1;
 	if (ft_atof(split[2]) < 0.0)
 		ret = -1;
-	if (!check_color(split[3]))
+	if (check_color(split[3]) == -1)
 		ret = -1;
+	int i = 0;
+	while (split[i])
+		free(split[i++]);
 	free(split);
 	return (ret);
 }
@@ -336,19 +358,25 @@ int add_sp(char *line, t_all *all)
 	char **split;
 	char **rgb;
 	int ret;
-	int i = all->checkrt.sp;
+	int i = all->checkrt.add_sp;
 
 	ret = 0;
 	split = ft_split(line, ' ');
 	add_vec3(&all->sphere[i].center, split[1]);
 	all->sphere[i].radius = ft_atof(split[2]) / 2;
-	rgb = ft_split(split[3], ' ');
+	rgb = ft_split(split[3], ',');
 	all->sphere[i].rgb.x = ft_atof(rgb[0]);
 	all->sphere[i].rgb.y = ft_atof(rgb[1]);
 	all->sphere[i].rgb.z = ft_atof(rgb[2]);
-	// free while rgb i / split i ++ ?!
+	i = 0;
+	while (split[i])
+		free(split[i++]);
 	free(split);
+	i = 0;
+	while (rgb[i])
+		free(rgb[i++]);
 	free(rgb);
+	all->checkrt.add_sp++;
 	return (ret);
 }
 
@@ -422,7 +450,13 @@ int add_cy(char *line, t_all *all)	// add_xy -> change i for all of them
 	all->cylinder[i].rgb.x = ft_atof(rgb[0]);
 	all->cylinder[i].rgb.y = ft_atof(rgb[1]);
 	all->cylinder[i].rgb.z = ft_atof(rgb[2]);
+	i = 0;
+	while (split[i])
+		free(split[i++]);
 	free(split);
+	i = 0;
+	while (rgb[i])
+		free(rgb[i++]);
 	free(rgb);
 	all->checkrt.add_cy++;
 	return (ret);
