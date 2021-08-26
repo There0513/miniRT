@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 16:09:12 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/23 14:08:44 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/26 17:57:34 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ typedef	struct	s_closest
 {
 	t_vector	p_local;
 	t_vector	n_local;
+	double		intensity;
 }	t_closest;
 
 typedef	struct	s_all
@@ -200,5 +201,7 @@ void camera_rotation(t_camera *camera);
 t_vector create_vec(double x, double y, double z);
 void	get_closest_t(t_all *all, t_vector *P, t_vector *N, double *t_min);
 void	cylinder_rotation(t_cylinder *cylinder);
+// int	visibility();
+void	apply_light(t_all *all);
 
 #endif

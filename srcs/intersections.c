@@ -22,13 +22,10 @@ int intersection_sp(t_vector camera, t_vector direction, t_sphere sphere, t_vect
 	double c = pow(sqrt(dot(OC, OC)), 2) - sphere.radius * sphere.radius; // pow(diameter/2)
 	// = dot(OC, OC) - ray * ray...
 	double delta = b * b - (4 * a * c);
-	// if (delta >= 0)
-	// 	printf("a %f b %f c%f\ndelta %f\n", a, b, c, delta);
 	if (delta < 0)
 		return (-1);
 	double t1 = (-b - sqrt(delta)) / (2.0 * a);
 	double t2 = (-b + sqrt(delta)) / (2.0 * a);
-	//	printf("\t\tt1 = %f\tt2 = %f\n", t1, t2);
 	if (t2 < 0)
 		return (-1); // pas d'intersection
 	/* t < 0			behind the camera
@@ -42,7 +39,10 @@ int intersection_sp(t_vector camera, t_vector direction, t_sphere sphere, t_vect
 	//-> manage light: add is_visible to each manage-light ?!
 	*P = add_min_operation('+', camera, mult_operation('*', *t, direction)); // camera + t * direction		P = intersection point = ray origin + t * ray direction
 	*N = get_normalized(add_min_operation('-', *P, sphere.center));
-	//N = normalize(add_min_operation('-', P, sphere)); // normalize(P - sphere)
+	if (dot(direction, *N) > 0)
+		printf("\tdot > 0 in sphere -> add line *N\n");
+	// if (....)
+	//		*N = ...mult...
 	return (1);
 }
 
@@ -63,19 +63,15 @@ int intersection_cy(t_vector camera, t_vector direction, t_cylinder cylinder, t_
 {
 	cylinder_rotation(&cylinder);
 	t_vector OV = add_min_operation('-', camera, cylinder.vec); // Origin - Vec
-	double a = pow(dot(direction, cylinder.right), 2)
-					+ pow(dot(direction, cylinder.up), 2);
-	double b = 2 * (dot(direction, cylinder.right) * dot(OV, cylinder.right)
-					+ dot(direction, cylinder.up) * dot(OV, cylinder.up));
-	double c = pow(dot(OV, cylinder.right), 2)
-					+ pow(dot(OV, cylinder.up), 2)
-							- pow(cylinder.radius, 2);
+	double a = pow(dot(direction, cylinder.right), 2) + pow(dot(direction, cylinder.up), 2);
+	double b = 2 * (dot(direction, cylinder.right) * dot(OV, cylinder.right) + dot(direction, cylinder.up) * dot(OV, cylinder.up));
+	double c = pow(dot(OV, cylinder.right), 2) + pow(dot(OV, cylinder.up), 2) - pow(cylinder.radius, 2);
 	double delta = b * b - (4 * a * c);
 	if (delta < 0)
 		return (-1);
 	double t1 = (-b - sqrt(delta)) / (2.0 * a);
 	double t2 = (-b + sqrt(delta)) / (2.0 * a);
-/*	if (t2 < 0)
+	/*	if (t2 < 0)
 		return (-1); // pas d'intersection
 	if (t1 > 0)
 		*t = t1;
@@ -83,7 +79,7 @@ int intersection_cy(t_vector camera, t_vector direction, t_cylinder cylinder, t_
 		*t = t2;*/
 	if (t1 >= 0)
 	{
-		t_vector	point = add_min_operation('+', camera, mult_operation('*', t1, direction));
+		t_vector point = add_min_operation('+', camera, mult_operation('*', t1, direction));
 		double z = dot(add_min_operation('-', point, cylinder.vec), cylinder.forward);
 		if (fabs(z) > cylinder.height / 2.0)
 			return (-1);
@@ -92,20 +88,18 @@ int intersection_cy(t_vector camera, t_vector direction, t_cylinder cylinder, t_
 	}
 	if (t2 >= 0)
 	{
-		t_vector	point = add_min_operation('+', camera, mult_operation('*', t2, direction));
+		t_vector point = add_min_operation('+', camera, mult_operation('*', t2, direction));
 		double z = dot(add_min_operation('-', point, cylinder.vec), cylinder.forward);
 		if (fabs(z) > cylinder.height / 2.0)
 			return (-1);
 		*t = t2;
 		return (1);
 	}
-	// add cylinder2 ?!?
 	//-> manage light:
 	*P = add_min_operation('+', camera, mult_operation('*', *t, direction)); // camera + t * direction		P = intersection point = ray origin + t * ray direction
 	t_vector tmp = get_normalized(add_min_operation('-', *P, cylinder.vec));
-	*N = get_normalized(add_min_operation('-', tmp, 
-		mult_operation('*', dot(get_normalized(cylinder.orient), tmp), get_normalized(cylinder.orient))
-		));
-		// .. more
+	*N = get_normalized(add_min_operation('-', tmp,
+										  mult_operation('*', dot(get_normalized(cylinder.orient), tmp), get_normalized(cylinder.orient))));
+	// .. more
 	return (1);
 }

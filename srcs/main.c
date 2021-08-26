@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 14:09:49 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/23 17:31:39 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/26 17:58:50 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int get_color(char *nearest, t_all all)
 	int i;
 	i = nearest[2] - 48;
 	if (nearest[0] == 's' && nearest[1] == 'p')
-		return (rgb_to_int(all.sphere[i].rgb.x, all.sphere[i].rgb.y, all.sphere[i].rgb.z));
+		return (rgb_to_int(all.sphere[i].rgb.x * all.closest.intensity,
+		all.sphere[i].rgb.y * all.closest.intensity, all.sphere[i].rgb.z * all.closest.intensity));
 	if (nearest[0] == 'p' && nearest[1] == 'l')
 		return (rgb_to_int(all.plane[i].rgb.x, all.plane[i].rgb.y, all.plane[i].rgb.z));
 	if (nearest[0] == 'c' && nearest[1] == 'y')
@@ -51,7 +52,7 @@ int get_color(char *nearest, t_all all)
 int main(int ac, char **av)
 {
 	t_all all;
-	t_vector P, N, tmp;
+	t_vector P, N;
 
 	if (ac != 2)
 	{
@@ -75,12 +76,8 @@ int main(int ac, char **av)
 			get_closest_t(&all, &P, &N, &all.t_min);
 			if (all.t_min < 1E99) // intersection
 			{
-				tmp = add_min_operation('-', all.light.point_l, P);
-				//				normalize(&tmp);
-				//				double dotdot = dot(tmp, N);
-				//				all.light.bright_l += all.light.bright_l * dotdot / (sqrt(getNorm2(&N)) * sqrt(getNorm2(&tmp)));
-				//intensite_pixel = l_bright * dot(normalize(light - P), N) / getNorm2(light - P);
-				//				if (dotdot < 0)	// -> in the 'shadow'/darkside		is visible?! function
+				apply_light(&all);
+				
 				my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1, get_color(all.nearest, all));
 			}
 			if (all.t_min == 1E99) // no intersection ever
