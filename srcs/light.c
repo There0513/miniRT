@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 10:48:06 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/26 18:01:34 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/27 17:53:07 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void light_sp(t_all *all)   // == sphere_light
     t_vector tmp = add_min_operation('-', all->light.point_l, all->closest.p_local);
     normalize(&tmp); // v_light = tmp
     // double	is_visible = visibility();
-    double  is_visible = 1;
+    // double  is_visible = 1;
     
     // double dotdot = dot(tmp, all->closest.n_local);
     // if (dotdot < 0)	// -> in the 'shadow'/darkside		is visible?! function
@@ -30,10 +30,10 @@ void light_sp(t_all *all)   // == sphere_light
     // for getNorm2:
     //       all->light.bright_l += all->light.bright_l * dotdot / (sqrt(getNorm2(&all->closest.n_local)) * sqrt(getNorm2(&tmp)));
     t_vector next = add_min_operation('-', all->light.point_l, all->closest.p_local);
-    all->closest.intensity = all->light.bright_l * dot(tmp, all->closest.n_local) * is_visible /
-                    getNorm2(&next) * 10000;    // GO ON HERE !!!
+    all->closest.intensity = all->light.bright_l * dot(tmp, all->closest.n_local) / getNorm2(&next) * 10000;
     printf("intensity = %f\n", all->closest.intensity);
-    // intensity = all->light.bright_l * dot(normalize(light - P), N) / getNorm2(light - P);
+    // shadow
+    
 }
 
 void apply_light(t_all *all)

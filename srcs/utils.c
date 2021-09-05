@@ -6,13 +6,13 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 15:16:39 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/11 12:20:50 by threiss          ###   ########.fr       */
+/*   Updated: 2021/08/27 15:02:31 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void	mlx_data_init(t_mlx *data, int width, int height)
+void mlx_data_init(t_mlx *data, int width, int height)
 {
 	data->mlx = mlx_init();
 	data->window = mlx_new_window(data->mlx, width, height, "miniRT");
@@ -20,8 +20,14 @@ void	mlx_data_init(t_mlx *data, int width, int height)
 	data->addr = mlx_get_data_addr(data->img, &data->bpp, &data->ll, &data->endian);
 }
 
-int		rgb_to_int(int r, int g, int b)
+int rgb_to_int(int r, int g, int b)
 {
+	if (r < 0)
+		r = 0;
+	if (g < 0)
+		g = 0;
+	if (b < 0)
+		b = 0;
 	if (r > 255)
 		r = 255;
 	if (g > 255)
@@ -31,29 +37,29 @@ int		rgb_to_int(int r, int g, int b)
 	return (r << 16 | g << 8 | b);
 }
 
-void	my_mlx_pixel_put(t_mlx *data, int x, int y, int color)
+void my_mlx_pixel_put(t_mlx *data, int x, int y, int color)
 {
-	char	*dst;
+	char *dst;
 
 	dst = data->addr + (y * data->ll + x * (data->bpp / 8));
-	*(unsigned int*)dst = color;
+	*(unsigned int *)dst = color;
 }
 
-double	dot(t_vector a, t_vector b)
+double dot(t_vector a, t_vector b)
 {
 	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
 
-double	getNorm2(t_vector *vec)
+double getNorm2(t_vector *vec)
 {
 	return (vec->x * vec->x + vec->y * vec->y + vec->z * vec->z);
 }
 
-void	normalize(t_vector *vec)
+void normalize(t_vector *vec)
 {
-	double	norm;
-	
-	norm = sqrt(getNorm2(vec));	// = magnitude(Laenge) of Vector
+	double norm;
+
+	norm = sqrt(getNorm2(vec)); // = magnitude(Laenge) of Vector
 	vec->x /= norm;
 	vec->y /= norm;
 	vec->z /= norm;
@@ -66,9 +72,9 @@ t_vector get_normalized(t_vector a)
 	return (a);
 }
 
-t_vector	add_min_operation(char sign, t_vector a, t_vector b)
+t_vector add_min_operation(char sign, t_vector a, t_vector b)
 {
-	t_vector	new_vector;
+	t_vector new_vector;
 
 	new_vector.x = 0;
 	new_vector.y = 0;
@@ -88,9 +94,9 @@ t_vector	add_min_operation(char sign, t_vector a, t_vector b)
 	return (new_vector);
 }
 
-t_vector	mult_operation(char sign, double nbr, t_vector a)
+t_vector mult_operation(char sign, double nbr, t_vector a)
 {
-	t_vector	new_vector;
+	t_vector new_vector;
 
 	new_vector.x = 0;
 	new_vector.y = 0;
@@ -104,9 +110,9 @@ t_vector	mult_operation(char sign, double nbr, t_vector a)
 	return (new_vector);
 }
 
-t_vector	create_vec(double x, double y, double z)
+t_vector create_vec(double x, double y, double z)
 {
-	t_vector	new_vec;
+	t_vector new_vec;
 
 	new_vec.x = x;
 	new_vec.y = y;
