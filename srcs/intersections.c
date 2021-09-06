@@ -32,17 +32,16 @@ int intersection_sp(t_vector camera, t_vector direction, t_sphere sphere, t_vect
 	   0 <= t <= 1		between camera & projection plane
 	   t > 1 			in front of projection plane */
 	// intersection
-	if (t1 > 0)
+	if (t1 >= 0)
 		*t = t1;
-	else
+	else if (t2 >= 0)
 		*t = t2;
 	//-> manage light: add is_visible to each manage-light ?!
 	*P = add_min_operation('+', camera, mult_operation('*', *t, direction)); // camera + t * direction		P = intersection point = ray origin + t * ray direction
 	*N = get_normalized(add_min_operation('-', *P, sphere.center));
 	if (dot(direction, *N) > 0)
-		printf("\tdot > 0 in sphere -> add line *N\n");
-	// if (....)
-	//		*N = ...mult...
+		printf("\tdot > 0 in sphere -> add line *N?!?\n");
+		// *N = get_normalized(mult_operation('*', -1, *N));
 	return (1);
 }
 
