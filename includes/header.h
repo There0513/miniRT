@@ -129,6 +129,7 @@ typedef	struct	s_all
 	t_cylinder	*cylinder;
 	t_vector	direction;
 	double		t_min;
+	double		t_visib;
 	t_closest	closest;
 	char		nearest[50];
 	
@@ -203,5 +204,5 @@ void	get_closest_t(t_all *all, t_vector *P, t_vector *N, double *t_min);
 void	cylinder_rotation(t_cylinder *cylinder);
 // int	visibility();
 void	apply_light(t_all *all);
-
+int		shadow_sp(t_all *all, t_sphere sphere, t_vector P, t_vector dir);
 #endif

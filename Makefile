@@ -24,6 +24,7 @@ SRCS_NAMES	=	main.c \
 			find_closest.c \
 			intersections.c \
 			light.c \
+			shades.c \
 		#	camera.c \
 
 INCL	=	./includes/

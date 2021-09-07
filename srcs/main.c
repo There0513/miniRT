@@ -42,8 +42,8 @@ int get_color(char *nearest, t_all all)
 	i = nearest[2] - 48;
 	if (nearest[0] == 's' && nearest[1] == 'p')
 	{
-		if (all.closest.intensity != 1)
-			printf("intensity = %f\n", all.closest.intensity);
+		// if (all.closest.intensity != 1)
+		// 	printf("intensity = %f\n", all.closest.intensity);
 
 		all.sphere[i].rgb.x = all.sphere[i].rgb.x + (all.light.ambient_l * all.light.ambient_rgb.x) / 50000;
 		all.sphere[i].rgb.y = all.sphere[i].rgb.y + (all.light.ambient_l * all.light.ambient_rgb.y) / 50000;

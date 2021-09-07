@@ -31,7 +31,7 @@ int intersection_sp(t_vector camera, t_vector direction, t_sphere sphere, t_vect
 	/* t < 0			behind the camera
 	   0 <= t <= 1		between camera & projection plane
 	   t > 1 			in front of projection plane */
-	// intersection
+	// intersection:
 	if (t1 >= 0)
 		*t = t1;
 	else if (t2 >= 0)
