@@ -88,7 +88,7 @@ int main(int ac, char **av)
 			get_closest_t(&all, &P, &N, &all.t_min);
 			if (all.t_min < 1E99) // intersection
 			{
-				apply_light(&all);
+				light(&all, P, N);
 				my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1, get_color(all.nearest, all));
 			}
 			if (all.t_min == 1E99) // no intersection ever

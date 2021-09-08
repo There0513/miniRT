@@ -203,6 +203,9 @@ t_vector create_vec(double x, double y, double z);
 void	get_closest_t(t_all *all, t_vector *P, t_vector *N, double *t_min);
 void	cylinder_rotation(t_cylinder *cylinder);
 // int	visibility();
-void	apply_light(t_all *all);
+void	light(t_all *all, t_vector P, t_vector N);
 int		shadow_sp(t_all *all, t_sphere sphere, t_vector P, t_vector dir);
+int		shadow_cy(t_all *all, t_cylinder cylinder, t_vector P, t_vector dir);
+int		shadow_pl(t_all *all, t_plane plane, t_vector P, t_vector dir);
+
 #endif

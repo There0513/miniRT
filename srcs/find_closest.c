@@ -29,7 +29,7 @@ void get_closest_t(t_all *all, t_vector *P, t_vector *N, double *t_min)
 			{
 				all->nearest[0] = 's';
 				all->nearest[1] = 'p';
-				all->nearest[2] = i + 48; // nearest sphere/point [i]
+				all->nearest[2] = i + 48;
 				*t_min = t;
 				*P = all->closest.p_local;
 				*N = all->closest.n_local;
@@ -48,7 +48,7 @@ void get_closest_t(t_all *all, t_vector *P, t_vector *N, double *t_min)
 			{
 				all->nearest[0] = 'p';
 				all->nearest[1] = 'l';
-				all->nearest[2] = i + 48; // nearest sphere/point [i]
+				all->nearest[2] = i + 48;
 				*t_min = t;
 				*P = all->closest.p_local;
 				*N = all->closest.n_local;
@@ -67,7 +67,7 @@ void get_closest_t(t_all *all, t_vector *P, t_vector *N, double *t_min)
 			{
 				all->nearest[0] = 'c';
 				all->nearest[1] = 'y';
-				all->nearest[2] = i + 48; // nearest sphere/point [i]
+				all->nearest[2] = i + 48;
 				*t_min = t;
 				*P = all->closest.p_local;
 				*N = all->closest.n_local;

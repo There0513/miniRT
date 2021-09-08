@@ -37,3 +37,55 @@ int shadow_sp(t_all *all, t_sphere sphere, t_vector P, t_vector dir)
     }
     return (0);
 }
+
+// cy
+int shadow_cy(t_all *all, t_cylinder cylinder, t_vector P, t_vector dir)
+{
+    t_vector OV = add_min_operation('-', P, cylinder.vec); // Origin - Vec
+	double a = pow(dot(dir, cylinder.right), 2) + pow(dot(dir, cylinder.up), 2);
+	double b = 2 * (dot(dir, cylinder.right) * dot(OV, cylinder.right) + dot(dir, cylinder.up) * dot(OV, cylinder.up));
+	double c = pow(dot(OV, cylinder.right), 2) + pow(dot(OV, cylinder.up), 2) - pow(cylinder.radius, 2);
+	double delta = b * b - (4 * a * c);
+	if (delta < 0)
+		return (-1);
+	double t1 = (-b - sqrt(delta)) / (2.0 * a);
+	double t2 = (-b + sqrt(delta)) / (2.0 * a);
+
+	if (t1 > 0)
+	{
+		t_vector point = add_min_operation('+', P, mult_operation('*', t1, dir));
+		double z = dot(add_min_operation('-', point, cylinder.vec), cylinder.forward);
+		if (fabs(z) > cylinder.height / 2.0)
+			return (-1);
+		all->t_visib = t1;
+		return (1);
+	}
+	if (t2 > 0)
+	{
+		t_vector point = add_min_operation('+', P, mult_operation('*', t2, dir));
+		double z = dot(add_min_operation('-', point, cylinder.vec), cylinder.forward);
+		if (fabs(z) > cylinder.height / 2.0)
+			return (-1);
+		all->t_visib = t2;
+		return (1);
+	}
+	return (0);
+}
+
+// pl
+int shadow_pl(t_all *all, t_plane plane, t_vector P, t_vector dir)
+{
+    double tmp_t;
+    double a = dot(plane.orient, add_min_operation('-', P, plane.vec));
+	double b = dot(plane.orient, dir);
+
+	if (!b)
+		return (-1);
+	tmp_t = -a / b;
+	if (tmp_t >= 0)
+    {
+        all->t_visib = tmp_t;
+		return (1);
+    }
+    return (0);
+}

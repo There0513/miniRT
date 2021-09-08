@@ -40,8 +40,8 @@ int intersection_sp(t_vector camera, t_vector direction, t_sphere sphere, t_vect
 	*P = add_min_operation('+', camera, mult_operation('*', *t, direction)); // camera + t * direction		P = intersection point = ray origin + t * ray direction
 	*N = get_normalized(add_min_operation('-', *P, sphere.center));
 	if (dot(direction, *N) > 0)
-		printf("\tdot > 0 in sphere -> add line *N?!?\n");
-		// *N = get_normalized(mult_operation('*', -1, *N));
+		// printf("\tdot > 0 in sphere -> add line *N?!?\n");
+		*N = get_normalized(mult_operation('*', -1, *N));
 	return (1);
 }
 
@@ -53,8 +53,12 @@ int intersection_pl(t_vector camera, t_vector direction, t_plane plane, t_vector
 	if (!b)
 		return (-1);
 	*t = -a / b;
+	if (*t < 0)
+		return (-1);
 	*P = add_min_operation('+', camera, mult_operation('*', *t, direction)); // camera + t * direction		P = intersection point = ray origin + t * ray direction
 	*N = get_normalized(plane.orient);
+	if (dot(direction, *N) > 0)
+		*N = mult_operation('*', -1, *N);
 	return (1);
 }
 
@@ -83,6 +87,12 @@ int intersection_cy(t_vector camera, t_vector direction, t_cylinder cylinder, t_
 		if (fabs(z) > cylinder.height / 2.0)
 			return (-1);
 		*t = t1;
+		*P = add_min_operation('+', camera, mult_operation('*', *t, direction)); // camera + t * direction		P = intersection point = ray origin + t * ray direction
+		t_vector tmp = get_normalized(add_min_operation('-', *P, cylinder.vec));
+		*N = get_normalized(add_min_operation('-', tmp,
+											  mult_operation('*', dot(get_normalized(cylinder.orient), tmp), get_normalized(cylinder.orient))));
+		if (dot(direction, *N) > 0)
+			*N = get_normalized(mult_operation('*', -1, *N));
 		return (1);
 	}
 	if (t2 >= 0)
@@ -92,13 +102,13 @@ int intersection_cy(t_vector camera, t_vector direction, t_cylinder cylinder, t_
 		if (fabs(z) > cylinder.height / 2.0)
 			return (-1);
 		*t = t2;
+		*P = add_min_operation('+', camera, mult_operation('*', *t, direction)); // camera + t * direction		P = intersection point = ray origin + t * ray direction
+		t_vector tmp = get_normalized(add_min_operation('-', *P, cylinder.vec));
+		*N = get_normalized(add_min_operation('-', tmp,
+											  mult_operation('*', dot(get_normalized(cylinder.orient), tmp), get_normalized(cylinder.orient))));
+		if (dot(direction, *N) > 0)
+			*N = get_normalized(mult_operation('*', -1, *N));
 		return (1);
 	}
-	//-> manage light:
-	*P = add_min_operation('+', camera, mult_operation('*', *t, direction)); // camera + t * direction		P = intersection point = ray origin + t * ray direction
-	t_vector tmp = get_normalized(add_min_operation('-', *P, cylinder.vec));
-	*N = get_normalized(add_min_operation('-', tmp,
-										  mult_operation('*', dot(get_normalized(cylinder.orient), tmp), get_normalized(cylinder.orient))));
-	// .. more
-	return (1);
+	return (0);
 }
