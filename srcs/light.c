@@ -74,10 +74,6 @@ int visibility(t_all *all, t_vector P, t_vector N) // return 1 or 0
 void light(t_all *all, t_vector P, t_vector N)
 {
     t_vector PtoLight;
-    // printf("light closest.p_local = %f %f %f\n", P.x, P.y, P.z);
-    // if (all->nearest[0] == 'p' && all->nearest[1] == 'l')
-    //     PtoLight = add_min_operation('-', mult_operation('*', 1, all->light.point_l), P); // ?! useless
-    // else
     PtoLight = add_min_operation('-', all->light.point_l, P);
     normalize(&PtoLight); // v_light
     double is_visible = visibility(all, P, N);
@@ -92,11 +88,14 @@ void light(t_all *all, t_vector P, t_vector N)
     t_vector next = add_min_operation('-', all->light.point_l, P);
     all->closest.intensity = all->light.bright_l * dot(N, PtoLight) * is_visible /
                              pow(sqrt(getNorm2(&next)) / 100, 2);
+    // printf("mult = %f\n", pow(sqrt(getNorm2(&next)) / 100, 2) * 0.2);
     // all->closest.intensity = all->light.bright_l * dot(PtoLight, N) / getNorm2(&next) * 10000;
-    if (all->closest.intensity == 0.00)
+    if (all->closest.intensity < 0.00)
         all->closest.intensity = 0;
-    if (all->closest.intensity == 0)
-        all->closest.intensity = 1;
+    // if (all->closest.intensity == 0)
+    //     all->closest.intensity = 0;
+        // printf("%f\t", all->closest.intensity);
+    //     all->closest.intensity = 1;
 }
 
 // void    light_cy(t_all *all)

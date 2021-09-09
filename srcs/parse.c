@@ -187,8 +187,6 @@ int parse_rt(char *file, t_all *all)
 {
 	if (parsing_check(file, all) != 1)
 		return (-1);
-	printf("hello\n");
-	// malloc properly here !!!!!
 	all->sphere = malloc(all->checkrt.sp * sizeof(t_sphere));
 	all->plane = malloc(all->checkrt.pl * sizeof(t_plane));
 	all->cylinder = malloc(all->checkrt.cy * sizeof(t_cylinder));

@@ -316,8 +316,8 @@ int add_pl(char *line, t_all *all)
 	add_vec3(&all->plane[i].orient, split[2]);
 	rgb = ft_split(split[3], ',');
 	all->plane[i].rgb.x = ft_atof(rgb[0]);
-	all->plane[i].rgb.x = ft_atof(rgb[1]);
-	all->plane[i].rgb.x = ft_atof(rgb[2]);
+	all->plane[i].rgb.y = ft_atof(rgb[1]);
+	all->plane[i].rgb.z = ft_atof(rgb[2]);
 	// free while rgb i / split i ++ ?!
 	i = 0;
 	while (split[i])
