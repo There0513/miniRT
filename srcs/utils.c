@@ -20,51 +20,29 @@ void mlx_data_init(t_mlx *data, int width, int height)
 	data->addr = mlx_get_data_addr(data->img, &data->bpp, &data->ll, &data->endian);
 }
 
-void	rgb_min_max(int *r, int *g, int *b)
+void rgb_min_max(double *r, double *g, double *b)
 {
-	if (*r < 0)
-		*r = 0;
-	if (*g < 0)
-		*g = 0;
-	if (*b < 0)
-		*b = 0;
-	if (*r > 255)
-		*r = 255;
-	if (*g > 255)
-		*g = 255;
-	if (*b > 255)
-		*b = 255;
+	if (*r < 0.0)
+		*r = 0.0;
+	if (*g < 0.0)
+		*g = 0.0;
+	if (*b < 0.0)
+		*b = 0.0;
+	if (*r > 255.0)
+		*r = 255.0;
+	if (*g > 255.0)
+		*g = 255.0;
+	if (*b > 255.0)
+		*b = 255.0;
 }
 
-void	d_rgb_min_max(double *r, double *g, double *b)
+int rgb_to_int(double r, double g, double b, t_all all)
 {
-	if (*r < 0)
-		*r = 0;
-	if (*g < 0)
-		*g = 0;
-	if (*b < 0)
-		*b = 0;
-	if (*r > 255)
-		*r = 255;
-	if (*g > 255)
-		*g = 255;
-	if (*b > 255)
-		*b = 255;
-}
-
-int rgb_to_int(int r, int g, int b, t_all all)
-{
-	(void)all;
-	// rgb_min_max(&r, &g, &b);
-	// r += (r + all.light.ambient_l * all.light.ambient_rgb.x * all.closest.intensity);
-	// g += (g + all.light.ambient_l * all.light.ambient_rgb.y * all.closest.intensity);
-	// b += (b + all.light.ambient_l * all.light.ambient_rgb.z * all.closest.intensity);
-		// all.sphere[i].rgb.z = all.sphere[i].rgb.z + (all.light.ambient_l * all.light.ambient_rgb.z) / 50000;
-
-	// printf("r = %d g = %d b = %d\n", r, g, b);
-	// printf("test %f\n", all.light.ambient_l * all.light.ambient_rgb.x);
+	r = r + (all.light.ambient_l * all.light.ambient_rgb.x * all.closest.intensity);
+	g = g + (all.light.ambient_l * all.light.ambient_rgb.y * all.closest.intensity);
+	b = b + (all.light.ambient_l * all.light.ambient_rgb.z * all.closest.intensity);
 	rgb_min_max(&r, &g, &b);
-	return (r << 16 | g << 8 | b);
+	return ((int)r << 16 | (int)g << 8 | (int)b);
 }
 
 void my_mlx_pixel_put(t_mlx *data, int x, int y, int color)

@@ -184,7 +184,7 @@ void mlx_data_init(t_mlx *data, int width, int height);
 int intersection_sp(t_vector rayon, t_vector direction, t_sphere sphere, t_vector *P, t_vector *N, double *t);
 int intersection_pl(t_vector rayon, t_vector direction, t_plane plane, t_vector *P, t_vector *N, double *t);
 int intersection_cy(t_vector camera, t_vector direction, t_cylinder cylinder, t_vector *P, t_vector *N, double *t);
-int rgb_to_int(int r, int g, int b, t_all all);
+int rgb_to_int(double r, double g, double b, t_all all);
 void my_mlx_pixel_put(t_mlx *data, int x, int y, int color);
 double dot(t_vector a, t_vector b);
 double getNorm2(t_vector *sphere);
@@ -208,6 +208,6 @@ int		shadow_sp(t_all *all, t_sphere sphere, t_vector P, t_vector dir);
 int		shadow_cy(t_all *all, t_cylinder cylinder, t_vector P, t_vector dir);
 int		shadow_pl(t_all *all, t_plane plane, t_vector P, t_vector dir);
 void	d_rgb_min_max(double *r, double *g, double *b);
-void	rgb_min_max(int *r, int *g, int *b);
+void	rgb_min_max(double *r, double *g, double *b);
 
 #endif

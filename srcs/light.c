@@ -97,16 +97,3 @@ void light(t_all *all, t_vector P, t_vector N)
         // printf("%f\t", all->closest.intensity);
     //     all->closest.intensity = 1;
 }
-
-// void    light_cy(t_all *all)
-// {
-// }
-
-// void apply_light(t_all *all)
-// {
-// if (all->nearest[0] == 's' && all->nearest[1] == 'p')
-// light(all);
-// if (all->nearest[0] == 'c' && all->nearest[1] == 'y')
-// light_cy(all);
-// if (all->nearest[0] == 'p' && all->nearest[1] == 'l')
-// }

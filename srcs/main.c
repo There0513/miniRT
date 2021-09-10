@@ -39,37 +39,18 @@ int get_color(char *nearest, t_all all)
 {
 	int i;
 
+	// if (all.closest.intensity <= 0.0)
+	// 	all.closest.intensity = 0.08;
 	i = nearest[2] - 48;
 	if (nearest[0] == 's' && nearest[1] == 'p')
-	{
-		// printf("all.sphere[i].rgb.x * all.closest.intensity %f %f %f\n", all.sphere[i].rgb.x, all.closest.intensity, all.sphere[i].rgb.x * all.closest.intensity);
-		// printf("all.sphere[0].rgb.y += all.sphere[0].rgb.y * all.closest.intensity -> %f %f %f\n", all.sphere[0].rgb.y, all.sphere[0].rgb.y, all.closest.intensity);
-		// printf("sphere rgb = %f %f %f\n", all.sphere[i].rgb.x, all.sphere[i].rgb.y, all.sphere[i].rgb.z);
-		// all.sphere[i].rgb.x += all.sphere[i].rgb.x * all.closest.intensity;
-		// all.sphere[i].rgb.y += all.sphere[i].rgb.y * all.closest.intensity;
-		// all.sphere[i].rgb.z += all.sphere[i].rgb.z * all.closest.intensity;
-		// all.sphere[i].rgb.z = all.sphere[i].rgb.z + (all.light.ambient_l * all.light.ambient_rgb.z) / 50000;
-
-		all.sphere[i].rgb.x = all.sphere[i].rgb.x + (all.light.ambient_l * all.light.ambient_rgb.x) / 50000;
-		all.sphere[i].rgb.y = all.sphere[i].rgb.y + (all.light.ambient_l * all.light.ambient_rgb.y) / 50000;
-		all.sphere[i].rgb.z = all.sphere[i].rgb.z + (all.light.ambient_l * all.light.ambient_rgb.z) / 50000;
-		return (rgb_to_int(all.sphere[i].rgb.x * all.closest.intensity, all.sphere[i].rgb.y * all.closest.intensity, all.sphere[i].rgb.z * all.closest.intensity, all));
-		// return (rgb_to_int(all.sphere[i].rgb.x, all.sphere[i].rgb.y, all.sphere[i].rgb.z));
-	}
+		return (rgb_to_int(all.sphere[i].rgb.x * all.closest.intensity + all.sphere[i].rgb.x * 0.5, all.sphere[i].rgb.y * all.closest.intensity + all.sphere[i].rgb.y * 0.5, 
+			all.sphere[i].rgb.z * all.closest.intensity + all.sphere[i].rgb.z * 0.5, all));
 	if (nearest[0] == 'p' && nearest[1] == 'l')
-	{
-		all.plane[i].rgb.x = all.plane[i].rgb.x + (all.light.ambient_l * all.light.ambient_rgb.x) / 50000;
-		all.plane[i].rgb.y = all.plane[i].rgb.y + (all.light.ambient_l * all.light.ambient_rgb.y) / 50000;
-		all.plane[i].rgb.z = all.plane[i].rgb.z + (all.light.ambient_l * all.light.ambient_rgb.z) / 50000;
-		return (rgb_to_int(all.plane[i].rgb.x * all.closest.intensity, all.plane[i].rgb.y * all.closest.intensity, all.plane[i].rgb.z * all.closest.intensity, all));
-	}
+		return (rgb_to_int(all.plane[i].rgb.x * all.closest.intensity + all.plane[i].rgb.x * 0.5, all.plane[i].rgb.y * all.closest.intensity + all.plane[i].rgb.y * 0.5, 
+			all.plane[i].rgb.z * all.closest.intensity + all.plane[i].rgb.z * 0.5, all));
 	if (nearest[0] == 'c' && nearest[1] == 'y')
-	{
-		all.cylinder[i].rgb.x = all.cylinder[i].rgb.x + (all.light.ambient_l * all.light.ambient_rgb.x) / 50000;
-		all.cylinder[i].rgb.y = all.cylinder[i].rgb.y + (all.light.ambient_l * all.light.ambient_rgb.y) / 50000;
-		all.cylinder[i].rgb.z = all.cylinder[i].rgb.z + (all.light.ambient_l * all.light.ambient_rgb.z) / 50000;
-		return (rgb_to_int(all.cylinder[i].rgb.x * all.closest.intensity, all.cylinder[i].rgb.y * all.closest.intensity, all.cylinder[i].rgb.z * all.closest.intensity, all));
-	}
+		return (rgb_to_int(all.cylinder[i].rgb.x * all.closest.intensity + all.cylinder[i].rgb.x * 0.5, all.cylinder[i].rgb.y * all.closest.intensity + all.cylinder[i].rgb.y * 0.5, 
+			all.cylinder[i].rgb.z * all.closest.intensity + all.cylinder[i].rgb.z * 0.5, all));
 	return (16777215);
 }
 
@@ -88,7 +69,6 @@ int main(int ac, char **av)
 	N = create_vec(0, 0, 0);
 	if (parse_rt(av[1], &all) == -1)
 		return (0);
-	// printf("sphere rgb.y = %f \n", all.sphere[0].rgb.y);
 	// if width/height given -> change WIDTH_DEF / HEIGHT_DEF
 	mlx_data_init(&all.mlx, WIDTH_DEF, HEIGHT_DEF);
 	camera_rotation(&all.camera);
@@ -108,14 +88,9 @@ int main(int ac, char **av)
 				my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1, get_color(all.nearest, all));
 			}
 			if (all.t_min == 1E99) // no intersection ever
-			{
-				my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1,
-								 rgb_to_int(255 * all.light.ambient_l * all.light.ambient_rgb.x / 1000, 255 * all.light.ambient_l * all.light.ambient_rgb.y / 1000,
-											255 * all.light.ambient_l * all.light.ambient_rgb.z / 1000, all));
-			}
+				my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1, 0);
 		}
 	}
-	printf("end\n");
 	mlx_put_image_to_window(all.mlx.mlx, all.mlx.window, all.mlx.img, 0, 0);
 	mlx_hook(all.mlx.window, 33, 0, ft_exit, &all);
 	mlx_hook(all.mlx.window, 2, 1L, key_press, &all);

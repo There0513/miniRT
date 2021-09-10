@@ -62,6 +62,22 @@ int intersection_pl(t_vector camera, t_vector direction, t_plane plane, t_vector
 	return (1);
 }
 
+int inter_cy(t_vector camera, double t1, t_vector direction, t_cylinder cylinder, t_vector P, t_vector N, double t)
+{
+	t_vector point = add_min_operation('+', camera, mult_operation('*', t1, direction));
+	double z = dot(add_min_operation('-', point, cylinder.vec), cylinder.forward);
+	if (fabs(z) > cylinder.height / 2.0)
+		return (-1);
+	t = t1;
+	P = add_min_operation('+', camera, mult_operation('*', t, direction)); // camera + t * direction		P = intersection point = ray origin + t * ray direction
+	t_vector tmp = get_normalized(add_min_operation('-', P, cylinder.vec));
+	N = get_normalized(add_min_operation('-', tmp,
+										  mult_operation('*', dot(get_normalized(cylinder.orient), tmp), get_normalized(cylinder.orient))));
+	if (dot(direction, N) > 0)
+		N = get_normalized(mult_operation('*', -1, N));
+	return (1);
+}
+
 int intersection_cy(t_vector camera, t_vector direction, t_cylinder cylinder, t_vector *P, t_vector *N, double *t)
 {
 	cylinder_rotation(&cylinder);
@@ -82,18 +98,8 @@ int intersection_cy(t_vector camera, t_vector direction, t_cylinder cylinder, t_
 		*t = t2;*/
 	if (t1 >= 0)
 	{
-		t_vector point = add_min_operation('+', camera, mult_operation('*', t1, direction));
-		double z = dot(add_min_operation('-', point, cylinder.vec), cylinder.forward);
-		if (fabs(z) > cylinder.height / 2.0)
-			return (-1);
-		*t = t1;
-		*P = add_min_operation('+', camera, mult_operation('*', *t, direction)); // camera + t * direction		P = intersection point = ray origin + t * ray direction
-		t_vector tmp = get_normalized(add_min_operation('-', *P, cylinder.vec));
-		*N = get_normalized(add_min_operation('-', tmp,
-											  mult_operation('*', dot(get_normalized(cylinder.orient), tmp), get_normalized(cylinder.orient))));
-		if (dot(direction, *N) > 0)
-			*N = get_normalized(mult_operation('*', -1, *N));
-		return (1);
+		if (inter_cy(camera, t1, direction, cylinder, *P, *N, *t) == 1)
+			return (1);
 	}
 	if (t2 >= 0)
 	{
