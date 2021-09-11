@@ -458,6 +458,7 @@ int add_cy(char *line, t_all *all)	// add_xy -> change i for all of them
 	while (rgb[i])
 		free(rgb[i++]);
 	free(rgb);
+	// cylinder_rotation(&all->cylinder[i]);
 	all->checkrt.add_cy++;
 	return (ret);
 }

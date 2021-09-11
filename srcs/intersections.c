@@ -77,7 +77,6 @@ int inter_cy(t_vector camera, double t1, t_vector direction, t_cylinder cylinder
 		N = get_normalized(mult_operation('*', -1, N));
 	return (1);
 }
-
 int intersection_cy(t_vector camera, t_vector direction, t_cylinder cylinder, t_vector *P, t_vector *N, double *t)
 {
 	cylinder_rotation(&cylinder);
@@ -97,10 +96,8 @@ int intersection_cy(t_vector camera, t_vector direction, t_cylinder cylinder, t_
 	else
 		*t = t2;*/
 	if (t1 >= 0)
-	{
 		if (inter_cy(camera, t1, direction, cylinder, *P, *N, *t) == 1)
 			return (1);
-	}
 	if (t2 >= 0)
 	{
 		t_vector point = add_min_operation('+', camera, mult_operation('*', t2, direction));

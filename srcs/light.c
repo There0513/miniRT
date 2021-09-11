@@ -23,14 +23,30 @@ int visibility(t_all *all, t_vector P, t_vector N) // return 1 or 0
     P = add_min_operation('+', P, mult_operation('*', 0.0001, N));
     dir = get_normalized(add_min_operation('-', all->light.point_l, P));
     // printf("P = %f %f %f\tdir = %f %f %f\n", P.x, P.y, P.z, dir.x, dir.y, dir.z);
-    // check each obj:
+    i = -1;
+    while (++i < all->checkrt.pl)
+    {
+        if (shadow_pl(all, all->plane[i], P, dir) == 1)
+        {
+            P2 = add_min_operation('+', P, mult_operation('*', all->t_visib, dir));
+            t_vector light_p = add_min_operation('-', all->light.point_l, P);
+            t_vector p2_p = add_min_operation('-', P2, P);
+            a = sqrt(getNorm2(&light_p));
+            b = sqrt(getNorm2(&p2_p));
+            // printf("a = %f\tb = %f\n", a, b);
+            if (b < a)
+                return (0);
+        }
+    }
     i = -1;
     while (++i < all->checkrt.sp)
     {
         if (shadow_sp(all, all->sphere[i], P, dir) == 1)
         {
-            if (i == (all->nearest[2] - 48))
-                return (1);
+            // printf("alnearest2-48 = %d\n", all->nearest[2] - 48);
+            // if (i == 1)
+            // if (i == (all->nearest[2] - 48))
+                // return (1);
             P2 = add_min_operation('+', P, mult_operation('*', all->t_visib, dir));
             t_vector light_p = add_min_operation('-', all->light.point_l, P);
             t_vector p2_p = add_min_operation('-', P2, P);
@@ -44,20 +60,6 @@ int visibility(t_all *all, t_vector P, t_vector N) // return 1 or 0
     while (++i < all->checkrt.cy)
     {
         if (shadow_cy(all, all->cylinder[i], P, dir) == 1)
-        {
-            P2 = add_min_operation('+', P, mult_operation('*', all->t_visib, dir));
-            t_vector light_p = add_min_operation('-', all->light.point_l, P);
-            t_vector p2_p = add_min_operation('-', P2, P);
-            a = sqrt(getNorm2(&light_p));
-            b = sqrt(getNorm2(&p2_p));
-            if (b < a)
-                return (0);
-        }
-    }
-    i = -1;
-    while (++i < all->checkrt.pl)
-    {
-        if (shadow_pl(all, all->plane[i], P, dir) == 1)
         {
             P2 = add_min_operation('+', P, mult_operation('*', all->t_visib, dir));
             t_vector light_p = add_min_operation('-', all->light.point_l, P);
@@ -88,12 +90,9 @@ void light(t_all *all, t_vector P, t_vector N)
     t_vector next = add_min_operation('-', all->light.point_l, P);
     all->closest.intensity = all->light.bright_l * dot(N, PtoLight) * is_visible /
                              pow(sqrt(getNorm2(&next)) / 100, 2);
-    // printf("mult = %f\n", pow(sqrt(getNorm2(&next)) / 100, 2) * 0.2);
     // all->closest.intensity = all->light.bright_l * dot(PtoLight, N) / getNorm2(&next) * 10000;
     if (all->closest.intensity < 0.00)
         all->closest.intensity = 0;
     // if (all->closest.intensity == 0)
     //     all->closest.intensity = 0;
-        // printf("%f\t", all->closest.intensity);
-    //     all->closest.intensity = 1;
 }
