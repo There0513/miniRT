@@ -59,13 +59,15 @@ int visibility(t_all *all, t_vector P, t_vector N) // return 1 or 0
     i = -1;
     while (++i < all->checkrt.cy)
     {
-        if (shadow_cy(all, all->cylinder[i], P, dir) == 1)
+        if (shadow_cy(all, all->cylinder[i], P, dir) == 1)  // check printf here after!!!!!!!!!!!!!
         {
+            // printf("P = %f %f %f\n", P.x, P.y, P.z);
             P2 = add_min_operation('+', P, mult_operation('*', all->t_visib, dir));
             t_vector light_p = add_min_operation('-', all->light.point_l, P);
             t_vector p2_p = add_min_operation('-', P2, P);
             a = sqrt(getNorm2(&light_p));
             b = sqrt(getNorm2(&p2_p));
+            // printf("p2 = %f %f %f\ta = %f\tb = %f\n", P2.x, P2.y, P2.z, a, b);
             if (b < a)
                 return (0);
         }
@@ -73,7 +75,7 @@ int visibility(t_all *all, t_vector P, t_vector N) // return 1 or 0
     return (1);
 }
 
-void light(t_all *all, t_vector P, t_vector N)
+void light(t_all *all, t_vector P, t_vector N) // CHECK INTENTSITY FOR CY LIGHTNING
 {
     t_vector PtoLight;
     PtoLight = add_min_operation('-', all->light.point_l, P);
@@ -90,6 +92,8 @@ void light(t_all *all, t_vector P, t_vector N)
     t_vector next = add_min_operation('-', all->light.point_l, P);
     all->closest.intensity = all->light.bright_l * dot(N, PtoLight) * is_visible /
                              pow(sqrt(getNorm2(&next)) / 100, 2);
+    // printf("res = %f\n", all->light.bright_l * dot(N, PtoLight) * is_visible);
+    printf("\t / %f\n", pow(sqrt(getNorm2(&next)) / 100, 2));
     // all->closest.intensity = all->light.bright_l * dot(PtoLight, N) / getNorm2(&next) * 10000;
     if (all->closest.intensity < 0.00)
         all->closest.intensity = 0;

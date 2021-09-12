@@ -84,7 +84,7 @@ void	cylinder_rotation2(t_cylinder *cylinder)
 	tmp = create_vec(0, 0, -1);
 	cylinder->forward = get_normalized(cylinder->orient);
 	if (cylinder->forward.z == 1 || cylinder->forward.z == -1)
-		cylinder->right = create_vec(1, 0, 0);
+		cylinder->right = get_normalized(create_vec(1, 0, 0));
 	else
 		cylinder->right = cross_prod(get_normalized(tmp), cylinder->forward);
 	cylinder->up = cross_prod(cylinder->forward, cylinder->right);
@@ -98,16 +98,16 @@ void	cylinder_rotation(t_cylinder *cylinder)
 {
 	t_vector	tmp;
 
-	tmp = create_vec(0, 1, 0);
+	tmp = create_vec(0, -1, 0);
 	cylinder->forward = get_normalized(cylinder->orient);
 	if (cylinder->forward.y == 1 || cylinder->forward.y == -1)
-		cylinder->right = create_vec(1, 0, 0);
+		cylinder->right = get_normalized(create_vec(1, 0, 0));
 	else
-		cylinder->right = cross_prod(get_normalized(tmp), cylinder->forward);
+		cylinder->right = cross_prod(tmp, cylinder->forward);
 	cylinder->up = cross_prod(cylinder->forward, cylinder->right);
 	// normalize forward, right + up?!?!?!
 	normalize(&cylinder->forward); // OK
 	normalize(&cylinder->right);
-	normalize(&cylinder->up);
+	// normalize(&cylinder->up);
 //printf("up %f %f %f\n forward %f %f %f\n right %f %f %f\n", camera->up.x, camera->up.y,camera->up.z, camera->forward.x, camera->forward.y, camera->forward.z, camera->right.x, camera->right.y, camera->right.z);
 }
