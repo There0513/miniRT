@@ -51,7 +51,6 @@ int shad_cy(t_all *all, t_vector camera, double t, t_vector direction, t_cylinde
 
 int shadow_cy(t_all *all, t_cylinder cylinder, t_vector P, t_vector dir)
 {
-	cylinder_rotation2(&cylinder); // neccesairy for shadow cy
 	t_vector OV = add_min_operation('-', P, cylinder.vec); // Origin - Vec
 	double a = pow(dot(dir, cylinder.right), 2) + pow(dot(dir, cylinder.up), 2);
 	double b = 2 * (dot(dir, cylinder.right) * dot(OV, cylinder.right) + dot(dir, cylinder.up) * dot(OV, cylinder.up));

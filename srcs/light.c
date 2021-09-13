@@ -93,7 +93,7 @@ void light(t_all *all, t_vector P, t_vector N) // CHECK INTENTSITY FOR CY LIGHTN
     all->closest.intensity = all->light.bright_l * dot(N, PtoLight) * is_visible /
                              pow(sqrt(getNorm2(&next)) / 100, 2);
     // printf("res = %f\n", all->light.bright_l * dot(N, PtoLight) * is_visible);
-    printf("\t / %f\n", pow(sqrt(getNorm2(&next)) / 100, 2));
+    // printf("\t / %f\n", pow(sqrt(getNorm2(&next)) / 100, 2));
     // all->closest.intensity = all->light.bright_l * dot(PtoLight, N) / getNorm2(&next) * 10000;
     if (all->closest.intensity < 0.00)
         all->closest.intensity = 0;
