@@ -61,7 +61,7 @@ void get_closest_t(t_all *all, t_vector *P, t_vector *N, double *t_min)
 		t = 0;
 		all->closest.p_local = create_vec(0, 0, 0);
 		all->closest.n_local = create_vec(0, 0, 0);
-		if (intersection_cy(all->camera.cam, all->direction, &all->cylinder[i], &all->closest.p_local, &all->closest.n_local, &t) == 1)
+		if (intersection_cy(all, all->camera.cam, all->direction, &all->cylinder[i], &all->closest.p_local, &all->closest.n_local, &t) == 1)
 		{
 			if (t < *t_min && t >= 0)
 			{

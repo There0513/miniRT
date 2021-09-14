@@ -45,7 +45,6 @@ void	init_dir(t_vector *direction, int x, int y, double fov, t_camera camera)
 	tmp.z = WIDTH_DEF / (2 * tan(fov / 2));
 	direction->x = tmp.x * camera.right.x + tmp.y * camera.up.x + tmp.z * camera.forward.x;
 	direction->y = tmp.x * camera.right.y + tmp.y * camera.up.y + tmp.z * camera.forward.y;
-	// direction->x = tmp.x * camera.right.x + tmp.y * camera.up.x + tmp.z * camera.forward.x; ?!
 	direction->z = tmp.x * camera.right.z + tmp.y * camera.up.z + tmp.z * camera.forward.z;
 	normalize(direction);
 }
@@ -79,6 +78,25 @@ void	camera_rotation(t_camera *camera)
 }
 
 void	cylinder_rotation(t_cylinder *cylinder)
+{
+	t_vector	tmp;
+
+	tmp = create_vec(0, -1, 0);
+	cylinder->forward = get_normalized(cylinder->orient);
+	if (cylinder->forward.y == 1 || cylinder->forward.y == -1)
+		cylinder->right = get_normalized(create_vec(1, 0, 0));
+	else
+		cylinder->right = cross_prod(tmp, cylinder->forward);
+	cylinder->up = cross_prod(cylinder->forward, cylinder->right);
+	// normalize forward, right + up?!?!?!
+	normalize(&cylinder->forward); // OK
+	normalize(&cylinder->right);
+	normalize(&cylinder->up);
+//printf("up %f %f %f\n forward %f %f %f\n right %f %f %f\n", camera->up.x, camera->up.y,camera->up.z, camera->forward.x, camera->forward.y, camera->forward.z, camera->right.x, camera->right.y, camera->right.z);
+}
+
+
+void	cylinder_rotation2(t_cylinder *cylinder)
 {
 	t_vector	tmp;
 

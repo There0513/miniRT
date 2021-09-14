@@ -43,14 +43,17 @@ int get_color(char *nearest, t_all all)
 	// 	all.closest.intensity = 0.08;
 	i = nearest[2] - 48;
 	if (nearest[0] == 's' && nearest[1] == 'p')
-		return (rgb_to_int(all.sphere[i].rgb.x * all.closest.intensity + all.sphere[i].rgb.x * 0.5, all.sphere[i].rgb.y * all.closest.intensity + all.sphere[i].rgb.y * 0.5, 
-			all.sphere[i].rgb.z * all.closest.intensity + all.sphere[i].rgb.z * 0.5, all));
+		return (rgb_to_int(all.sphere[i].rgb.x * all.closest.intensity + all.sphere[i].rgb.x * 0.3, all.sphere[i].rgb.y * all.closest.intensity + all.sphere[i].rgb.y * 0.3,
+						   all.sphere[i].rgb.z * all.closest.intensity + all.sphere[i].rgb.z * 0.3, all));
 	if (nearest[0] == 'p' && nearest[1] == 'l')
-		return (rgb_to_int(all.plane[i].rgb.x * all.closest.intensity + all.plane[i].rgb.x * 0.5, all.plane[i].rgb.y * all.closest.intensity + all.plane[i].rgb.y * 0.5, 
-			all.plane[i].rgb.z * all.closest.intensity + all.plane[i].rgb.z * 0.5, all));
+		return (rgb_to_int(all.plane[i].rgb.x * all.closest.intensity + all.plane[i].rgb.x * 0.3, all.plane[i].rgb.y * all.closest.intensity + all.plane[i].rgb.y * 0.3,
+						   all.plane[i].rgb.z * all.closest.intensity + all.plane[i].rgb.z * 0.3, all));
 	if (nearest[0] == 'c' && nearest[1] == 'y')
-		return (rgb_to_int(all.cylinder[i].rgb.x * all.closest.intensity + all.cylinder[i].rgb.x * 0.5, all.cylinder[i].rgb.y * all.closest.intensity + all.cylinder[i].rgb.y * 0.5, 
-			all.cylinder[i].rgb.z * all.closest.intensity + all.cylinder[i].rgb.z * 0.5, all));
+	{
+		// printf("br = %f\n", all.cylinder->br);
+		return (rgb_to_int(all.cylinder[i].rgb.x * all.closest.intensity + all.cylinder[i].rgb.x * 0.3, all.cylinder[i].rgb.y * all.closest.intensity + all.cylinder[i].rgb.y * 0.3,
+						   all.cylinder[i].rgb.z * all.closest.intensity + all.cylinder[i].rgb.z * 0.3, all));
+	}
 	return (16777215);
 }
 
@@ -79,16 +82,18 @@ int main(int ac, char **av)
 			all.t_min = 1E99;
 			init_dir(&all.direction, x, y, all.camera.fov, all.camera);
 			all.nearest[0] = '\0';
-			all.closest.n_local = create_vec(0, 0, 0);
-			all.closest.p_local = create_vec(0, 0, 0);
+			// all.closest.n_local = create_vec(0, 0, 0);
+			// all.closest.p_local = create_vec(0, 0, 0);
+			// all.cylinder->br = 1;
 			get_closest_t(&all, &P, &N, &all.t_min);
 			if (all.t_min < 1E99) // intersection
 			{
 				light(&all, P, N);
-				my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1, get_color(all.nearest, all));
+				my_mlx_pixel_put(&all.mlx, x, y, get_color(all.nearest, all));
 			}
 			if (all.t_min == 1E99) // no intersection ever
-				my_mlx_pixel_put(&all.mlx, x, HEIGHT_DEF - y - 1, 0);
+				my_mlx_pixel_put(&all.mlx, x, y, 0);
+			// all.closest.intensity = 0;
 		}
 	}
 	mlx_put_image_to_window(all.mlx.mlx, all.mlx.window, all.mlx.img, 0, 0);
