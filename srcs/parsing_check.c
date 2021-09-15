@@ -444,6 +444,7 @@ int add_cy(char *line, t_all *all)	// add_xy -> change i for all of them
 	split = ft_split(line, ' ');
 	add_vec3(&all->cylinder[i].vec, split[1]);
 	add_vec3(&all->cylinder[i].orient, split[2]);
+	// normalize(&all->cylinder[i].orient);
 	all->cylinder[i].radius = ft_atof(split[3]) / 2;
 	all->cylinder[i].height = ft_atof(split[4]);
 	rgb = ft_split(split[5], ',');

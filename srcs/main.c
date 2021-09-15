@@ -77,6 +77,10 @@ int main(int ac, char **av)
 	camera_rotation(&all.camera);
 	for (int y = 0; y < HEIGHT_DEF; y++)
 	{
+	// if (all.light.point_l.y > 0)
+		// all.cylinder->br = 1;
+	// if (all.light.point_l.y < 0)
+		// all.cylinder->br = 0;
 		for (int x = 0; x < WIDTH_DEF; x++)
 		{
 			all.t_min = 1E99;
@@ -84,7 +88,7 @@ int main(int ac, char **av)
 			all.nearest[0] = '\0';
 			// all.closest.n_local = create_vec(0, 0, 0);
 			// all.closest.p_local = create_vec(0, 0, 0);
-			// all.cylinder->br = 1;
+			// all.closest.intensity = 0;
 			get_closest_t(&all, &P, &N, &all.t_min);
 			if (all.t_min < 1E99) // intersection
 			{
