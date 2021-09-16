@@ -14,85 +14,85 @@
 
 int ft_strlen(const char *str)
 {
-    int i;
+	int i;
 
-    i = 0;
-    while (str[i])
-        i++;
-    return (i);
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
 }
 
 char *ft_strdup(const char *str)
 {
-    char *ptr;
-    int i;
+	char *ptr;
+	int i;
 
-    i = 0;
-    ptr = malloc((ft_strlen(str) + 1) * sizeof(char));
-    if (!ptr)
-        return (0);
-    while (str[i])
-    {
-        ptr[i] = str[i];
-        i++;
-    }
-    ptr[i] = '\0';
-    return (ptr);
+	i = 0;
+	ptr = malloc((ft_strlen(str) + 1) * sizeof(char));
+	if (!ptr)
+		return (0);
+	while (str[i])
+	{
+		ptr[i] = str[i];
+		i++;
+	}
+	ptr[i] = '\0';
+	return (ptr);
 }
 
 char *ft_strjoin(const char *s1, const char *s2)
 {
-    char *ptr;
-    int i;
-    int j;
+	char *ptr;
+	int i;
+	int j;
 
-    i = 0;
-    j = 0;
-    ptr = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
-    if (!ptr)
-        return (0);
-    while (s1[i])
-    {
-        ptr[i] = s1[i];
-        i++;
-    }
-    while (s2[j])
-    {
-        ptr[i + j] = s2[j];
-        j++;
-    }
-    ptr[i + j] = '\0';
-    return (ptr);
+	i = 0;
+	j = 0;
+	ptr = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (!ptr)
+		return (0);
+	while (s1[i])
+	{
+		ptr[i] = s1[i];
+		i++;
+	}
+	while (s2[j])
+	{
+		ptr[i + j] = s2[j];
+		j++;
+	}
+	ptr[i + j] = '\0';
+	return (ptr);
 }
 
 char *ft_substr(const char *str, int start, int len)
 {
-    char *ptr;
-    int i;
+	char *ptr;
+	int i;
 
-    i = 0;
-    if (!str)
-        return (0);
-    ptr = malloc((len + 1) * sizeof(char));
-    if (!ptr)
-        return (0);
-    if (start >= ft_strlen(str))
-        return (ptr);
-    while (i < len && str[start])
-    {
-        ptr[i] = str[start];
-        i++;
-        start++;
-    }
-    ptr[i] = '\0';
-    return (ptr);
+	i = 0;
+	if (!str)
+		return (0);
+	ptr = malloc((len + 1) * sizeof(char));
+	if (!ptr)
+		return (0);
+	if (start >= ft_strlen(str))
+		return (ptr);
+	while (i < len && str[start])
+	{
+		ptr[i] = str[start];
+		i++;
+		start++;
+	}
+	ptr[i] = '\0';
+	return (ptr);
 }
 
-int	ft_atoi(const char *str)
+int ft_atoi(const char *str)
 {
-	int		i;
-	int		neg;
-	long	res;
+	int i;
+	int neg;
+	long res;
 
 	i = 0;
 	neg = 1;
@@ -116,11 +116,45 @@ int	ft_atoi(const char *str)
 	return (res * neg);
 }
 
-int		ft_get_words(char const *str, char c)
+int ft_is_space(char c)
 {
-	int		words;
-	int		i;
+	if (c == 32 || (c >= 9 && c <= 13))
+		return (1);
+	return (0);
+}
 
+int ft_get_words_tab(char const *str)
+{
+	int words;
+	int i;
+
+	if (ft_is_space(str[0]))
+		words = 0;
+	else
+		words = 1;
+	i = 1;
+	while (str[i])
+	{
+		while (str[i] && ft_is_space(str[i]) == 1)
+			i++;
+		if (str[i] && !ft_is_space(str[i]) && ft_is_space(str[i - 1]) == 1)		
+		{
+			words++;
+			i++;
+		}
+		while (str[i] && !ft_is_space(str[i]))
+			i++;
+	}
+	return (words);
+}
+
+int ft_get_words(char const *str, char c)
+{
+	int words;
+	int i;
+
+	if (c == ' ')
+		return (ft_get_words_tab(str));
 	if (str[0] == c)
 		words = 0;
 	else
@@ -141,18 +175,16 @@ int		ft_get_words(char const *str, char c)
 	return (words);
 }
 
-char	**ft_split(char const *str, char c)
+char **ft_split(char const *str, char c)
 {
-	int		i;
-	int		i_res;
-	char	**res;
-	int		len;
+	int i;
+	int i_res;
+	char **res;
+	int len;
 
 	i = 0;
 	i_res = -1;
-	// printf("str in split = %s\n", str);
-	res = malloc((ft_get_words(str, c) + 1) * sizeof(char*));
-	// printf("ft_split\twords = %d\n", ft_get_words(str, c));
+	res = malloc((ft_get_words(str, c) + 1) * sizeof(char *));
 	if (!str || !res)
 		return (0);
 	while (str[i] && ft_get_words(str, c) > 0)
@@ -172,9 +204,9 @@ char	**ft_split(char const *str, char c)
 	return (res);
 }
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	size_t	i;
+	size_t i;
 
 	i = 0;
 

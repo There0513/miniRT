@@ -51,8 +51,8 @@ int visibility(t_all *all, t_vector P, t_vector N) // return 1 or 0
         if (shadow_cy(all, &all->cylinder[i], P, dir) == 1) // check printf here after!!!!!!!!!!!!!
         {
             // condition here?!
-            // if (all->nearest[0] == 's' && i+1 == all->checkrt.cy)
-            //     return (0);
+            if (all->nearest[0] == 's' && i+1 == all->checkrt.cy)
+                return (0);
             if (all->nearest[0] == 'c')
                 return (1);
             P2 = add_min_operation('+', P, mult_operation('*', all->t_visib, dir));

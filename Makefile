@@ -46,7 +46,7 @@ OBJS	=	${SRCS:.c=.o}
 
 $(NAME):	${OBJS}
 		@make --silent -C ./mlx_linux/
-		@${CC} ${CFLAGS} -fsanitize=address ${OBJS} mlx_linux/libmlx.a -L/mlx_linux -L/usr/lib -Imlx_linux -I$(INCL) -lXext -lX11 -lm -o ${NAME}
+		@${CC} ${CFLAGS} ${OBJS} mlx_linux/libmlx.a -L/mlx_linux -L/usr/lib -Imlx_linux -I$(INCL) -lXext -lX11 -lm -o ${NAME}
 
 all:		${NAME}
 

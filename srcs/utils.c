@@ -12,12 +12,21 @@
 
 #include "header.h"
 
-void mlx_data_init(t_mlx *data, int width, int height)
+int mlx_data_init(t_mlx *data, int width, int height)
 {
 	data->mlx = mlx_init();
+	if (!data->mlx)
+		return (-1);
 	data->window = mlx_new_window(data->mlx, width, height, "miniRT");
+	if (!data->window)
+		return (-1);
 	data->img = mlx_new_image(data->mlx, width, height);
+	if (!data->img)
+		return (-1);
 	data->addr = mlx_get_data_addr(data->img, &data->bpp, &data->ll, &data->endian);
+	if (!data->addr)
+		return (-1);
+	return (1);
 }
 
 void rgb_min_max(double *r, double *g, double *b)

@@ -20,13 +20,6 @@
 #include <mlx.h>
 #include <math.h>
 
-/*
- ** 1080p default resolution
- */
-
-#define WIDTH_DEF 520
-#define HEIGHT_DEF 480
-
 typedef struct s_vector
 {
 	double x;
@@ -121,6 +114,8 @@ typedef	struct	s_closest
 
 typedef	struct	s_all
 {
+	int			width;
+	int			height;
 	t_mlx		mlx;
 	int			pars;	// pars == 0 -> parsing_check	pars == 1 -> parsing_add
 	t_checkrt	checkrt;
@@ -182,7 +177,7 @@ float	ft_atof(char *str);
 
 
 // PARSING END ____________________________
-void mlx_data_init(t_mlx *data, int width, int height);
+int mlx_data_init(t_mlx *data, int width, int height);
 int intersection_sp(t_vector rayon, t_vector direction, t_sphere sphere, t_vector *P, t_vector *N, double *t);
 int intersection_pl(t_vector rayon, t_vector direction, t_plane plane, t_vector *P, t_vector *N, double *t);
 int intersection_cy(t_all *all, t_vector camera, t_vector direction, t_cylinder *cylinder, t_vector *P, t_vector *N, double *t);
@@ -199,7 +194,7 @@ void init_spheres(t_sphere *sphere, t_sphere *sphere2, t_sphere *sphere3, t_sphe
 // t_list *get_scenes_lst(t_list *scenes, t_all all);
 // t_list *ft_create_elem(t_sphere *sphere);
 // t_list *add_elem(t_list *scenes, t_sphere sphere);
-void init_dir(t_vector *direction, int x, int y, double fov, t_camera camera);
+void init_dir(t_all all, t_vector *direction, int x, int y, double fov, t_camera camera);
 void camera_rotation(t_camera *camera);
 t_vector create_vec(double x, double y, double z);
 void	get_closest_t(t_all *all, t_vector *P, t_vector *N, double *t_min);
@@ -214,5 +209,7 @@ int shad_cy(t_all *all, t_vector camera, double t1, t_vector direction, t_cylind
 int		shadow_pl(t_all *all, t_plane plane, t_vector P, t_vector dir);
 void	d_rgb_min_max(double *r, double *g, double *b);
 void	rgb_min_max(double *r, double *g, double *b);
+int	ft_exit(t_all *all);
+int	ft_is_space(char c);
 
 #endif

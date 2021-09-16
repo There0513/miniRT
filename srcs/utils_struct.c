@@ -14,6 +14,8 @@
 
 void	init_all(t_all *all)	// to avoid error message not initialized
 {
+	all->width = 1920;
+	all->height = 1080;
 	all->checkrt.A = 0;
 	all->checkrt.C = 0;
 	all->checkrt.L = 0;
@@ -25,24 +27,13 @@ void	init_all(t_all *all)	// to avoid error message not initialized
 	all->checkrt.add_cy = 0;
 }
 
-// t_list	*ft_create_elem(t_sphere *sphere)
-// {
-// 	t_list	*scenes;
-
-// 	if (!(scenes = malloc(sizeof(t_list))))
-// 		return (0);
-// 		scenes->sp = *sphere;
-// 		scenes->next = 0;
-// 		return (scenes);
-// }
-
-void	init_dir(t_vector *direction, int x, int y, double fov, t_camera camera)
+void	init_dir(t_all all, t_vector *direction, int x, int y, double fov, t_camera camera)
 {
 	t_vector	tmp;
 
-	tmp.x = x - WIDTH_DEF / 2;
-	tmp.y = (HEIGHT_DEF / 2) - y;
-	tmp.z = WIDTH_DEF / (2 * tan(fov / 2));
+	tmp.x = x - all.width / 2;
+	tmp.y = (all.height / 2) - y;
+	tmp.z = all.width / (2 * tan(fov / 2));
 	direction->x = tmp.x * camera.right.x + tmp.y * camera.up.x + tmp.z * camera.forward.x;
 	direction->y = tmp.x * camera.right.y + tmp.y * camera.up.y + tmp.z * camera.forward.y;
 	direction->z = tmp.x * camera.right.z + tmp.y * camera.up.z + tmp.z * camera.forward.z;

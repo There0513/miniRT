@@ -123,6 +123,34 @@ int add_vec3(t_vector *vec, char *line)
 	return (1);
 }
 
+void free_all(char **split)
+{
+	int i = 0;
+
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+}
+
+int check_space(char **split, int x)
+{
+	int i;
+
+	i = 0;
+	while (split[i])
+		i++;
+	if (i != x)
+	{
+		free_all(split);
+		printf("Error\nspace between or too few data in your .rt file!\n");
+		return (-1);
+	}
+	return (1);
+}
+
 int check_ambient(char *line, t_all *all)
 {
 	char **split;
@@ -134,6 +162,8 @@ int check_ambient(char *line, t_all *all)
 		ret = -1;
 	all->checkrt.A = 1;
 	split = ft_split(line, ' ');
+	if (check_space(split, 2) != 1)
+		return (-1);
 	if (!ft_is_float(split[0]))
 	{
 		printf("error here 1\n");
@@ -195,6 +225,8 @@ int check_camera(char *line, t_all *all)
 		ret = -1;
 	all->checkrt.C = 1;
 	split = ft_split(line, ' ');
+	if (check_space(split, 3) != 1)
+		return (-1);
 	check_vec3(split[0]);
 	check_vec3(split[1]);
 	split2 = ft_split(split[1], ',');
@@ -243,6 +275,8 @@ int check_light(char *line, t_all *all)
 		ret = -1;
 	all->checkrt.L = 1;
 	split = ft_split(line, ' ');
+	if (check_space(split, 3) != 1)
+		return (-1);
 	int i = -1;
 	if (check_vec3(split[0]) == -1) // all check_vec3 if =1 -> ret = -1
 		ret = -1;
@@ -284,6 +318,8 @@ int check_pl(char *line, t_all *all)
 	ret = 0;
 	all->checkrt.pl++;
 	split = ft_split(line, ' ');
+	if (check_space(split, 4) != 1)
+		return (-1);
 	check_vec3(split[1]); // all check_vec3 if =1 -> ret = -1
 	check_vec3(split[2]);
 	split2 = ft_split(split[2], ',');
@@ -339,6 +375,8 @@ int check_sp(char *line, t_all *all)
 	ret = 0;
 	all->checkrt.sp++;
 	split = ft_split(line, ' ');
+	if (check_space(split, 4) != 1)
+		return (-1);
 	check_vec3(split[1]);
 	if (!ft_is_float(split[2]))
 		ret = -1;
@@ -389,6 +427,8 @@ int check_cy(char *line, t_all *all)
 	ret = 0;
 	all->checkrt.cy++;
 	split = ft_split(line, ' ');
+	if (check_space(split, 6) != 1)
+		return (-1);
 	check_vec3(split[1]);
 	split2 = ft_split(split[2], ',');
 	t_vector tmp = create_vec(ft_atof(split2[0]), ft_atof(split2[1]), ft_atof(split2[2]));
@@ -433,13 +473,13 @@ int check_cy(char *line, t_all *all)
 	return (ret);
 }
 // coord	orient	diameter	height	rgb
-int add_cy(char *line, t_all *all)	// add_xy -> change i for all of them
+int add_cy(char *line, t_all *all) // add_xy -> change i for all of them
 {
 	char **split;
 	char **rgb;
 	int ret;
 	int i = all->checkrt.add_cy;
-	
+
 	ret = 0;
 	split = ft_split(line, ' ');
 	add_vec3(&all->cylinder[i].vec, split[1]);
