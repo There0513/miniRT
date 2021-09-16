@@ -91,8 +91,6 @@ int main(int ac, char **av)
 			all.t_min = 1E99;
 			init_dir(all, &all.direction, x, y, all.camera.fov, all.camera);
 			all.nearest[0] = '\0';
-			// all.closest.n_local = create_vec(0, 0, 0);
-			// all.closest.p_local = create_vec(0, 0, 0);
 			all.closest.intensity = 0;
 			get_closest_t(&all, &P, &N, &all.t_min);
 			if (all.t_min < 1E99) // intersection
@@ -102,14 +100,12 @@ int main(int ac, char **av)
 			}
 			if (all.t_min == 1E99) // no intersection ever
 				my_mlx_pixel_put(&all.mlx, x, y, 0);
-			// all.closest.intensity = 0;
 		}
 	}
 	mlx_put_image_to_window(all.mlx.mlx, all.mlx.window, all.mlx.img, 0, 0);
 	mlx_hook(all.mlx.window, 33, 0, ft_exit, &all);
 	mlx_hook(all.mlx.window, 2, 1L, key_press, &all);
 	mlx_hook(all.mlx.window, 15, 1L << 16, minim_wind, &all);
-
 	mlx_loop(all.mlx.mlx);
 	return (0);
 }
