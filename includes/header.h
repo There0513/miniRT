@@ -117,6 +117,8 @@ typedef struct s_all
 {
 	int width;
 	int height;
+	t_vector	P;
+	t_vector	N;
 	t_mlx mlx;
 	int pars;
 	t_checkrt checkrt;
@@ -127,10 +129,10 @@ typedef struct s_all
 	t_cylinder *cylinder;
 	t_vector direction;
 	double t_min;
+	double	t_tmp;
 	double t_visib;
 	t_closest closest;
 	char nearest[50];
-
 } t_all;
 
 void print_struct(t_all all);
@@ -177,9 +179,9 @@ int ft_atoi(const char *str);
 float ft_atof(char *str);
 // PARSING END ____________________________
 int mlx_data_init(t_mlx *data, int width, int height);
-int intersection_sp(t_vector rayon, t_vector direction, t_sphere sphere, t_vector *P, t_vector *N, double *t);
-int intersection_pl(t_vector rayon, t_vector direction, t_plane plane, t_vector *P, t_vector *N, double *t);
-int intersection_cy(t_all *all, t_vector camera, t_vector direction, t_cylinder *cylinder, t_vector *P, t_vector *N, double *t);
+int intersection_sp(t_all *all, t_vector rayon, t_vector direction, t_sphere sphere, t_vector *P, t_vector *N);
+int intersection_pl(t_all *all, t_vector rayon, t_vector direction, t_plane plane, t_vector *P, t_vector *N);
+int intersection_cy(t_all *all, t_cylinder *cylinder);
 int rgb_to_int(double r, double g, double b, t_all all);
 void my_mlx_pixel_put(t_mlx *data, int x, int y, int color);
 double dot(t_vector a, t_vector b);
@@ -192,13 +194,13 @@ void init_spheres(t_sphere *sphere, t_sphere *sphere2, t_sphere *sphere3, t_sphe
 void init_dir(t_all all, t_vector *direction, int x, int y, double fov, t_camera camera);
 void camera_rotation(t_camera *camera);
 t_vector create_vec(double x, double y, double z);
-void get_closest_t(t_all *all, t_vector *P, t_vector *N, double *t_min);
+void get_closest_t(t_all *all, double *t_min);
 void cylinder_rotation(t_cylinder *cylinder);
 void cylinder_rotation2(t_cylinder cylinder);
-void light(t_all *all, t_vector P, t_vector N);
+void light(t_all *all);
 int shadow_sp(t_all *all, t_sphere sphere, t_vector P, t_vector dir);
 int shadow_cy(t_all *all, t_cylinder *cylinder, t_vector P, t_vector dir);
-int inter_cy(t_vector camera, double t1, t_vector direction, t_cylinder *cylinder, t_vector *P, t_vector *N, double t);
+int inter_cy(t_all *all, double t12, t_cylinder *cylinder);
 int shad_cy(t_all *all, t_vector camera, double t1, t_vector direction, t_cylinder cylinder);
 int shadow_pl(t_all *all, t_plane plane, t_vector P, t_vector dir);
 void d_rgb_min_max(double *r, double *g, double *b);

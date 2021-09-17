@@ -16,6 +16,8 @@ void	init_all(t_all *all)	// to avoid error message not initialized
 {
 	all->width = 1920;
 	all->height = 1080;
+	all->P = create_vec(0, 0, 0);
+	all->N = create_vec(0, 0, 0);
 	all->checkrt.A = 0;
 	all->checkrt.C = 0;
 	all->checkrt.L = 0;

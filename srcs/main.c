@@ -60,16 +60,14 @@ int get_color(char *nearest, t_all all)
 int main(int ac, char **av)
 {
 	t_all all;
-	t_vector P, N;
+	// t_vector P, N; == all->P / N
 
 	if (ac != 2)
 	{
 		printf("Error\nPlease use the program with a valid .rt file -> ./minirt scene.rt\n");
 		return (0);
 	}
-	init_all(&all); // all->checkrt.xy
-	P = create_vec(0, 0, 0);
-	N = create_vec(0, 0, 0);
+	init_all(&all);
 	if (parse_rt(av[1], &all) == -1)
 	{
 		printf("Error\nParsing error.\n");
@@ -92,10 +90,10 @@ int main(int ac, char **av)
 			init_dir(all, &all.direction, x, y, all.camera.fov, all.camera);
 			all.nearest[0] = '\0';
 			all.closest.intensity = 0;
-			get_closest_t(&all, &P, &N, &all.t_min);
+			get_closest_t(&all, &all.t_min);
 			if (all.t_min < 1E99) // intersection
 			{
-				light(&all, P, N);
+				light(&all);
 				my_mlx_pixel_put(&all.mlx, x, y, get_color(all.nearest, all));
 			}
 			if (all.t_min == 1E99) // no intersection ever

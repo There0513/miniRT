@@ -84,13 +84,13 @@ int visibility(t_all *all, t_vector P, t_vector N) // return 1 or 0
     return (1);
 }
 
-void light(t_all *all, t_vector P, t_vector N) // CHECK INTENTSITY FOR CY LIGHTNING
+void light(t_all *all) // CHECK INTENTSITY FOR CY LIGHTNING
 {
     t_vector PtoLight;
-    PtoLight = add_min_operation('-', all->light.point_l, P);
+    PtoLight = add_min_operation('-', all->light.point_l, all->P);
     normalize(&PtoLight); // v_light
-    double is_visible = visibility(all, P, N);
-    // double dotdot = dot(PtoLight, N);
+    double is_visible = visibility(all, all->P,all->N);
+    // double dotdot = dot(PtoLight,all->N);
     // if (dotdot < 0)	// -> in the 'shadow'/darkside		is visible?! function
     //     {
     //         all->closest.intensity = 0;
@@ -98,8 +98,8 @@ void light(t_all *all, t_vector P, t_vector N) // CHECK INTENTSITY FOR CY LIGHTN
     //     }
     // for getNorm2:
     //       all->light.bright_l += all->light.bright_l * dotdot / (sqrt(getNorm2(&N)) * sqrt(getNorm2(&PtoLight)));
-    t_vector next = add_min_operation('-', all->light.point_l, P);
-    all->closest.intensity = all->light.bright_l * dot(N, PtoLight) * is_visible /
+    t_vector next = add_min_operation('-', all->light.point_l, all->P);
+    all->closest.intensity = all->light.bright_l * dot(all->N, PtoLight) * is_visible /
                              pow(sqrt(getNorm2(&next)) / 100, 2);
     // printf("res = %f\n", all->light.bright_l * dot(N, PtoLight) * is_visible);
     // printf("\t / %f\n", pow(sqrt(getNorm2(&next)) / 100, 2));
