@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 16:09:12 by threiss           #+#    #+#             */
-/*   Updated: 2021/09/17 21:50:26 by threiss          ###   ########.fr       */
+/*   Updated: 2021/09/17 22:24:29 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,12 +123,13 @@ typedef struct visibility
 
 typedef struct intersection
 {
-	double	a;
-	double	b;
-	double	c;
-	double	delta;
-	double	t1;
-	double	t2;
+	double		a;
+	double		b;
+	double		c;
+	double		delta;
+	double		t1;
+	double		t2;
+	t_vector	oc;
 }	t_inters;
 
 /*
@@ -230,5 +231,6 @@ void		d_rgb_min_max(double *r, double *g, double *b);
 void		rgb_min_max(double *r, double *g, double *b);
 int			ft_exit(t_all *all);
 int			ft_is_space(char c);
+int			ret_error_msg(char *msg, int ret);
 
 #endif

@@ -6,20 +6,20 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 12:18:54 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/23 17:41:40 by threiss          ###   ########.fr       */
+/*   Updated: 2021/09/17 23:19:46 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int check_range(float nb, float min, float max)
+int	check_range(float nb, float min, float max)
 {
 	if (nb < min || nb > max)
 		return (-1);
 	return (1);
 }
 
-int check_vec_range(t_vector *vec, float min, float max)
+int	check_vec_range(t_vector *vec, float min, float max)
 {
 	if (vec->x < min || vec->x > max)
 		return (-1);
@@ -30,10 +30,10 @@ int check_vec_range(t_vector *vec, float min, float max)
 	return (1);
 }
 
-int check_comma(char *str)
+int	check_comma(char *str)
 {
-	int i;
-	int c;
+	int	i;
+	int	c;
 
 	i = -1;
 	c = 0;
@@ -43,11 +43,11 @@ int check_comma(char *str)
 	return (c);
 }
 
-int check_color(char *line)
+int	check_color(char *line)
 {
-	int i;
-	char **split;
-	int ret;
+	int		i;
+	char	**split;
+	int		 ret;
 
 	ret = 0;
 	i = -1;
@@ -83,11 +83,11 @@ int check_color(char *line)
 	return (ret);
 }
 
-int check_vec3(char *line)
+int	check_vec3(char *line)
 {
-	char **split;
-	int ret;
-	int i;
+	char	**split;
+	int		ret;
+	int		i;
 
 	ret = 0;
 	i = 0;
@@ -107,10 +107,10 @@ int check_vec3(char *line)
 	return (ret);
 }
 
-int add_vec3(t_vector *vec, char *line)
+int	add_vec3(t_vector *vec, char *line)
 {
-	char **split;
-	int i;
+	char	**split;
+	int		i;
 
 	split = ft_split(line, ','); // -50	0	20
 	vec->x = ft_atof(split[0]);
@@ -123,10 +123,11 @@ int add_vec3(t_vector *vec, char *line)
 	return (1);
 }
 
-void free_all(char **split)
+void	free_all(char **split)
 {
-	int i = 0;
-
+	int	i;
+	
+	i = 0;
 	while (split[i])
 	{
 		free(split[i]);
@@ -135,9 +136,9 @@ void free_all(char **split)
 	free(split);
 }
 
-int check_space(char **split, int x)
+int	check_space(char **split, int x)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (split[i])
@@ -151,11 +152,11 @@ int check_space(char **split, int x)
 	return (1);
 }
 
-int check_ambient(char *line, t_all *all)
+int	check_ambient(char *line, t_all *all)
 {
-	char **split;
-	int ret;
-	int i;
+	char	**split;
+	int		ret;
+	int		i;
 
 	ret = 0;
 	if (all->checkrt.a)
@@ -189,12 +190,12 @@ int check_ambient(char *line, t_all *all)
 	return (ret);
 }
 
-int add_ambient(char *line, t_all *all)
+int	add_ambient(char *line, t_all *all)
 {
-	char **split;
-	char **rgb;
-	int ret;
-	int i;
+	char	**split;
+	char	**rgb;
+	int		ret;
+	int		i;
 
 	ret = 0;
 	split = ft_split(line, ' ');
@@ -214,11 +215,11 @@ int add_ambient(char *line, t_all *all)
 	return (ret);
 }
 
-int check_camera(char *line, t_all *all)
+int	check_camera(char *line, t_all *all)
 {
-	char **split;
-	char **split2;
-	int ret;
+	char	**split;
+	char	**split2;
+	int		ret;
 
 	ret = 0;
 	if (all->checkrt.c)
@@ -248,10 +249,10 @@ int check_camera(char *line, t_all *all)
 	return (ret);
 }
 
-int add_camera(char *line, t_all *all)
+int	add_camera(char *line, t_all *all)
 {
-	char **split;
-	int ret;
+	char	**split;
+	int		ret;
 
 	ret = 0;
 	split = ft_split(line, ' ');
@@ -265,10 +266,11 @@ int add_camera(char *line, t_all *all)
 	return (ret);
 }
 
-int check_light(char *line, t_all *all)
+int	check_light(char *line, t_all *all)
 {
-	char **split;
-	int ret;
+	char	**split;
+	int		ret;
+	int		i;
 
 	ret = 0;
 	if (all->checkrt.l)
@@ -277,10 +279,9 @@ int check_light(char *line, t_all *all)
 	split = ft_split(line, ' ');
 	if (check_space(split, 3) != 1)
 		return (-1);
-	int i = -1;
+	i = -1;
 	if (check_vec3(split[0]) == -1) // all check_vec3 if =1 -> ret = -1
 		ret = -1;
-	// check light brightness:
 	if (!ft_is_float(split[1]))
 		ret = -1;
 	if (ft_atof(split[1]) < 0 || ft_atof(split[1]) > 1)
@@ -292,28 +293,29 @@ int check_light(char *line, t_all *all)
 	return (ret);
 }
 
-int add_light(char *line, t_all *all)
+int	add_light(char *line, t_all *all)
 {
-	char **split;
-	int ret;
+	char	**split;
+	int		ret;
+	int		i;
 
 	ret = 0;
 	split = ft_split(line, ' ');
 	add_vec3(&all->light.point_l, split[0]);
 	all->light.bright_l = ft_atof(split[1]);
-	// light_rgb = bonus
-	int i = 0;
+	i = 0;
 	while (split[i])
 		free(split[i++]);
 	free(split);
 	return (ret);
 }
 
-int check_pl(char *line, t_all *all)
+int	check_pl(char *line, t_all *all)
 {
-	char **split;
-	char **split2;
-	int ret;
+	char	**split;
+	char	**split2;
+	int		ret;
+	int		i;
 
 	ret = 0;
 	all->checkrt.pl++;
@@ -328,7 +330,7 @@ int check_pl(char *line, t_all *all)
 		ret = -1;
 	if (check_color(split[3]) == -1)
 		ret = -1;
-	int i = 0;
+	i = 0;
 	while (split[i])
 		free(split[i++]);
 	free(split);
@@ -339,13 +341,14 @@ int check_pl(char *line, t_all *all)
 	return (ret);
 }
 
-int add_pl(char *line, t_all *all)
+int	add_pl(char *line, t_all *all)
 {
-	char **split;
-	char **rgb;
-	int ret;
-	int i = all->checkrt.add_pl; // adapte i or i--
-
+	char	**split;
+	char	**rgb;
+	int		ret;
+	int		i;
+	
+	i = all->checkrt.add_pl;
 	ret = 0;
 	split = ft_split(line, ' ');
 	add_vec3(&all->pl[i].vec, split[1]);
@@ -354,7 +357,6 @@ int add_pl(char *line, t_all *all)
 	all->pl[i].rgb.x = ft_atof(rgb[0]);
 	all->pl[i].rgb.y = ft_atof(rgb[1]);
 	all->pl[i].rgb.z = ft_atof(rgb[2]);
-	// free while rgb i / split i ++ ?!
 	i = 0;
 	while (split[i])
 		free(split[i++]);
@@ -366,11 +368,11 @@ int add_pl(char *line, t_all *all)
 	all->checkrt.add_pl++;
 	return (ret);
 }
-// coord	diameter	rgb
-int check_sp(char *line, t_all *all)
+
+int	check_sp(char *line, t_all *all)
 {
-	char **split;
-	int ret;
+	char	**split;
+	int		ret;
 
 	ret = 0;
 	all->checkrt.sp++;
@@ -391,13 +393,14 @@ int check_sp(char *line, t_all *all)
 	return (ret);
 }
 
-int add_sp(char *line, t_all *all)
+int	add_sp(char *line, t_all *all)
 {
-	char **split;
-	char **rgb;
-	int ret;
-	int i = all->checkrt.add_sp;
-
+	char	**split;
+	char	**rgb;
+	int		ret;
+	int		i;
+	
+	i = all->checkrt.add_sp;
 	ret = 0;
 	split = ft_split(line, ' ');
 	add_vec3(&all->sp[i].center, split[1]);
@@ -418,11 +421,11 @@ int add_sp(char *line, t_all *all)
 	return (ret);
 }
 
-int check_cy(char *line, t_all *all)
+int	check_cy(char *line, t_all *all)
 {
-	char **split;
-	char **split2;
-	int ret;
+	char	**split;
+	char	**split2;
+	int		ret;
 
 	ret = 0;
 	all->checkrt.cy++;
@@ -472,14 +475,15 @@ int check_cy(char *line, t_all *all)
 	free(split2);
 	return (ret);
 }
-// coord	orient	diameter	height	rgb
-int add_cy(char *line, t_all *all) // add_xy -> change i for all of them
-{
-	char **split;
-	char **rgb;
-	int ret;
-	int i = all->checkrt.add_cy;
 
+int	add_cy(char *line, t_all *all)
+{
+	char	**split;
+	char	**rgb;
+	int		ret;
+	int		i;
+	
+	i = all->checkrt.add_cy;
 	ret = 0;
 	split = ft_split(line, ' ');
 	add_vec3(&all->cy[i].vec, split[1]);
@@ -499,9 +503,7 @@ int add_cy(char *line, t_all *all) // add_xy -> change i for all of them
 	while (rgb[i])
 		free(rgb[i++]);
 	free(rgb);
-	// cylinder_rotation(&all->cy[i]);
 	all->checkrt.add_cy++;
 	return (ret);
 }
-
 // if check_vec3 == -1 -> ret = -1; !!!!

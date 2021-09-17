@@ -6,13 +6,13 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 14:09:49 by threiss           #+#    #+#             */
-/*   Updated: 2021/09/17 18:11:43 by threiss          ###   ########.fr       */
+/*   Updated: 2021/09/17 22:07:13 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int ft_exit(t_all *all)
+int	ft_exit(t_all *all)
 {
 	printf("Goodbye\n");
 	free(all->sp);
@@ -26,22 +26,22 @@ int ft_exit(t_all *all)
 	return (1);
 }
 
-int key_press(unsigned int key, t_all *all)
+int	key_press(unsigned int key, t_all *all)
 {
 	if (key == 65307)
 		ft_exit(all);
 	return (0);
 }
 
-int minim_wind(t_all *all)
+int	minim_wind(t_all *all)
 {
 	mlx_put_image_to_window(all->mlx.mlx, all->mlx.window, all->mlx.img, 0, 0);
 	return (0);
 }
 
-int get_color(char *nearest, t_all *all, double intens)
+int	get_color(char *nearest, t_all *all, double intens)
 {
-	int i;
+	int	i;
 
 	i = nearest[2] - 48;
 	if (nearest[0] == 's' && nearest[1] == 'p')
@@ -59,14 +59,14 @@ int get_color(char *nearest, t_all *all, double intens)
 	return (16777215);
 }
 
-int ret_error_msg(char *msg, int ret)
+int	ret_error_msg(char *msg, int ret)
 {
 	printf("Error\n");
 	printf("%s\n", msg);
 	return (ret);
 }
 
-int checker(int ac, t_all *all, char *file)
+int	checker(int ac, t_all *all, char *file)
 {
 	if (ac != 2)
 		return (ret_error_msg("Please use the program with a .rt file.", 0));
@@ -83,7 +83,7 @@ int checker(int ac, t_all *all, char *file)
 	return (1);
 }
 
-void mini_go(t_all *all)
+void	mini_go(t_all *all)
 {
 	int	y;
 	int	x;
@@ -99,21 +99,21 @@ void mini_go(t_all *all)
 			all->nearest[0] = '\0';
 			all->closest.intens = 0;
 			get_closest_t(all);
-			if (all->t_min < 1E99) // intersection
+			if (all->t_min < 1E99)
 			{
 				light(all);
 				my_mlx_pixel_put(&all->mlx, x, y, get_color(all->nearest, all,
 						all->closest.intens));
 			}
-			if (all->t_min == 1E99) // no intersection ever
+			if (all->t_min == 1E99)
 				my_mlx_pixel_put(&all->mlx, x, y, 0);
 		}
 	}
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
-	t_all all;
+	t_all	all;
 
 	if (checker(ac, &all, av[1]) != 1)
 		return (0);

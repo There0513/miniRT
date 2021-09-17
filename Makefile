@@ -18,15 +18,13 @@ SRCS_NAMES	=	main.c \
 			get_next_line.c \
 			parse.c \
 			parsing_check.c \
-			parsing_add.c \
 			utils_parsing.c \
 			lib.c \
 			find_closest.c \
 			intersections.c \
 			light.c \
 			shades.c \
-		#	camera.c \
-
+			
 INCL	=	./includes/
 
 NAME	= 	miniRT

@@ -6,32 +6,31 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 16:11:12 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/11 13:31:33 by threiss          ###   ########.fr       */
+/*   Updated: 2021/09/17 22:24:58 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
 /*
-**	intersection_sp() solve a * t ^ 2 + b * t + c = 0
-**
-**	t2 < 0 -> no intersection
-**	t < 0			behind the camera
-**	0 <= t <= 1		between camera & projection plane
-**	t > 1 			in front of projection plane
-**
-**	P = intersection point = ray origin + t * ray direction
-*/
+ **	intersection_sp() solve a * t ^ 2 + b * t + c = 0
+ **
+ **	t2 < 0 -> no intersection
+ **	t < 0			behind the camera
+ **	0 <= t <= 1		between camera & projection plane
+ **	t > 1 			in front of projection plane
+ **
+ **	P = intersection point = ray origin + t * ray direction
+ */
 
-int intersection_sp(t_all *all, t_sphere sphere)
+int	intersection_sp(t_all *all, t_sphere sp)
 {
-	t_vector OC;
-	t_inters tab;
+	t_inters	tab;
 
-	OC = calc_op('-', all->camera.cam, sphere.center);
+	tab.oc = calc_op('-', all->camera.cam, sp.center);
 	tab.a = dot(all->dir, all->dir);
-	tab.b = 2 * dot(all->dir, OC);
-	tab.c = pow(sqrt(dot(OC, OC)), 2) - sphere.radius * sphere.radius;
+	tab.b = 2 * dot(all->dir, tab.oc);
+	tab.c = pow(sqrt(dot(tab.oc, tab.oc)), 2) - sp.radius * sp.radius;
 	tab.delta = tab.b * tab.b - (4 * tab.a * tab.c);
 	if (tab.delta < 0)
 		return (-1);
@@ -43,16 +42,19 @@ int intersection_sp(t_all *all, t_sphere sphere)
 		all->t_tmp = tab.t1;
 	else if (tab.t2 >= 0)
 		all->t_tmp = tab.t2;
-	all->closest.p_local = calc_op('+', all->camera.cam, mult_op('*', all->t_tmp, all->dir));
-	all->closest.n_local = get_normalized(calc_op('-', all->closest.p_local, sphere.center));
+	all->closest.p_local = calc_op('+', all->camera.cam,
+			mult_op('*', all->t_tmp, all->dir));
+	all->closest.n_local = get_normalized(calc_op('-',
+				all->closest.p_local, sp.center));
 	if (dot(all->dir, all->closest.n_local) > 0)
-		all->closest.n_local = get_normalized(mult_op('*', -1, all->closest.n_local));
+		all->closest.n_local = get_normalized(mult_op('*', -1,
+					all->closest.n_local));
 	return (1);
 }
 
-int intersection_pl(t_all *all, t_plane plane)
+int	intersection_pl(t_all *all, t_plane plane)
 {
-	t_inters tab;
+	t_inters	tab;
 
 	tab.a = dot(plane.orient, calc_op('-', all->camera.cam, plane.vec));
 	tab.b = dot(plane.orient, all->dir);
@@ -61,52 +63,58 @@ int intersection_pl(t_all *all, t_plane plane)
 	all->t_tmp = -tab.a / tab.b;
 	if (all->t_tmp < 0)
 		return (-1);
-	all->closest.p_local = calc_op('+', all->camera.cam, mult_op('*', all->t_tmp, all->dir));
+	all->closest.p_local = calc_op('+', all->camera.cam,
+			mult_op('*', all->t_tmp, all->dir));
 	all->closest.n_local = get_normalized(plane.orient);
 	if (dot(all->dir, all->closest.n_local) > 0)
 		all->closest.n_local = mult_op('*', -1, all->closest.n_local);
 	return (1);
 }
 
-int inter_cy(t_all *all, double t12, t_cylinder *cylinder)
+int	inter_cy(t_all *all, double t12, t_cylinder *cylinder)
 {
-	t_vector point;
-	t_vector tmp;
-	double z;
+	t_vector	point;
+	t_vector	tmp;
+	double		z;
 
 	point = calc_op('+', all->camera.cam, mult_op('*', t12, all->dir));
 	z = dot(calc_op('-', point, cylinder->vec), cylinder->forward);
 	if (fabs(z) > cylinder->height / 2.0)
 		return (-1);
 	all->t_tmp = t12;
-	all->closest.p_local = calc_op('+', all->camera.cam, mult_op('*', all->t_tmp, all->dir));
+	all->closest.p_local = calc_op('+', all->camera.cam,
+			mult_op('*', all->t_tmp, all->dir));
 	tmp = get_normalized(calc_op('-', all->closest.p_local, cylinder->vec));
 	all->closest.n_local = get_normalized(calc_op('-', tmp,
-												  mult_op('*', dot(get_normalized(cylinder->orient), tmp), get_normalized(cylinder->orient))));
+				mult_op('*', dot(get_normalized(cylinder->orient), tmp),
+					get_normalized(cylinder->orient))));
 	if (dot(all->dir, all->closest.n_local) > 0)
-		all->closest.n_local = get_normalized(mult_op('*', -1, all->closest.n_local));
+		all->closest.n_local = get_normalized(mult_op('*', -1,
+					all->closest.n_local));
 	return (1);
 }
 
 /*
-**	if (t2 < 0)
-**	return (-1); // pas d'intersection
-**	if (t1 > 0)
-**	*t = t1;
-**	else
-**	*t = t2;
-*/
+ **	if (t2 < 0)
+ **	return (-1); // pas d'intersection
+ **	if (t1 > 0)
+ **	*t = t1;
+ **	else
+ **	*t = t2;
+ */
 
-int intersection_cy(t_all *all, t_cylinder *cy)
+int	intersection_cy(t_all *all, t_cylinder *cy)
 {
-	t_vector OV;
-	t_inters tab;
+	t_vector	ov;
+	t_inters	tab;
 
 	cylinder_rotation(cy);
-	OV = calc_op('-', all->camera.cam, cy->vec);
+	ov = calc_op('-', all->camera.cam, cy->vec);
 	tab.a = pow(dot(all->dir, cy->right), 2) + pow(dot(all->dir, cy->up), 2);
-	tab.b = 2 * (dot(all->dir, cy->right) * dot(OV, cy->right) + dot(all->dir, cy->up) * dot(OV, cy->up));
-	tab.c = pow(dot(OV, cy->right), 2) + pow(dot(OV, cy->up), 2) - pow(cy->radius, 2);
+	tab.b = 2 * (dot(all->dir, cy->right) * dot(ov, cy->right)
+			+ dot(all->dir, cy->up) * dot(ov, cy->up));
+	tab.c = pow(dot(ov, cy->right), 2) + pow(dot(ov, cy->up), 2)
+		- pow(cy->radius, 2);
 	tab.delta = tab.b * tab.b - 4 * tab.a * tab.c;
 	if (tab.delta < 0)
 		return (-1);

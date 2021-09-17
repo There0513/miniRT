@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 15:29:43 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/26 12:38:33 by threiss          ###   ########.fr       */
+/*   Updated: 2021/09/17 22:08:06 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 **	function gets t_min of all objects
 */
 
-void closest_cy(t_all *all, t_cylinder *cylinder, int i)
+void	closest_cy(t_all *all, t_cylinder *cylinder, int i)
 {
 	all->t_tmp = 0;
 	all->closest.p_local = create_vec(0, 0, 0);
@@ -35,7 +35,7 @@ void closest_cy(t_all *all, t_cylinder *cylinder, int i)
 	}
 }
 
-void closest_sp(t_all *all, t_sphere sphere, int i)
+void	closest_sp(t_all *all, t_sphere sphere, int i)
 {
 	all->t_tmp = 0;
 	all->closest.p_local = create_vec(0, 0, 0);
@@ -54,7 +54,7 @@ void closest_sp(t_all *all, t_sphere sphere, int i)
 	}
 }
 
-void closest_pl(t_all *all, t_plane plane, int i)
+void	closest_pl(t_all *all, t_plane plane, int i)
 {
 	all->t_tmp = 0;
 	all->closest.p_local = create_vec(0, 0, 0);
@@ -73,13 +73,13 @@ void closest_pl(t_all *all, t_plane plane, int i)
 	}
 }
 
-void get_closest_t(t_all *all)
+void	get_closest_t(t_all *all)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (++i < all->checkrt.cy)
-		closest_cy(all, &all->cy[i], i); // &addr for rotation
+		closest_cy(all, &all->cy[i], i);
 	i = -1;
 	while (++i < all->checkrt.sp)
 		closest_sp(all, all->sp[i], i);

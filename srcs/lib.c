@@ -6,15 +6,15 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 14:06:18 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/22 17:26:45 by threiss          ###   ########.fr       */
+/*   Updated: 2021/09/17 22:28:02 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int ft_strlen(const char *str)
+int	ft_strlen(const char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -22,10 +22,10 @@ int ft_strlen(const char *str)
 	return (i);
 }
 
-char *ft_strdup(const char *str)
+char	*ft_strdup(const char *str)
 {
-	char *ptr;
-	int i;
+	char	*ptr;
+	int		i;
 
 	i = 0;
 	ptr = malloc((ft_strlen(str) + 1) * sizeof(char));
@@ -40,11 +40,11 @@ char *ft_strdup(const char *str)
 	return (ptr);
 }
 
-char *ft_strjoin(const char *s1, const char *s2)
+char	*ft_strjoin(const char *s1, const char *s2)
 {
-	char *ptr;
-	int i;
-	int j;
+	char	*ptr;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
@@ -65,10 +65,10 @@ char *ft_strjoin(const char *s1, const char *s2)
 	return (ptr);
 }
 
-char *ft_substr(const char *str, int start, int len)
+char	*ft_substr(const char *str, int start, int len)
 {
-	char *ptr;
-	int i;
+	char	*ptr;
+	int		i;
 
 	i = 0;
 	if (!str)
@@ -88,11 +88,11 @@ char *ft_substr(const char *str, int start, int len)
 	return (ptr);
 }
 
-int ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
-	int i;
-	int neg;
-	long res;
+	int		i;
+	int		neg;
+	long	res;
 
 	i = 0;
 	neg = 1;
@@ -116,17 +116,17 @@ int ft_atoi(const char *str)
 	return (res * neg);
 }
 
-int ft_is_space(char c)
+int	ft_is_space(char c)
 {
 	if (c == 32 || (c >= 9 && c <= 13))
 		return (1);
 	return (0);
 }
 
-int ft_get_words_tab(char const *str)
+int	ft_get_words_tab(char const *str)
 {
-	int words;
-	int i;
+	int	words;
+	int	i;
 
 	if (ft_is_space(str[0]))
 		words = 0;
@@ -137,7 +137,7 @@ int ft_get_words_tab(char const *str)
 	{
 		while (str[i] && ft_is_space(str[i]) == 1)
 			i++;
-		if (str[i] && !ft_is_space(str[i]) && ft_is_space(str[i - 1]) == 1)		
+		if (str[i] && !ft_is_space(str[i]) && ft_is_space(str[i - 1]) == 1)
 		{
 			words++;
 			i++;
@@ -148,10 +148,10 @@ int ft_get_words_tab(char const *str)
 	return (words);
 }
 
-int ft_get_words(char const *str, char c)
+int	ft_get_words(char const *str, char c)
 {
-	int words;
-	int i;
+	int	words;
+	int	i;
 
 	if (c == ' ')
 		return (ft_get_words_tab(str));
@@ -176,15 +176,15 @@ int ft_get_words(char const *str, char c)
 }
 
 /*
-**	c = 32
-*/
+ **	c = 32
+ */
 
-char **ft_split(char const *str, char c)
+char	**ft_split(char const *str, char c)
 {
-	int i;
-	int i_res;
-	char **res;
-	int len;
+	int		i;
+	int		i_res;
+	char	**res;
+	int		len;
 
 	i = 0;
 	i_res = -1;
@@ -208,16 +208,15 @@ char **ft_split(char const *str, char c)
 	return (res);
 }
 
-int ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
-
 	if (n == 0)
 		return (0);
 	while (((unsigned char *)s1)[i] && ((unsigned char *)s2)[i] &&
-		((unsigned char *)s1)[i] == ((unsigned char *)s2)[i])
+			((unsigned char *)s1)[i] == ((unsigned char *)s2)[i])
 		i++;
 	return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
 }
