@@ -12,100 +12,112 @@
 
 #include "header.h"
 
-int visibility(t_all *all, t_vector P, t_vector N) // return 1 or 0
-{
-    int i;
-    t_vector dir;
-    t_vector P2;
-    double a, b;
+// condition here: if objs in front of sphere -> return (1);
+// if ((i + 1) == all->checkrt.sp) // not ok for spheres shadaow
+// if (i == all->nearest[2] - 48 || (i + 1) == all->checkrt.sp)
+// if (i == all->nearest[2] - 48 && all->nearest[0] == 's')
+// if (all->nearest[0] == 'c' || i + 1 == all->checkrt.sp)
+// if (i == all->nearest[2] - 48 && all->nearest[1] == 'p')
+//     return (1);
 
-    P = add_min_operation('+', P, mult_operation('*', 0.0001, N));
-    dir = get_normalized(add_min_operation('-', all->light.point_l, P));
-    i = -1;
-    while (++i < all->checkrt.sp)
+int visib_sp(t_all all, t_vector P, t_visib vis, t_sphere sp)
+{
+    if (shadow_sp(&all, sp, P, vis.dir) == 1)
     {
-        if (shadow_sp(all, all->sphere[i], P, dir) == 1)
-        {   // when cy befor -> no shadow
-            if (all->nearest[0] == 'c')
-                return (1);
-            // condition here: if objs in front of sphere -> return (1);
-            // if ((i + 1) == all->checkrt.sp) // not ok for spheres shadaow
-            // if (i == all->nearest[2] - 48 || (i + 1) == all->checkrt.sp)
-            // if (i == all->nearest[2] - 48 && all->nearest[0] == 's')
-            // if (all->nearest[0] == 'c' || i + 1 == all->checkrt.sp)
-            // if (i == all->nearest[2] - 48 && all->nearest[1] == 'p')
-            //     return (1);
-            P2 = add_min_operation('+', P, mult_operation('*', all->t_visib, dir));
-            t_vector light_p = add_min_operation('-', all->light.point_l, P);
-            t_vector p2_p = add_min_operation('-', P2, P);
-            a = sqrt(getNorm2(&light_p));
-            b = sqrt(getNorm2(&p2_p));
-            if (b < a)
-                return (0);
-        }
+        if (all.nearest[0] == 'c')
+            return (1);
+        vis.p2 = calc_op('+', P, mult_op('*', all.t_visib, vis.dir));
+        vis.light_p = calc_op('-', all.light.point_l, P);
+        vis.p2_p = calc_op('-', vis.p2, P);
+        vis.a = sqrt(getNorm2(&vis.light_p));
+        vis.b = sqrt(getNorm2(&vis.p2_p));
+        if (vis.b < vis.a)
+            return (0);
     }
-    i = -1;
-    // rotation ?!
-    while (++i < all->checkrt.cy)
+    return (2);
+}
+
+int visib_cy(t_all all, t_visib vis, t_cylinder *cy)
+{
+    if (shadow_cy(&all, cy, vis.dir) == 1)
     {
-        if (shadow_cy(all, &all->cylinder[i], P, dir) == 1) // check printf here after!!!!!!!!!!!!!
-        {
-            // condition here?!
-            if (all->nearest[0] == 's' && i+1 == all->checkrt.cy)
-                return (0);
-            if (all->nearest[0] == 'c')
-                return (1);
-            P2 = add_min_operation('+', P, mult_operation('*', all->t_visib, dir));
-            t_vector light_p = add_min_operation('-', all->light.point_l, P);
-            t_vector p2_p = add_min_operation('-', P2, P);
-            a = sqrt(getNorm2(&light_p));
-            b = sqrt(getNorm2(&p2_p));
-            if (b < a)
-                return (0);
-        }
+        if (all.nearest[0] == 's' && vis.i + 1 == all.checkrt.cy)
+            return (0);
+        if (all.nearest[0] == 'c')
+            return (1);
+        vis.p2 = calc_op('+', all.p, mult_op('*', all.t_visib, vis.dir));
+        vis.light_p = calc_op('-', all.light.point_l, all.p);
+        vis.p2_p = calc_op('-', vis.p2, all.p);
+        vis.a = sqrt(getNorm2(&vis.light_p));
+        vis.b = sqrt(getNorm2(&vis.p2_p));
+        if (vis.b < vis.a)
+            return (0);
     }
-    i = -1;
-    while (++i < all->checkrt.pl)
+    return (2);
+}
+
+int visib_pl(t_all all, t_vector P, t_visib vis, t_plane pl)
+{
+    if (shadow_pl(&all, pl, P, vis.dir) == 1)
     {
-        if (shadow_pl(all, all->plane[i], P, dir) == 1)
-        {
-            // condition here?!
-            if (all->nearest[0] == 'c')
-                return (1);
-            P2 = add_min_operation('+', P, mult_operation('*', all->t_visib, dir));
-            t_vector light_p = add_min_operation('-', all->light.point_l, P);
-            t_vector p2_p = add_min_operation('-', P2, P);
-            a = sqrt(getNorm2(&light_p));
-            b = sqrt(getNorm2(&p2_p));
-            if (b < a)
-                return (0);
-        }
+        if (all.nearest[0] == 'c')
+            return (1);
+        vis.p2 = calc_op('+', P, mult_op('*', all.t_visib, vis.dir));
+        vis.light_p = calc_op('-', all.light.point_l, P);
+        vis.p2_p = calc_op('-', vis.p2, P);
+        vis.a = sqrt(getNorm2(&vis.light_p));
+        vis.b = sqrt(getNorm2(&vis.p2_p));
+        if (vis.b < vis.a)
+            return (0);
+    }
+    return (2);
+}
+
+/*
+**  visibility() returns 0 or 1
+*/
+
+int visibility(t_all *all)
+{
+    t_visib vis;
+
+    vis.dir = get_normalized(calc_op('-', all->light.point_l, all->p));
+    vis.i = -1;
+    while (++vis.i < all->checkrt.sp)
+    {
+        vis.ret = visib_sp(*all, all->p, vis, *all->sp);
+        if (vis.ret != 2)
+            return (vis.ret);
+    }
+    vis.i = -1;
+    while (++vis.i < all->checkrt.cy)
+    {
+        vis.ret = visib_cy(*all, vis, all->cy);
+        if (vis.ret != 2)
+            return (vis.ret);
+    }
+    vis.i = -1;
+    while (++vis.i < all->checkrt.pl)
+    {
+        vis.ret = visib_pl(*all, all->p, vis, *all->pl);
+        if (vis.ret != 2)
+            return (vis.ret);
     }
     return (1);
 }
 
-void light(t_all *all) // CHECK INTENTSITY FOR CY LIGHTNING
+void light(t_all *all)
 {
+    double is_visible;
+
     t_vector PtoLight;
-    PtoLight = add_min_operation('-', all->light.point_l, all->P);
-    normalize(&PtoLight); // v_light
-    double is_visible = visibility(all, all->P,all->N);
-    // double dotdot = dot(PtoLight,all->N);
-    // if (dotdot < 0)	// -> in the 'shadow'/darkside		is visible?! function
-    //     {
-    //         all->closest.intensity = 0;
-    //         return ;
-    //     }
-    // for getNorm2:
-    //       all->light.bright_l += all->light.bright_l * dotdot / (sqrt(getNorm2(&N)) * sqrt(getNorm2(&PtoLight)));
-    t_vector next = add_min_operation('-', all->light.point_l, all->P);
-    all->closest.intensity = all->light.bright_l * dot(all->N, PtoLight) * is_visible /
-                             pow(sqrt(getNorm2(&next)) / 100, 2);
-    // printf("res = %f\n", all->light.bright_l * dot(N, PtoLight) * is_visible);
-    // printf("\t / %f\n", pow(sqrt(getNorm2(&next)) / 100, 2));
-    // all->closest.intensity = all->light.bright_l * dot(PtoLight, N) / getNorm2(&next) * 10000;
-    if (all->closest.intensity < 0.00)
-        all->closest.intensity = 0;
-    // if (all->closest.intensity == 0)
-    //     all->closest.intensity = 0;
+    PtoLight = calc_op('-', all->light.point_l, all->p);
+    normalize(&PtoLight);
+    all->p = calc_op('+', all->p, mult_op('*', 0.0001, all->n));
+    is_visible = visibility(all);
+    t_vector next = calc_op('-', all->light.point_l, all->p);
+    all->closest.intens = all->light.bright_l * dot(all->n, PtoLight) *
+                          is_visible / pow(sqrt(getNorm2(&next)) / 100, 2);
+    if (all->closest.intens < 0.00)
+        all->closest.intens = 0;
 }

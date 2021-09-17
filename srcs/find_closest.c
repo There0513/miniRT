@@ -16,65 +16,74 @@
 **	function gets t_min of all objects
 */
 
-void get_closest_t(t_all *all, double *t_min)
+void closest_cy(t_all *all, t_cylinder *cylinder, int i)
+{
+	all->t_tmp = 0;
+	all->closest.p_local = create_vec(0, 0, 0);
+	all->closest.n_local = create_vec(0, 0, 0);
+	if (intersection_cy(all, cylinder) == 1)
+	{
+		if (all->t_tmp < all->t_min && all->t_tmp >= 0)
+		{
+			all->nearest[0] = 'c';
+			all->nearest[1] = 'y';
+			all->nearest[2] = i + 48;
+			all->t_min = all->t_tmp;
+			all->p = all->closest.p_local;
+			all->n = all->closest.n_local;
+		}
+	}
+}
+
+void closest_sp(t_all *all, t_sphere sphere, int i)
+{
+	all->t_tmp = 0;
+	all->closest.p_local = create_vec(0, 0, 0);
+	all->closest.n_local = create_vec(0, 0, 0);
+	if (intersection_sp(all, sphere) == 1)
+	{
+		if (all->t_tmp < all->t_min && all->t_tmp >= 0)
+		{
+			all->nearest[0] = 's';
+			all->nearest[1] = 'p';
+			all->nearest[2] = i + 48;
+			all->t_min = all->t_tmp;
+			all->p = all->closest.p_local;
+			all->n = all->closest.n_local;
+		}
+	}
+}
+
+void closest_pl(t_all *all, t_plane plane, int i)
+{
+	all->t_tmp = 0;
+	all->closest.p_local = create_vec(0, 0, 0);
+	all->closest.n_local = create_vec(0, 0, 0);
+	if (intersection_pl(all, plane) == 1)
+	{
+		if (all->t_tmp < all->t_min && all->t_tmp >= 0)
+		{
+			all->nearest[0] = 'p';
+			all->nearest[1] = 'l';
+			all->nearest[2] = i + 48;
+			all->t_min = all->t_tmp;
+			all->p = all->closest.p_local;
+			all->n = all->closest.n_local;
+		}
+	}
+}
+
+void get_closest_t(t_all *all)
 {
 	int i;
 
 	i = -1;
 	while (++i < all->checkrt.cy)
-	{
-		all->t_tmp = 0;
-		all->closest.p_local = create_vec(0, 0, 0);
-		all->closest.n_local = create_vec(0, 0, 0);
-		if (intersection_cy(all, &all->cylinder[i]) == 1)
-		{
-			if (all->t_tmp < *t_min && all->t_tmp >= 0)
-			{
-				all->nearest[0] = 'c';
-				all->nearest[1] = 'y';
-				all->nearest[2] = i + 48;
-				*t_min = all->t_tmp;
-				all->P = all->closest.p_local;
-				all->N = all->closest.n_local;
-			}
-		}
-	}
+		closest_cy(all, &all->cy[i], i); // &addr for rotation
 	i = -1;
 	while (++i < all->checkrt.sp)
-	{
-		all->t_tmp = 0;
-		all->closest.p_local = create_vec(0, 0, 0);
-		all->closest.n_local = create_vec(0, 0, 0);
-		if (intersection_sp(all, all->camera.cam, all->direction, all->sphere[i], &all->closest.p_local, &all->closest.n_local) == 1)
-		{
-			if (all->t_tmp < *t_min && all->t_tmp >= 0)
-			{
-				all->nearest[0] = 's';
-				all->nearest[1] = 'p';
-				all->nearest[2] = i + 48;
-				*t_min = all->t_tmp;
-				all->P = all->closest.p_local;
-				all->N = all->closest.n_local;
-			}
-		}
-	}
+		closest_sp(all, all->sp[i], i);
 	i = -1;
 	while (++i < all->checkrt.pl)
-	{
-		all->t_tmp = 0;
-		all->closest.p_local = create_vec(0, 0, 0);
-		all->closest.n_local = create_vec(0, 0, 0);
-		if (intersection_pl(all, all->camera.cam, all->direction, all->plane[i], &all->closest.p_local, &all->closest.n_local) == 1)
-		{
-			if (all->t_tmp < *t_min && all->t_tmp >= 0)
-			{
-				all->nearest[0] = 'p';
-				all->nearest[1] = 'l';
-				all->nearest[2] = i + 48;
-				*t_min = all->t_tmp;
-				all->P = all->closest.p_local;
-				all->N = all->closest.n_local;
-			}
-		}
-	}
+		closest_pl(all, all->pl[i], i);
 }

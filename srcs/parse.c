@@ -130,22 +130,23 @@ int parsing_add(char *file, t_all *all) // update after parsing_check
 	return (1);
 }
 
+// 3 840 × 2 160 standard '4K resolution'
 int parse_rt(char *file, t_all *all)
 {
-	if (all->width > 3920)
-		all->width = 3920;
-	if (all->height > 3080)
-		all->height = 3080;
+	if (all->width > 3840)
+		all->width = 3840;
+	if (all->height > 2160)
+		all->height = 2160;
 	if (parsing_check(file, all) != 1)
 		return (-1);
-	all->sphere = malloc(all->checkrt.sp * sizeof(t_sphere));
-	if (!all->sphere)
+	all->sp = malloc(all->checkrt.sp * sizeof(t_sphere));
+	if (!all->sp)
 		return (-1);
-	all->plane = malloc(all->checkrt.pl * sizeof(t_plane));
-	if (!all->plane)
+	all->pl = malloc(all->checkrt.pl * sizeof(t_plane));
+	if (!all->pl)
 		return (-1);
-	all->cylinder = malloc(all->checkrt.cy * sizeof(t_cylinder));
-	if (!all->cylinder)
+	all->cy = malloc(all->checkrt.cy * sizeof(t_cylinder));
+	if (!all->cy)
 		return (-1);
 	if (parsing_add(file, all) != 1)
 		return (-1);

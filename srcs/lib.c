@@ -175,6 +175,10 @@ int ft_get_words(char const *str, char c)
 	return (words);
 }
 
+/*
+**	c = 32
+*/
+
 char **ft_split(char const *str, char c)
 {
 	int i;
@@ -190,9 +194,9 @@ char **ft_split(char const *str, char c)
 	while (str[i] && ft_get_words(str, c) > 0)
 	{
 		len = 0;
-		while (str[i] == c || (str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
+		while (str[i] == c || (str[i] >= 9 && str[i] <= 13))
 			i++;
-		while (str[i] && str[i] != c && !(str[i] >= 9 && str[i] <= 13)) // c = 32
+		while (str[i] && str[i] != c && !(str[i] >= 9 && str[i] <= 13))
 		{
 			len++;
 			i++;
@@ -212,7 +216,8 @@ int ft_strncmp(const char *s1, const char *s2, size_t n)
 
 	if (n == 0)
 		return (0);
-	while (((unsigned char *)s1)[i] && ((unsigned char *)s2)[i] && ((unsigned char *)s1)[i] == ((unsigned char *)s2)[i])
+	while (((unsigned char *)s1)[i] && ((unsigned char *)s2)[i] &&
+		((unsigned char *)s1)[i] == ((unsigned char *)s2)[i])
 		i++;
 	return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
 }

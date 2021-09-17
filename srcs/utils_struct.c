@@ -12,15 +12,18 @@
 
 #include "header.h"
 
+/*
+**	1920x1080 for correction
+*/
 void	init_all(t_all *all)	// to avoid error message not initialized
 {
 	all->width = 1920;
 	all->height = 1080;
-	all->P = create_vec(0, 0, 0);
-	all->N = create_vec(0, 0, 0);
-	all->checkrt.A = 0;
-	all->checkrt.C = 0;
-	all->checkrt.L = 0;
+	all->p = create_vec(0, 0, 0);
+	all->n = create_vec(0, 0, 0);
+	all->checkrt.a = 0;
+	all->checkrt.c = 0;
+	all->checkrt.l = 0;
 	all->checkrt.pl = 0;
 	all->checkrt.sp = 0;
 	all->checkrt.cy = 0;
@@ -29,17 +32,17 @@ void	init_all(t_all *all)	// to avoid error message not initialized
 	all->checkrt.add_cy = 0;
 }
 
-void	init_dir(t_all all, t_vector *direction, int x, int y, double fov, t_camera camera)
+void	init_dir(t_all *all, t_vector *dir, int x, int y)
 {
 	t_vector	tmp;
 
-	tmp.x = x - all.width / 2;
-	tmp.y = (all.height / 2) - y;
-	tmp.z = all.width / (2 * tan(fov / 2));
-	direction->x = tmp.x * camera.right.x + tmp.y * camera.up.x + tmp.z * camera.forward.x;
-	direction->y = tmp.x * camera.right.y + tmp.y * camera.up.y + tmp.z * camera.forward.y;
-	direction->z = tmp.x * camera.right.z + tmp.y * camera.up.z + tmp.z * camera.forward.z;
-	normalize(direction);
+	tmp.x = x - all->width / 2;
+	tmp.y = (all->height / 2) - y;
+	tmp.z = all->width / (2 * tan(all->camera.fov / 2));
+	dir->x = tmp.x * all->camera.right.x + tmp.y * all->camera.up.x + tmp.z * all->camera.forward.x;
+	dir->y = tmp.x * all->camera.right.y + tmp.y * all->camera.up.y + tmp.z * all->camera.forward.y;
+	dir->z = tmp.x * all->camera.right.z + tmp.y * all->camera.up.z + tmp.z * all->camera.forward.z;
+	normalize(dir);
 }
 
 t_vector	cross_prod(t_vector a, t_vector b)
@@ -67,7 +70,6 @@ void	camera_rotation(t_camera *camera)
 	normalize(&camera->forward);
 	normalize(&camera->right);
 	normalize(&camera->up);
-//printf("up %f %f %f\n forward %f %f %f\n right %f %f %f\n", camera->up.x, camera->up.y,camera->up.z, camera->forward.x, camera->forward.y, camera->forward.z, camera->right.x, camera->right.y, camera->right.z);
 }
 
 void	cylinder_rotation(t_cylinder *cylinder)

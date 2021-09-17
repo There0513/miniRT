@@ -45,11 +45,11 @@ void rgb_min_max(double *r, double *g, double *b)
 		*b = 255.0;
 }
 
-int rgb_to_int(double r, double g, double b, t_all all)
+int rgb_to_int(double r, double g, double b, t_all *all)
 {
-	r = r + (all.light.ambient_l * all.light.ambient_rgb.x * all.closest.intensity);
-	g = g + (all.light.ambient_l * all.light.ambient_rgb.y * all.closest.intensity);
-	b = b + (all.light.ambient_l * all.light.ambient_rgb.z * all.closest.intensity);
+	r = r + (all->light.ambient_l * all->light.ambient_rgb.x * all->closest.intens);
+	g = g + (all->light.ambient_l * all->light.ambient_rgb.y * all->closest.intens);
+	b = b + (all->light.ambient_l * all->light.ambient_rgb.z * all->closest.intens);
 	rgb_min_max(&r, &g, &b);
 	return ((int)r << 16 | (int)g << 8 | (int)b);
 }
@@ -72,16 +72,19 @@ double getNorm2(t_vector *vec)
 	return (vec->x * vec->x + vec->y * vec->y + vec->z * vec->z);
 }
 
+/*
+**	sqrt(getNorm2(vec)) = magnitude (length) of vector
+*/
+
 void normalize(t_vector *vec)
 {
 	double norm;
 
-	norm = sqrt(getNorm2(vec)); // = magnitude(Laenge) of Vector
+	norm = sqrt(getNorm2(vec));
 	vec->x /= norm;
 	vec->y /= norm;
 	vec->z /= norm;
 }
-//RAY = r(origine(=vector/point), direction(=vector))
 
 t_vector get_normalized(t_vector a)
 {
@@ -89,7 +92,7 @@ t_vector get_normalized(t_vector a)
 	return (a);
 }
 
-t_vector add_min_operation(char sign, t_vector a, t_vector b)
+t_vector calc_op(char sign, t_vector a, t_vector b)
 {
 	t_vector new_vector;
 
@@ -111,7 +114,7 @@ t_vector add_min_operation(char sign, t_vector a, t_vector b)
 	return (new_vector);
 }
 
-t_vector mult_operation(char sign, double nbr, t_vector a)
+t_vector mult_op(char sign, double nbr, t_vector a)
 {
 	t_vector new_vector;
 
