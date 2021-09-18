@@ -12,33 +12,6 @@
 
 #include "header.h"
 
-int	ft_exit(t_all *all)
-{
-	printf("Goodbye\n");
-	free(all->sp);
-	free(all->pl);
-	free(all->cy);
-	mlx_destroy_image(all->mlx.mlx, all->mlx.img);
-	mlx_destroy_window(all->mlx.mlx, all->mlx.window);
-	mlx_destroy_display(all->mlx.mlx);
-	free(all->mlx.mlx);
-	exit(0);
-	return (1);
-}
-
-int	key_press(unsigned int key, t_all *all)
-{
-	if (key == 65307)
-		ft_exit(all);
-	return (0);
-}
-
-int	minim_wind(t_all *all)
-{
-	mlx_put_image_to_window(all->mlx.mlx, all->mlx.window, all->mlx.img, 0, 0);
-	return (0);
-}
-
 int	get_color(char *nearest, t_all *all, double intens)
 {
 	int	i;
@@ -57,30 +30,6 @@ int	get_color(char *nearest, t_all *all, double intens)
 				all->cy[i].rgb.y * intens + all->cy[i].rgb.y * 0.3,
 				all->cy[i].rgb.z * intens + all->cy[i].rgb.z * 0.3, all));
 	return (16777215);
-}
-
-int	ret_error_msg(char *msg, int ret)
-{
-	printf("Error\n");
-	printf("%s\n", msg);
-	return (ret);
-}
-
-int	checker(int ac, t_all *all, char *file)
-{
-	if (ac != 2)
-		return (ret_error_msg("Please use the program with a .rt file.", 0));
-	init_all(all);
-	if (parse_rt(file, all) == -1)
-		return (ret_error_msg("Parsing error.", 0));
-	if (mlx_data_init(&all->mlx, all->width, all->height) != 1)
-	{
-		free(all->sp);
-		free(all->pl);
-		free(all->cy);
-		return (ret_error_msg("mlx problem.", 0));
-	}
-	return (1);
 }
 
 void	mini_go(t_all *all)

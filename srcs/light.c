@@ -29,8 +29,8 @@ int	visib_sp(t_all all, t_vector P, t_visib vis, t_sphere sp)
 		vis.p2 = calc_op('+', P, mult_op('*', all.t_visib, vis.dir));
 		vis.light_p = calc_op('-', all.light.point_l, P);
 		vis.p2_p = calc_op('-', vis.p2, P);
-		vis.a = sqrt(getNorm2(&vis.light_p));
-		vis.b = sqrt(getNorm2(&vis.p2_p));
+		vis.a = sqrt(get_norm(&vis.light_p));
+		vis.b = sqrt(get_norm(&vis.p2_p));
 		if (vis.b < vis.a)
 			return (0);
 	}
@@ -48,8 +48,8 @@ int	visib_cy(t_all all, t_visib vis, t_cylinder *cy)
 		vis.p2 = calc_op('+', all.p, mult_op('*', all.t_visib, vis.dir));
 		vis.light_p = calc_op('-', all.light.point_l, all.p);
 		vis.p2_p = calc_op('-', vis.p2, all.p);
-		vis.a = sqrt(getNorm2(&vis.light_p));
-		vis.b = sqrt(getNorm2(&vis.p2_p));
+		vis.a = sqrt(get_norm(&vis.light_p));
+		vis.b = sqrt(get_norm(&vis.p2_p));
 		if (vis.b < vis.a)
 			return (0);
 	}
@@ -60,13 +60,13 @@ int	visib_pl(t_all all, t_vector P, t_visib vis, t_plane pl)
 {
 	if (shadow_pl(&all, pl, P, vis.dir) == 1)
 	{
-		if (all.nearest[0] == 'c')
-			return (1);
+		// if (all.nearest[0] == 'c')
+		// 	return (1);
 		vis.p2 = calc_op('+', P, mult_op('*', all.t_visib, vis.dir));
 		vis.light_p = calc_op('-', all.light.point_l, P);
 		vis.p2_p = calc_op('-', vis.p2, P);
-		vis.a = sqrt(getNorm2(&vis.light_p));
-		vis.b = sqrt(getNorm2(&vis.p2_p));
+		vis.a = sqrt(get_norm(&vis.light_p));
+		vis.b = sqrt(get_norm(&vis.p2_p));
 		if (vis.b < vis.a)
 			return (0);
 	}
@@ -118,7 +118,7 @@ void	light(t_all *all)
 	is_visible = visibility(all);
 	next = calc_op('-', all->light.point_l, all->p);
 	all->closest.intens = all->light.bright_l * dot(all->n, ptolight)
-		* is_visible / pow(sqrt(getNorm2(&next)) / 100, 2);
+		* is_visible / pow(sqrt(get_norm(&next)) / 100, 2);
 	if (all->closest.intens < 0.00)
 		all->closest.intens = 0;
 }

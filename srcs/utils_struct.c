@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 14:10:23 by threiss           #+#    #+#             */
-/*   Updated: 2021/08/23 14:09:26 by threiss          ###   ########.fr       */
+/*   Updated: 2021/09/18 20:36:36 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 **	1920x1080 for correction
 */
-void	init_all(t_all *all)	// to avoid error message not initialized
+void	init_all(t_all *all)
 {
 	all->width = 1920;
 	all->height = 1080;

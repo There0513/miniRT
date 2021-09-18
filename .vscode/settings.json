@@ -1,5 +1,7 @@
 {
     "files.associations": {
         "header.h": "c"
-    }
+    },
+    "editor.fontSize": 25,
+    "window.zoomLevel": -3
 }

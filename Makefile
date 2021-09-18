@@ -17,9 +17,19 @@ SRCS_NAMES	=	main.c \
 			utils_struct.c \
 			get_next_line.c \
 			parse.c \
+			parse2.c \
 			parsing_check.c \
+			parsing_check1.c \
+			parsing_check_objs.c \
+			parsing_add_objs.c \
+			parsing_add.c \
 			utils_parsing.c \
+			utils_keypress.c \
+			ft_split.c \
 			lib.c \
+			lib2.c \
+			math.c \
+			math2.c \
 			find_closest.c \
 			intersections.c \
 			light.c \
