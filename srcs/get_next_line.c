@@ -28,6 +28,8 @@ int	ft_save_line(char **line, char **estatica, int fd)
 		estatica[fd] = tmp;
 		if (estatica[fd][0] == '\0')
 		{
+			// if ()
+				// free(tmp);
 			free(estatica[fd]);
 			estatica[fd] = NULL;
 		}

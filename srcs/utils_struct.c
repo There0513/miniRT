@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 14:10:23 by threiss           #+#    #+#             */
-/*   Updated: 2021/09/18 20:36:36 by threiss          ###   ########.fr       */
+/*   Updated: 2021/09/18 22:50:52 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,18 @@ void	init_dir(t_all *all, t_vector *dir, int x, int y)
 	tmp.x = x - all->width / 2;
 	tmp.y = (all->height / 2) - y;
 	tmp.z = all->width / (2 * tan(all->camera.fov / 2));
-	dir->x = tmp.x * all->camera.right.x + tmp.y * all->camera.up.x + tmp.z * all->camera.forward.x;
-	dir->y = tmp.x * all->camera.right.y + tmp.y * all->camera.up.y + tmp.z * all->camera.forward.y;
-	dir->z = tmp.x * all->camera.right.z + tmp.y * all->camera.up.z + tmp.z * all->camera.forward.z;
+	dir->x = tmp.x * all->camera.right.x + tmp.y * all->camera.up.x
+		+ tmp.z * all->camera.forward.x;
+	dir->y = tmp.x * all->camera.right.y + tmp.y * all->camera.up.y
+		+ tmp.z * all->camera.forward.y;
+	dir->z = tmp.x * all->camera.right.z + tmp.y * all->camera.up.z
+		+ tmp.z * all->camera.forward.z;
 	normalize(dir);
 }
 
 t_vector	cross_prod(t_vector a, t_vector b)
 {
-	t_vector cross;
+	t_vector	cross;
 
 	cross.x = a.y * b.z - a.z * b.y;
 	cross.y = a.z * b.x - a.x * b.z;
@@ -84,8 +87,7 @@ void	cylinder_rotation(t_cylinder *cylinder)
 		cylinder->right = cross_prod(tmp, cylinder->forward);
 	cylinder->up = cross_prod(cylinder->forward, cylinder->right);
 	// normalize forward, right + up?!?!?!
-	normalize(&cylinder->forward); // OK
+	normalize(&cylinder->forward);
 	normalize(&cylinder->right);
 	normalize(&cylinder->up);
-//printf("up %f %f %f\n forward %f %f %f\n right %f %f %f\n", camera->up.x, camera->up.y,camera->up.z, camera->forward.x, camera->forward.y, camera->forward.z, camera->right.x, camera->right.y, camera->right.z);
 }

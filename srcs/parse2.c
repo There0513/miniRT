@@ -29,6 +29,7 @@ int	parsing_check(char *file, t_all *all)
 		{
 			if (check_add_line(line, all) == -1)
 			{
+				printf("\t~~~~~~~~here end?!?!?!\n");
 				free(line);
 				return (-1);
 			}
