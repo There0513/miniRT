@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "../includes/header.h"
 
 t_vector	calc_op(char sign, t_vector a, t_vector b)
 {
@@ -48,4 +48,14 @@ t_vector	mult_op(char sign, double nbr, t_vector a)
 		new_vector.z = nbr * a.z;
 	}
 	return (new_vector);
+}
+
+t_vector	cross_prod(t_vector a, t_vector b)
+{
+	t_vector	cross;
+
+	cross.x = a.y * b.z - a.z * b.y;
+	cross.y = a.z * b.x - a.x * b.z;
+	cross.z = a.x * b.y - a.y * b.x;
+	return (cross);
 }

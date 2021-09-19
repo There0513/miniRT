@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "../../includes/header.h"
 
 int	add_vec3(t_vector *vec, char *line)
 {

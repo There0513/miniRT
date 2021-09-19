@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "../../includes/header.h"
 
 int	add_pl(char *line, t_all *all)
 {

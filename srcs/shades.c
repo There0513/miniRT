@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "../includes/header.h"
 
 int	shadow_sp(t_all *all, t_sphere sphere, t_vector P, t_vector dir)
 {

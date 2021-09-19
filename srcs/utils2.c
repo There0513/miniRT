@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_struct.c                                     :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 14:10:23 by threiss           #+#    #+#             */
-/*   Updated: 2021/09/18 22:50:52 by threiss          ###   ########.fr       */
+/*   Updated: 2021/09/19 17:28:04 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "../includes/header.h"
 
 /*
 **	1920x1080 for correction
@@ -48,16 +48,6 @@ void	init_dir(t_all *all, t_vector *dir, int x, int y)
 	normalize(dir);
 }
 
-t_vector	cross_prod(t_vector a, t_vector b)
-{
-	t_vector	cross;
-
-	cross.x = a.y * b.z - a.z * b.y;
-	cross.y = a.z * b.x - a.x * b.z;
-	cross.z = a.x * b.y - a.y * b.x;
-	return (cross);
-}
-
 void	camera_rotation(t_camera *camera)
 {
 	t_vector	tmp;
@@ -69,7 +59,6 @@ void	camera_rotation(t_camera *camera)
 	else
 		camera->right = cross_prod(get_normalized(tmp), camera->forward);
 	camera->up = cross_prod(camera->forward, camera->right);
-	// normalize forward, right + up?!?!?!
 	normalize(&camera->forward);
 	normalize(&camera->right);
 	normalize(&camera->up);
@@ -86,7 +75,6 @@ void	cylinder_rotation(t_cylinder *cylinder)
 	else
 		cylinder->right = cross_prod(tmp, cylinder->forward);
 	cylinder->up = cross_prod(cylinder->forward, cylinder->right);
-	// normalize forward, right + up?!?!?!
 	normalize(&cylinder->forward);
 	normalize(&cylinder->right);
 	normalize(&cylinder->up);

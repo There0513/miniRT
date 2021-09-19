@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "../../includes/header.h"
 
 int	check_range(float nb, float min, float max)
 {

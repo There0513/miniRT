@@ -6,11 +6,11 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 15:56:04 by threiss           #+#    #+#             */
-/*   Updated: 2021/09/17 22:12:49 by threiss          ###   ########.fr       */
+/*   Updated: 2021/09/19 17:26:29 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "../includes/header.h"
 
 int	ft_save_line(char **line, char **estatica, int fd)
 {
@@ -28,8 +28,6 @@ int	ft_save_line(char **line, char **estatica, int fd)
 		estatica[fd] = tmp;
 		if (estatica[fd][0] == '\0')
 		{
-			// if ()
-				// free(tmp);
 			free(estatica[fd]);
 			estatica[fd] = NULL;
 		}

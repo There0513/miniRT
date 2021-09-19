@@ -228,6 +228,7 @@ void		normalize(t_vector *sphere);
 t_vector	get_normalized(t_vector sphere);
 t_vector	calc_op(char sign, t_vector a, t_vector b);
 t_vector	mult_op(char sign, double nbr, t_vector a);
+t_vector	cross_prod(t_vector a, t_vector b);
 void		init_dir(t_all *all, t_vector *dir, int x, int y);
 void		camera_rotation(t_camera *camera);
 t_vector	create_vec(double x, double y, double z);

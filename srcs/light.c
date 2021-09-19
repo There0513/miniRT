@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "../includes/header.h"
 
 int	visib_sp(t_all all, t_vector P, t_visib vis, t_sphere sp)
 {

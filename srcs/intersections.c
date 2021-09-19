@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "../includes/header.h"
 
 /*
  **	intersection_sp() solve a * t ^ 2 + b * t + c = 0

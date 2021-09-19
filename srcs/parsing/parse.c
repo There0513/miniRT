@@ -6,11 +6,11 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 12:20:04 by threiss           #+#    #+#             */
-/*   Updated: 2021/09/17 22:56:37 by threiss          ###   ########.fr       */
+/*   Updated: 2021/09/19 21:16:15 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "../../includes/header.h"
 
 int	ret_error_msg(char *msg, int ret)
 {
@@ -89,7 +89,7 @@ int	checker(int ac, t_all *all, char *file)
 		return (ret_error_msg("Please use the program with a .rt file.", 0));
 	init_all(all);
 	if (parse_rt(file, all) == -1)
-		return (ret_error_msg("Parsing error.", 0));
+		return (-1);
 	if (mlx_data_init(&all->mlx, all->width, all->height) != 1)
 	{
 		free(all->sp);

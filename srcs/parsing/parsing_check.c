@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "../../includes/header.h"
 
 int	check_color(char *line)
 {
@@ -22,11 +22,13 @@ int	check_color(char *line)
 	ret = 0;
 	i = -1;
 	split = ft_split(line, ',');
+	if (check_space(split, 3) != 1)
+		return (-1);
 	if (!ft_is_digit(line[++i]))
 		ret = -1;
 	if (check_comma(line) != 2)
 		ret = -1;
-	while (i < 3)
+	while (i < 3 && ret != -1)
 		if (!ft_str_is_digit(split[i++]))
 			ret = -1;
 	tmp = create_vec(ft_atof(split[0]), ft_atof(split[1]), ft_atof(split[2]));
@@ -50,11 +52,13 @@ int	check_ambient(char *line, t_all *all)
 		return (-1);
 	if (!ft_is_float(split[0]))
 		ret = -1;
-	if (!check_range(ft_atof(split[0]), 0.0, 1.0))
+	if (check_range(ft_atof(split[0]), 0.0, 1.0) != 1)
 		ret = -1;
 	if (check_color(split[1]) == -1)
 		ret = -1;
 	free_all(split);
+	if (ret == -1)
+		return (ret_error_msg("in ambient light.", ret));
 	return (ret);
 }
 
@@ -94,8 +98,11 @@ int	check_camera(char *line, t_all *all)
 		ret = -1;
 	if (check_vec3(split[1]) == -1)
 		ret = -1;
-	ret = check_camera2(split);
+	if (ret != -1)
+		ret = check_camera2(split);
 	free_all(split);
+	if (ret == -1)
+		return (ret_error_msg("in camera.", ret));
 	return (ret);
 }
 
@@ -115,8 +122,10 @@ int	check_light(char *line, t_all *all)
 		ret = -1;
 	if (!ft_is_float(split[1]))
 		ret = -1;
-	if (ft_atof(split[1]) < 0 || ft_atof(split[1]) > 1)
+	if (check_range(ft_atof(split[1]), 0.0, 1.0) != 1)
 		ret = -1;
 	free_all(split);
+	if (ret == -1)
+		return (ret_error_msg("in light.", ret));
 	return (ret);
 }

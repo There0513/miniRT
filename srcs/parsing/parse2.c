@@ -6,11 +6,11 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 19:02:14 by threiss           #+#    #+#             */
-/*   Updated: 2021/09/18 19:02:16 by threiss          ###   ########.fr       */
+/*   Updated: 2021/09/19 21:15:38 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "../../includes/header.h"
 
 int	parsing_check(char *file, t_all *all)
 {
@@ -29,7 +29,6 @@ int	parsing_check(char *file, t_all *all)
 		{
 			if (check_add_line(line, all) == -1)
 			{
-				printf("\t~~~~~~~~here end?!?!?!\n");
 				free(line);
 				return (-1);
 			}
@@ -55,7 +54,7 @@ int	parsing_add(char *file, t_all *all)
 			if (check_add_line(line, all) == -1)
 			{
 				free(line);
-				return (ret_error_msg("in check_add_line parsingadd.", -1));
+				return (-1);
 			}
 		}
 		free(line);

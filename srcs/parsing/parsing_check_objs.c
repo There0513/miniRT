@@ -6,11 +6,11 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 17:26:39 by threiss           #+#    #+#             */
-/*   Updated: 2021/09/18 19:41:25 by threiss          ###   ########.fr       */
+/*   Updated: 2021/09/19 17:27:32 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "../../includes/header.h"
 
 int	check_pl(char *line, t_all *all)
 {
@@ -23,10 +23,7 @@ int	check_pl(char *line, t_all *all)
 	all->checkrt.pl++;
 	split = ft_split(line, ' ');
 	if (check_space(split, 4) != 1)
-	{
-		printf("\t\terror check_space pl\n");
 		return (-1);
-		}
 	if (check_vec3(split[1]) == -1)
 		ret = -1;
 	if (check_vec3(split[2]) == -1)
@@ -52,10 +49,7 @@ int	check_sp(char *line, t_all *all)
 	all->checkrt.sp++;
 	split = ft_split(line, ' ');
 	if (check_space(split, 4) != 1)
-	{
-		printf("\t\terror check_space sp\n");
 		return (-1);
-		}
 	if (check_vec3(split[1]) == -1)
 		ret = -1;
 	if (!ft_is_float(split[2]))

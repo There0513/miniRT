@@ -14,16 +14,16 @@ SRCS_PATH	=	./srcs/
 
 SRCS_NAMES	=	main.c \
 			utils.c \
-			utils_struct.c \
+			utils2.c \
 			get_next_line.c \
-			parse.c \
-			parse2.c \
-			parsing_check.c \
-			parsing_check1.c \
-			parsing_check_objs.c \
-			parsing_add_objs.c \
-			parsing_add.c \
-			utils_parsing.c \
+			parsing/parse.c \
+			parsing/parse2.c \
+			parsing/parsing_check.c \
+			parsing/parsing_check1.c \
+			parsing/parsing_check_objs.c \
+			parsing/parsing_add_objs.c \
+			parsing/parsing_add.c \
+			parsing/utils_parsing.c \
 			utils_keypress.c \
 			ft_split.c \
 			lib.c \
