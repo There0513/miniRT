@@ -6,7 +6,7 @@
 /*   By: threiss <threiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 16:09:12 by threiss           #+#    #+#             */
-/*   Updated: 2021/09/18 22:48:02 by threiss          ###   ########.fr       */
+/*   Updated: 2021/09/20 14:53:34 by threiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,12 +170,10 @@ void		print_struct(t_all all);
 void		init_all(t_all *all);
 int			key_press(unsigned int key, t_all *all);
 int			minim_wind(t_all *all);
-// PARSING START ___________________________
 int			checker(int ac, t_all *all, char *file);
 int			parse_rt(char *file, t_all *all);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			check_add_line(char *line, t_all *all);
-// 		GNL START _________________________
 # define BUFFER_SIZE 1024
 
 int			get_next_line(int fd, char **line);
@@ -186,7 +184,6 @@ int			ft_new_line_in_static(char *str);
 char		*ft_strjoin(const char *s1, const char *s2);
 char		*ft_strdup(const char *str);
 int			ft_strlen(const char *str);
-// 		GNL END _________________________
 int			check_space(char **split, int x);
 int			add_vec3(t_vector *vec, char *line);
 int			check_ambient(char *line, t_all *all);
@@ -215,7 +212,6 @@ int			ft_is_float(char *line);
 int			ft_atoi(const char *str);
 float		ft_atof(char *str);
 void		free_all(char **split);
-// PARSING END ____________________________
 int			mlx_data_init(t_mlx *data, int width, int height);
 int			intersection_sp(t_all *all, t_sphere sp);
 int			intersection_pl(t_all *all, t_plane pl);

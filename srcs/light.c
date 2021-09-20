@@ -33,10 +33,6 @@ int	visib_cy(t_all all, t_visib vis, t_cylinder *cy)
 {
 	if (shadow_cy(&all, cy, vis.dir) == 1)
 	{
-		// if (all.nearest[0] == 's' && vis.i + 1 == all.checkrt.cy)
-		// 	return (0);
-		// if (all.nearest[0] == 'c')
-		// 	return (1);
 		vis.p2 = calc_op('+', all.p, mult_op('*', all.t_visib, vis.dir));
 		vis.light_p = calc_op('-', all.light.point_l, all.p);
 		vis.p2_p = calc_op('-', vis.p2, all.p);
